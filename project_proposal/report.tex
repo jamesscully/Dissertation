@@ -1,10 +1,16 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1in]{geometry}
+\usepackage{tcolorbox}
 
-\newcommand{\projectTitle}{Multi-User Poker Game}
 
-\title{Project Proposal: \projectTitle}
+\setlength{\parindent}{0pt}
+
+
+% pt = project title; shorthand
+\newcommand{\pt}{Multi-User Poker Game}
+
+\title{Project Proposal: \pt}
 \author{James Scully}
 
 \begin{document}
@@ -12,26 +18,42 @@
 
 \maketitle
 
-\section{Background and Motivation}
+\section*{Background and Motivation}
 
 
 
 
 \newpage
-\section{Aims and Objectives}
+\section*{Aims and Objectives}
+The main aim of this project is to produce a multi-player poker card game designed for mobile phones. 
+With this in mind, we have some key objectives to consider: 
+
+\begin{itemize}
+	\item A history of scores should be kept on the user interface
+	\item A history of hands dealt should be kept on the user interface
+	\item If a user disconnects, the game should continue on.
+	\item Hands that are given out should not be predictable, i.e. complete randomness (not time-based seeds)
+	
+\end{itemize}
+
+\newpage
+\section*{Work plan}
+
+
+\textbf{Research // 11 Oct - 15 Oct} - what frameworks are going to be used? How difficult is each framework to adapt to our needs? How will the server be hosted, how can we avoid predictable card behaviour?\\
+
+
+\textbf{Planning // 15 Oct - 22 Oct } - software specification; class diagrams, how the game will be structured, how we're going to implement the server, how the server will handle randomness/entropy.
+
+At this stage, we should also design wireframes for the menu, in-game, joining a server, etc. \\
+
+
+\textbf{Development // 22 Oct - Feb } - 
+
+
 
 
 \newpage
-\section{Work plan}
-
-
-
-\newpage
-\section{Bibliography}
-
-
-
-
-
+\section*{Bibliography}
 
 \end{document}
