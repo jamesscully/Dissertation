@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 
 \usepackage[margin=1in]{geometry}
-\usepackage{tcolorbox}
+\usepackage{outlines}
 
 
 \setlength{\parindent}{0pt}
@@ -9,6 +9,7 @@
 
 % pt = project title; shorthand
 \newcommand{\pt}{Multi-User Poker Game}
+\newcommand{\pn}{Poker Game}
 
 \title{Project Proposal: \pt}
 \author{James Scully}
@@ -20,37 +21,59 @@
 
 \section*{Background and Motivation}
 
+Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Many of these attempt to rectify this by occasionally handing out free chips to keep players using them, such as Zynga Poker. \\
+
+A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products.  \\
+
+A solution to this would be an open-source approach, whereby the community can fix bugs that arise, add features to the official build; removing the need for transactions to support development. 
+
 
 
 
 \newpage
 \section*{Aims and Objectives}
-The main aim of this project is to produce a multi-player poker card game designed for mobile phones. 
+
+The aim of this project is to create a mobile, multi-player poker game as well as a server for people to host their lobbies. 
+
 With this in mind, we have some key objectives to consider: 
 
-\begin{itemize}
-	\item A history of scores should be kept on the user interface
-	\item A history of hands dealt should be kept on the user interface
-	\item If a user disconnects, the game should continue on.
-	\item Hands that are given out should not be predictable, i.e. complete randomness (not time-based seeds)
+\begin{outline}
+
+	\1 Ensure players have the ability to view their previous scores (wins / losses, accumulated wins) within the user interface.
+
+	\1 Ensure players are able to view their past hands dealt to them. 
+	\1 Develop a server program which: 
+		\2 Handles disconnections / interruptions gracefully
+		\2 Is open-source and can be used by the public for private servers
+		\2 Is cross-platform, to ensure it is portable.
+	\1 Hands that are given out should not be predictable i.e. near-complete randomness (not time-based seeds)
+
+
 	
-\end{itemize}
+\end{outline}
 
 \newpage
 \section*{Work plan}
 
+This project will need to be developed alongside other studies and as such will be obstructed by other pieces of coursework at some points. Because of this, the Agile methodology will be used as this allows for more flexible deadlines and progress. It is also imperative that a task management system is to be used such as Trello / GitHub issues; this will allow for the project to be easily picked up from a certain point and continued.\\
+
+The phases of work with their tasks are listed below:
 
 \textbf{Research // 11 Oct - 15 Oct} - what frameworks are going to be used? How difficult is each framework to adapt to our needs? How will the server be hosted, how can we avoid predictable card behaviour?\\
 
 
-\textbf{Planning // 15 Oct - 22 Oct } - software specification; class diagrams, how the game will be structured, how we're going to implement the server, how the server will handle randomness/entropy.
+\textbf{Planning // 15 Oct - 22 Oct} - software specification (vision, scope document, requirements); class diagrams, how the game will be structured, how we're going to implement the server, how the server will handle randomness/entropy. wireframes, code style guideline, pseudocode (evaluating win-condition of Texas Hold'em)
 
 At this stage, we should also design wireframes for the menu, in-game, joining a server, etc. \\
 
 
-\textbf{Development // 22 Oct - Feb } - 
+\textbf{Development // 22 Oct - Feb } - sketching activities, general development.
+
+Testing must occur as well as the development i.e. TDD, this will allow for bugs to be easily tracked down via unit tests or black/grey box testing. 
 
 
+
+Interruptions: 13th Dec - 13th Jan; christmas holiday. Revision will happen aswell; consider exam period in January. 
 
 
 \newpage
