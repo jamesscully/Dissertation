@@ -23,81 +23,103 @@
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Research" note="" work="172800" start="20191011T000000Z" end="20191016T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="2" name="Rules of Poker" note="" work="28800" start="20191011T000000Z" end="20191011T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="3" name="Frameworks" note="" work="28800" start="20191011T170000Z" end="20191012T170000Z" work-start="20191012T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="2" type="FS"/>
-        </predecessors>
-      </task>
-      <task id="4" name="Feasability" note="" work="28800" start="20191012T170000Z" end="20191013T170000Z" work-start="20191013T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="3" type="FS"/>
-        </predecessors>
-      </task>
-      <task id="5" name="Server hosting" note="" work="28800" start="20191013T170000Z" end="20191014T170000Z" work-start="20191014T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="4" type="FS"/>
-        </predecessors>
-      </task>
-      <task id="6" name="Randomness" note="" work="28800" start="20191014T170000Z" end="20191015T170000Z" work-start="20191015T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="5" type="FS"/>
-        </predecessors>
-      </task>
-      <task id="7" name="Market" note="" work="28800" start="20191015T170000Z" end="20191016T170000Z" work-start="20191016T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="6" type="FS"/>
-        </predecessors>
-      </task>
+    <task id="1" name="Research" note="" work="1209600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="Rules of Poker" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="3" name="Frameworks" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="4" name="Feasability" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="5" name="Server hosting" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="6" name="Randomness" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="7" name="Market" note="" work="201600" start="20191011T000000Z" end="20191017T170000Z" work-start="20191011T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
-    <task id="8" name="Planning" note="" work="201600" start="20191016T170000Z" end="20191023T170000Z" work-start="20191017T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="9" name="Class Diagrams" note="" work="57600" start="20191016T170000Z" end="20191018T170000Z" work-start="20191017T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <predecessors>
-          <predecessor id="1" predecessor-id="7" type="FS"/>
-        </predecessors>
+    <task id="8" name="Planning" note="" work="691200" start="20191017T170000Z" end="20191107T170000Z" work-start="20191018T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+      <task id="9" name="Documents" note="" work="259200" start="20191017T170000Z" end="20191026T170000Z" work-start="20191018T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="10" name="Vision and Scope" note="" work="144000" start="20191017T170000Z" end="20191022T170000Z" work-start="20191018T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="11" name="Specification" note="" work="115200" start="20191022T170000Z" end="20191026T170000Z" work-start="20191023T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="10" type="FS"/>
+          </predecessors>
+        </task>
       </task>
-      <task id="10" name="Wireframes" note="" work="57600" start="20191018T170000Z" end="20191020T170000Z" work-start="20191019T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="12" name="Wireframes" note="" work="86400" start="20191026T170000Z" end="20191029T170000Z" work-start="20191027T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="9" type="FS"/>
         </predecessors>
       </task>
-      <task id="11" name="Code-style Guide" note="" work="28800" start="20191020T170000Z" end="20191021T170000Z" work-start="20191021T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="13" name="Code-style Guide" note="" work="86400" start="20191029T170000Z" end="20191101T170000Z" work-start="20191030T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
-          <predecessor id="1" predecessor-id="10" type="FS"/>
+          <predecessor id="1" predecessor-id="12" type="FS"/>
         </predecessors>
       </task>
-      <task id="12" name="Pseudocode" note="" work="57600" start="20191021T170000Z" end="20191023T170000Z" work-start="20191022T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="13" name="Texas Hold'em" note="" work="28800" start="20191021T170000Z" end="20191022T170000Z" work-start="20191022T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <predecessors>
-            <predecessor id="1" predecessor-id="11" type="FS"/>
-          </predecessors>
-        </task>
-        <task id="14" name="Evaluating Win" note="" work="28800" start="20191022T170000Z" end="20191023T170000Z" work-start="20191023T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="14" name="Pseudocode" note="" work="86400" start="20191101T170000Z" end="20191104T170000Z" work-start="20191102T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="9" type="FS"/>
+        </predecessors>
+        <task id="15" name="Texas Hold'em" note="" work="86400" start="20191101T170000Z" end="20191104T170000Z" work-start="20191102T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
           <predecessors>
             <predecessor id="1" predecessor-id="13" type="FS"/>
           </predecessors>
         </task>
       </task>
-    </task>
-    <task id="15" name="Development" note="" work="86400" start="20191023T170000Z" end="20191026T170000Z" work-start="20191024T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-      <task id="16" name="Sketch activities" note="" work="28800" start="20191023T170000Z" end="20191024T170000Z" work-start="20191024T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="16" name="Server" note="" work="172800" start="20191104T170000Z" end="20191107T170000Z" work-start="20191105T080000Z" percent-complete="38" priority="0" type="normal" scheduling="fixed-work">
         <predecessors>
           <predecessor id="1" predecessor-id="14" type="FS"/>
         </predecessors>
+        <task id="17" name="Basic functionality" note="" work="86400" start="20191104T170000Z" end="20191107T170000Z" work-start="20191105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="18" name="Disconnection-tolerant" note="" work="86400" start="20191104T170000Z" end="20191107T170000Z" work-start="20191105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
-      <task id="17" name="Prototype backend" note="" work="57600" start="20191024T170000Z" end="20191026T170000Z" work-start="20191025T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="18" name="Texas Hold'em" note="" work="28800" start="20191024T170000Z" end="20191025T170000Z" work-start="20191025T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <predecessors>
-            <predecessor id="1" predecessor-id="16" type="FS"/>
-          </predecessors>
-        </task>
-        <task id="19" name="Implement Cards" note="" work="28800" start="20191025T170000Z" end="20191026T170000Z" work-start="20191026T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <predecessors>
-            <predecessor id="1" predecessor-id="18" type="FS"/>
-          </predecessors>
-        </task>
+    </task>
+    <task id="19" name="Development" note="" work="2592000" start="20191107T170000Z" end="20191222T170000Z" work-start="20191108T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="8" type="FS"/>
+      </predecessors>
+      <task id="20" name="Prototype backend" note="" work="403200" start="20191107T170000Z" end="20191115T170000Z" work-start="20191108T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="21" name="Implement Cards" note="" work="28800" start="20191107T170000Z" end="20191108T170000Z" work-start="20191108T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="22" name="Texas Hold'em" note="" work="144000" start="20191107T170000Z" end="20191112T170000Z" work-start="20191108T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="23" name="Simulation" note="" work="230400" start="20191107T170000Z" end="20191115T170000Z" work-start="20191108T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
+      <task id="24" name="Implement CI" note="" work="172800" start="20191115T170000Z" end="20191119T170000Z" work-start="20191116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="20" type="FS"/>
+        </predecessors>
+        <task id="25" name="Setup" note="" work="115200" start="20191115T170000Z" end="20191119T170000Z" work-start="20191116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="26" name="Test Cases for Texas" note="" work="28800" start="20191115T170000Z" end="20191116T170000Z" work-start="20191116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="27" name="Test Cases for Randomizer" note="" work="28800" start="20191115T170000Z" end="20191116T170000Z" work-start="20191116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="28" name="Integrate backend to Android" note="" work="115200" start="20191119T170000Z" end="20191123T170000Z" work-start="20191120T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="24" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="29" name="Develop Backend" note="" work="403200" start="20191123T170000Z" end="20191207T170000Z" work-start="20191124T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="28" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="30" name="Develop Frontend" note="" work="316800" start="20191207T170000Z" end="20191217T170000Z" work-start="20191208T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="29" type="FS"/>
+        </predecessors>
+        <task id="31" name="Implement Activities" note="" work="28800" start="20191207T170000Z" end="20191208T170000Z" work-start="20191208T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="32" name="Draw artwork" note="" work="288000" start="20191207T170000Z" end="20191217T170000Z" work-start="20191208T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="33" name="Develop Server" note="" work="403200" start="20191217T170000Z" end="20191222T170000Z" work-start="20191218T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="30" type="FS"/>
+        </predecessors>
+        <task id="34" name="Basic connectivity" note="" work="86400" start="20191217T170000Z" end="20191220T170000Z" work-start="20191218T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="35" name="Passing game data" note="" work="86400" start="20191217T170000Z" end="20191220T170000Z" work-start="20191218T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="36" name="Link Android to Server" note="" work="86400" start="20191217T170000Z" end="20191220T170000Z" work-start="20191218T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="37" name="Disconnection-tolerant" note="" work="144000" start="20191217T170000Z" end="20191222T170000Z" work-start="20191218T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="38" name="Interim Report" note="" work="777600" start="20191110T000000Z" end="20191206T170000Z" work-start="20191110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <constraint type="start-no-earlier-than" time="20191110T000000Z"/>
+      </task>
+    </task>
+    <task id="39" name="Dissertation" note="" work="2793600" start="20200115T000000Z" end="20200420T170000Z" work-start="20200115T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <constraint type="start-no-earlier-than" time="20200115T000000Z"/>
     </task>
   </tasks>
   <resource-groups/>

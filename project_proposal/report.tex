@@ -1,7 +1,15 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 
 \usepackage[margin=1in]{geometry}
 \usepackage{outlines}
+
+\usepackage{graphicx}
+
+\usepackage[T1]{fontenc}
+
+
+
+\graphicspath{ {./images/} }
 
 
 \setlength{\parindent}{0pt}
@@ -9,28 +17,58 @@
 
 % pt = project title; shorthand
 \newcommand{\pt}{Multi-User Poker Game}
-\newcommand{\pn}{Poker Game}
+\newcommand{\pn}{Rekop}
 
 \title{Project Proposal: \pt}
 \author{James Scully}
 
 \begin{document}
 
+{\fontfamily{cmss}\selectfont
 
-\maketitle
+
+\hspace{0pt}
+
+\vfill
+
+\begin{center}
+	\includegraphics[scale=0.35]{uni_logo}
+	
+	\vspace{1cm}
+	
+	{\Large \textbf{Project Proposal:} \pn \ Poker} \linebreak
+	
+	\begin{large}
+		James Scully (4304469) \\
+		psyjs20@nottingham.ac.uk \\
+		G400 Computer Science \\
+	\end{large}
+	
+\end{center}
+
+\vfill
+
+\begin{center}
+	\textbf{Project Supervisor:} Milena Radenkovic
+\end{center}
+
+\hspace{0pt}
+
+\pagebreak
 
 \section*{Background and Motivation}
 
-Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Many of these attempt to rectify this by occasionally handing out free chips to keep players using them, such as Zynga Poker. \\
+
+
+Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Quite a number of these apps attempt to rectify this by occasionally handing out free chips to keep players using them, such as Zynga Poker. \\
 
 A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products.  \\
 
-A solution to this would be an open-source approach, whereby the community can fix bugs that arise, add features to the official build; removing the need for transactions to support development. 
+A solution to this would be an open-source approach, whereby the community can fix bugs that arise, add features to the official build; removing the need for transactions to support development. \\ 
+
+As mentioned previously, many of these do not give much control to the user, such as customizing match settings. In existing apps, most only have presets and are at the hands of the developers. In regards to user experience, it is best to offer control to the user, as they can tailor the game to their likings. This effect can be seen in a variety of areas not limited to software; think having clothes fit to ones preferences, or the ability to make changes to a home. % https://www.nngroup.com/articles/customization-personalization/
 
 
-
-
-\newpage
 \section*{Aims and Objectives}
 
 The aim of this project is to create a mobile, multi-player poker game as well as a server for people to host their lobbies. 
@@ -39,46 +77,58 @@ With this in mind, we have some key objectives to consider:
 
 \begin{outline}
 
-	\1 Ensure players have the ability to view their previous scores (wins / losses, accumulated wins) within the user interface.
 
-	\1 Ensure players are able to view their past hands dealt to them. 
-	\1 Develop a server program which: 
+	\1 Players are able to view multiple statistics:
+		\2 Previous hands dealt
+		\2 Total win / losses
+		\2 Accumulated wins	
+	
+	\1 Develop a server application which: 
 		\2 Handles disconnections / interruptions gracefully
 		\2 Is open-source and can be used by the public for private servers
 		\2 Is cross-platform, to ensure it is portable.
-	\1 Hands that are given out should not be predictable i.e. near-complete randomness (not time-based seeds)
+	\1 Hands that are given out should not be repeated or predictable i.e. near-complete randomness (not time-based seeds)
 	
 	
-
-
 	
 \end{outline}
 
 \newpage
 \section*{Work plan}
 
-This project will need to be developed alongside other studies and as such will be obstructed by other pieces of coursework at some points. Because of this, the Agile methodology will be used as this allows for more flexible deadlines and progress. It is also imperative that a task management system is to be used such as Trello / GitHub issues; this will allow for the project to be easily picked up from a certain point and continued.\\
 
-The phases of work with their tasks are listed below:
+\subsection*{Research and Plan Documents}
 
-\textbf{Research // 11 Oct - 15 Oct} - what frameworks are going to be used? How difficult is each framework to adapt to our needs? How will the server be hosted, how can we avoid predictable card behaviour?\\
-
-
-\textbf{Planning // 15 Oct - 22 Oct} - software specification (vision, scope document, requirements); class diagrams, how the game will be structured, how we're going to implement the server, how the server will handle randomness/entropy. wireframes, code style guideline, pseudocode (evaluating win-condition of Texas Hold'em)
-
-At this stage, we should also design wireframes for the menu, in-game, joining a server, etc. \\
+Firstly, research will need to be undertaken on areas to innovate upon and frameworks to be used within the app itself, for example if a game engine is going to be used - if so, what API level does it support? How will we host an official server for players to connect to? Next, we'll have to produce requirements; how we're going to meet our key objectives, and ideal features. This will be explained further with the vision and scope document which provides a general vision of a sufficient system and gives an idea of how many features need to be implemented (scope) to prevent feature creep.
 
 
-\textbf{Development // 22 Oct - Feb } - sketching activities, general development.
+\subsection*{Methodology and On-going processes}
 
-Testing must occur as well as the development i.e. TDD, this will allow for bugs to be easily tracked down via unit tests or black/grey box testing. 
+This project is going to be developed alongside other studies and as such will be obstructed by other pieces of coursework at some points. Because of this, the Agile methodology will be used as this allows for more flexible deadlines and progress. Other more "rigid" methodologies such as Waterfall are not suitable as game / app development is a \textbf{\textit{very}} iterative process, not linear. This best fits Agile methods.  \\ 
+
+% https://jserd.springeropen.com/articles/10.1186/s40411-016-0032-7
+% https://www.gdcvault.com/play/1013175/Agile-Methodology-in-Game-Development
 
 
 
-Interruptions: 13th Dec - 13th Jan; christmas holiday. Revision will happen aswell; consider exam period in January. 
+It is also imperative that a task management system is to be used such as GitHub issues; this will allow for the project to be easily picked up from a certain point and continued, as there will be a few phases where focus on the project will need to be diverted briefly. \\
+
+A journal will be kept on the repository for documenting choices made, problems encountered to aid in developing the interim report and dissertation. \\
+
+\subsection*{Testing and Evaluation}
+
+In similar fashion to the journal, development will include regular unit tests on the back-end and can be integrated into Continuous Integration (CI), as this will generate a pass or fail on the unit tests with each commit.  \\
+
+For the front-end, slightly less frequent testing will be done in the form of black/white box testing as automated unit tests are not suitable for user interfaces. 
+
+Evaluation towards the end of development will incorporate feedback from users, findings from quality reviews (both code and interface). 
+
+\begin{center}
+	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{gantt_chart.png}}
+\end{center}
 
 
 \newpage
 \section*{Bibliography}
-
+}
 \end{document}
