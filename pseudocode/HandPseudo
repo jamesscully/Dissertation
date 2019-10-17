@@ -1,0 +1,40 @@
+
+ARRAY cards
+
+# easiest would be to determine the highest value hand, then work backwards
+# since we're only using values, card[x] represents the TOTALVALUE
+
+RESULT = {
+	
+	ROYALFLUSH if {
+		ALL cards ARE SAME SUIT
+		
+		card[0] = 10 
+		card[1] = J
+		card[2] = Q
+		card[3] = K
+		card[4] = A
+	}
+
+	STRAIGHTFLUSH if {
+		ALL cards ARE SAME SUIT
+
+		if ANY card[0 - 3] EQUALS King (12) this does not match
+
+		card[1] = card[0] + 1
+		card[2] = card[1] + 1
+		card[3] = card[2] + 1
+		card[4] = card[3] + 1
+	}
+
+	FOUROFAKIND if {
+		INT count
+
+		FOR ALL cards
+			
+
+	}
+
+
+}
+

@@ -1,0 +1,17 @@
+
+INT HANDSIZE
+# For Texas Hold'em, this will be 5
+
+DATATYPE Card
+DATATYPE Hand MADE UP OF (HANDSIZE) Cards
+
+ARRAY playerCards CONTAINS Hands
+
+
+
+
+
+
+
+
+
