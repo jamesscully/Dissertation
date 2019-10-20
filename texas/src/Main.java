@@ -8,7 +8,6 @@ public class Main {
 
         deck.initialize();
 
-
         Card a = new Card(Suit.CLUBS    , Value.ACE  );
         Card b = new Card(Suit.DIAMONDS , Value.TEN  );
         Card c = new Card(Suit.SPADES   , Value.TWO  );

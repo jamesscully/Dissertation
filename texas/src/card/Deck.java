@@ -29,6 +29,19 @@ public class  Deck {
                 deck.add(new Card(s, v));
             }
         }
+
+        int i = 1;
+        for(Card c : deck) {
+
+            if(i % 13 == 1)
+                System.out.println();
+
+            System.out.println(i + " : " + c);
+
+
+
+            i++;
+        }
     }
 
 
