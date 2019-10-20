@@ -44,6 +44,32 @@ public class HandTest {
             new Card(Suit.DIAMONDS, Value.ACE)
     );
 
+    Hand THREEOFKIND = new Hand(
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.KING),
+            new Card(Suit.DIAMONDS, Value.ACE)
+    );
+
+    Hand TWOPAIR = new Hand(
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.KING),
+            new Card(Suit.DIAMONDS, Value.KING),
+            new Card(Suit.DIAMONDS, Value.ACE)
+    );
+
+    Hand PAIR = new Hand(
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.TEN),
+            new Card(Suit.DIAMONDS, Value.TWO),
+            new Card(Suit.DIAMONDS, Value.KING),
+            new Card(Suit.DIAMONDS, Value.ACE)
+    );
+
+
+
     @Before
     public void setUp() throws Exception {
 
@@ -58,7 +84,7 @@ public class HandTest {
     }
 
     @Test
-    public void isHighCard() {
+    public void getHighestCard() {
         assertEquals(FLUSH_FOK.getHighestCard(),        new Card(Suit.CLUBS,    Value.ACE));
         assertEquals(STRAIGHT_FLUSH_1.getHighestCard(), new Card(Suit.CLUBS,    Value.SEVEN));
         assertEquals(STRAIGHT_FLUSH_2.getHighestCard(), new Card(Suit.DIAMONDS, Value.KING));
@@ -81,11 +107,16 @@ public class HandTest {
     public void isStraight() {
         assertTrue(STRAIGHT_FLUSH_1.isStraight());
         assertTrue(STRAIGHT_FLUSH_2.isStraight());
+        assertFalse(THREEOFKIND.isStraight());
+        assertFalse(FLUSH_FOK.isStraight());
     }
 
     @Test
     public void getKinds() {
         assertEquals(Hand.Result.FOUR_OF_KIND, FLUSH_FOK.getKinds());
+        assertEquals(Hand.Result.THREE_OF_KIND, THREEOFKIND.getKinds());
+        assertEquals(Hand.Result.TWO_PAIR, TWOPAIR.getKinds());
+        assertEquals(Hand.Result.PAIR, PAIR.getKinds());
     }
 
     @Test

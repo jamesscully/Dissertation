@@ -4,6 +4,7 @@
   * Overview
   * Specification / Planning Documents
   * Development changes
+    - Design changes
     - Backend changes
     - Frontend changes
     - Resource changes
@@ -25,6 +26,9 @@ This will assist later on when write-ups are due.
 ### Specification / Planning Documents
 
 ### Development changes
+
+#### Design changes
+
 #### Backend changes
 
 #### Frontend changes
