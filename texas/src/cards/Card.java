@@ -1,7 +1,7 @@
 package cards;
 
 import enums.Suit;
-import enums.Value;
+import enums.Face;
 
 import java.util.Objects;
 import java.util.Random;
@@ -9,18 +9,18 @@ import java.util.Random;
 public class Card {
 
     private final Suit suit;
-    public final Value value;
+    public final Face face;
 
-    public Card(Suit s, Value v) {
+    public Card(Suit s, Face v) {
         this.suit = s;
-        this.value = v;
+        this.face = v;
     }
 
     @Override
     public String toString() {
         // Ace of Spades
         // Ten of Hearts
-        return "" + value.str + " of " + suit.name;
+        return "" + face.getName() + " of " + suit.name;
     }
 
     @Override
@@ -29,18 +29,20 @@ public class Card {
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
         return suit == card.suit &&
-                value == card.value;
+                face == card.face;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(suit, value);
+        return Objects.hash(suit, face);
+    }
+
+    public Face getFace() {
+        return face;
     }
 
     public int getValue() {
-        // Texas Hold'em doesn't hold a value for suits - however some other gametypes might.
-        // this will be where we could modify it's value based on suit
-        return value.val;
+        return face.getValue();
     }
 
     public Suit getSuit() {
@@ -48,14 +50,14 @@ public class Card {
     }
 
     /**
-     * Used to fuzz-test functions, i.e. {@link Hand#getKinds()} where a null value could be returned
+     * Used to fuzz-test functions, i.e. {@link TexasHand#getKinds()} where a null value could be returned
      * @return a randomly generated card
      */
     public static Card getRandomCard() {
         Random rand = new Random();
 
         Suit s = Suit.values()[rand.nextInt(Suit.values().length)];
-        Value v = Value.values()[rand.nextInt(Value.values().length)];
+        Face v = Face.values()[rand.nextInt(Face.values().length)];
 
         return new Card(s, v);
     }

@@ -2,26 +2,19 @@ package cards;
 
 import enums.Suit;
 import enums.TexasResults;
-import enums.Value;
+import enums.Face;
 
 import java.util.*;
 
-public class Hand {
+public class TexasHand extends Hand {
 
     private final static int MAX_CARDS = 5;
 
-    ArrayList<Card> cards = new ArrayList<>();
-
-    Map<Suit, Integer>  suitHashMap  = new HashMap<>();
-    Map<Value, Integer> valueHashMap = new HashMap<>();
-
-    public Hand(Card a, Card b, Card c, Card d, Card e) {
-
+    public TexasHand(Card a, Card b, Card c, Card d, Card e) {
         cards.addAll(Arrays.asList(a, b, c, d, e));
 
-        valMap();
-        suitHash();
-
+        getCardCountMap();
+        getSuitCountMap();
     }
 
     public void evaluate() {
@@ -49,13 +42,13 @@ public class Hand {
      * @return True if all cards are the same suit
      */
     public boolean isFlush() {
-        if (suitHashMap == null) {
+        if (suitCountMap == null) {
             System.err.println("Suit Hashmap was not initialized!");
             return false;
         }
 
         // if the entire hand is the same suit, then the map should only be size of 1
-        return (suitHashMap.size() == 1);
+        return (suitCountMap.size() == 1);
     }
 
     /**
@@ -72,18 +65,18 @@ public class Hand {
         // although this looks inefficient,
         // AND operators will cut off computing the rest of the statement if one is false.
         boolean neededValues =
-                valueHashMap.containsKey(Value.ACE)   &&
-                valueHashMap.containsKey(Value.KING)  &&
-                valueHashMap.containsKey(Value.QUEEN) &&
-                valueHashMap.containsKey(Value.JACK) &&
-                valueHashMap.containsKey(Value.TEN);
+                cardCountMap.containsKey(Face.ACE)   &&
+                cardCountMap.containsKey(Face.KING)  &&
+                cardCountMap.containsKey(Face.QUEEN) &&
+                cardCountMap.containsKey(Face.JACK) &&
+                cardCountMap.containsKey(Face.TEN);
 
         return neededValues;
     }
 
     /**
      * This determines whether the hand is in numerical order.
-     * It also relies on the {@link Hand#cards} array, as this should not change the card positions.
+     * It also relies on the {@link TexasHand#cards} array, as this should not change the card positions.
      * @return Whether the hand is classed as a straight
      */
     public boolean isStraight() {
@@ -111,14 +104,14 @@ public class Hand {
     public TexasResults getKinds() {
         // if there's only two values in the map, then we either have 4 / 1 or 2 / 3 split.
         // Check for if we have a value containing 1.
-        if( valueHashMap.size() == 2 &&
-            ! valueHashMap.containsValue(1))
+        if( cardCountMap.size() == 2 &&
+            ! cardCountMap.containsValue(1))
             return TexasResults.FULL_HOUSE;
 
         boolean threeKind;
         int pairs = 0;
 
-        for(Map.Entry<Value, Integer> e : valueHashMap.entrySet()) {
+        for(Map.Entry<Face, Integer> e : cardCountMap.entrySet()) {
             if(e.getValue() == 4)
                 return TexasResults.FOUR_OF_KIND;
 
@@ -140,29 +133,6 @@ public class Hand {
         return null;
     }
 
-    /**
-     * Creates a map of the Card values and how many there are.
-     */
-    private void valMap() {
-        Map<Value, Integer> map = new HashMap<>();
-        for(Card c : cards) {
-            Integer curCount = map.get(c.value);
-            map.put(c.value, curCount == null ? 1 : curCount + 1);
-        }
-        valueHashMap = map;
-    }
-
-    /**
-     * Creates a map containing the suits and how many there are.
-     */
-    private void suitHash() {
-        Map<Suit, Integer> map = new HashMap<>();
-        for(Card c : cards) {
-            Integer curCount = map.get(c.getSuit());
-            map.put(c.getSuit(), curCount == null ? 1 : curCount + 1);
-        }
-        suitHashMap = map;
-    }
 
     @Override
     public String toString() {

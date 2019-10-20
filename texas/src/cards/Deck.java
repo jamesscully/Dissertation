@@ -1,7 +1,7 @@
 package cards;
 
 import enums.Suit;
-import enums.Value;
+import enums.Face;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class Deck {
 
     public void resetDeck() {
         for(Suit s : Suit.values()) {
-            for(Value v : Value.values()) {
+            for(Face v : Face.values()) {
                 deck.add(new Card(s, v));
             }
         }
@@ -67,8 +67,8 @@ public class Deck {
      * Creates and returns a Hand
      * @return Returns a new Hand object
      */
-    public Hand pullHand() {
-        return new Hand(
+    public TexasHand pullHand() {
+        return new TexasHand(
                 pullCard(),
                 pullCard(),
                 pullCard(),

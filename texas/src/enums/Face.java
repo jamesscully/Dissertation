@@ -1,6 +1,6 @@
 package enums;
 
-public enum Value {
+public enum Face {
 
     TWO   ("Two", 0),
     THREE ("Three", 1),
@@ -16,11 +16,19 @@ public enum Value {
     KING  ("King", 11),
     ACE   ("Ace", 12);
 
-    public final int val;
-    public final String str;
+    private final int val;
+    private final String str;
 
-    private Value(String display, int value) {
+    Face(String display, int value) {
         this.str = display;
         this.val = value;
+    }
+
+    public int getValue() {
+        return val;
+    }
+
+    public String getName() {
+        return str;
     }
 }
