@@ -46,6 +46,10 @@ public class Hand {
 
     }
 
+    /**
+     * Gets the highest valued card in the hand
+     * @return {@link Card} of highest value in hand
+     */
     public Card getHighestCard() {
 
         Card highest = cards.get(0);
@@ -58,6 +62,10 @@ public class Hand {
         return highest;
     }
 
+    /**
+     * Determines whether the hand is all of the same suit
+     * @return True if all cards are the same suit
+     */
     public boolean isFlush() {
         if (suitHashMap == null) {
             System.err.println("Suit Hashmap was not initialized!");
@@ -67,6 +75,10 @@ public class Hand {
         return (suitHashMap.size() == 1);
     }
 
+    /**
+     * Determines whether the hand is a royal flush
+     * @return True if hand is a royal flush
+     */
     public boolean isRoyalFlush() {
         boolean sameSuit = isFlush();
 
@@ -87,11 +99,8 @@ public class Hand {
     }
 
     /**
-     * This determines whether the hand is in numerical order (ascending)
-     *
+     * This determines whether the hand is in numerical order.
      * It also relies on the {@link Hand#cards} array, as this should not change the card positions.
-     *
-     * @// TODO: 10/20/19 Add descending order
      * @return Whether the hand is classed as a straight
      */
     public boolean isStraight() {
@@ -110,6 +119,12 @@ public class Hand {
         return true;
     }
 
+    /**
+     * Determines whether there is any kinds in the hand.
+     * Note, this must be checked for null - a highcard/straight/flush would return null.
+     * @return {@link Hand.Result#FULL_HOUSE}, {@link Hand.Result#FOUR_OF_KIND}, {@link Hand.Result#THREE_OF_KIND}, {@link Hand.Result#TWO_PAIR}, {@link Hand.Result#PAIR} or null if none found.
+     *
+     */
     public Result getKinds() {
         // if there's only two values in the map, then we either have 4 / 1 or 2 / 3 split.
         // Check for if we have a value containing 1.
@@ -133,8 +148,6 @@ public class Hand {
             }
         }
 
-
-
         if (pairs > 0) {
             if(pairs == 2) return Result.TWO_PAIR;
             if(pairs == 1) return Result.PAIR;
@@ -145,9 +158,9 @@ public class Hand {
     }
 
     /**
-     * This creates a map of the Card values and counts.
+     * Creates a map of the Card values and how many there are.
      */
-    public void valMap() {
+    private void valMap() {
         Map<Value, Integer> map = new HashMap<>();
         for(Card c : cards) {
             Integer curCount = map.get(c.value);
@@ -156,7 +169,10 @@ public class Hand {
         valueHashMap = map;
     }
 
-    public void suitHash() {
+    /**
+     * Creates a map containing the suits and how many there are.
+     */
+    private void suitHash() {
         Map<Suit, Integer> map = new HashMap<>();
         for(Card c : cards) {
             Integer curCount = map.get(c.suit);
@@ -165,11 +181,23 @@ public class Hand {
         suitHashMap = map;
     }
 
+    /**
+     * Generates a random hand (does not use {@link Deck})
+     * @return Random Hand
+     */
+    public static Hand getRandomHand() {
+        Card r1 = Card.getRandomCard();
+        Card r2 = Card.getRandomCard();
+        Card r3 = Card.getRandomCard();
+        Card r4 = Card.getRandomCard();
+        Card r5 = Card.getRandomCard();
+        return new Hand(r1, r2, r3, r4, r5);
+    }
 
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return "Hand{" +
+                "cards=" + cards +
+                '}';
+    }
 }

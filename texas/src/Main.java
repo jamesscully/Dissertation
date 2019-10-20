@@ -1,11 +1,13 @@
-import card.Card;
-import card.Hand;
-import card.Suit;
-import card.Value;
+import card.*;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        Deck deck = new Deck();
+
+        deck.initialize();
+
 
         Card a = new Card(Suit.CLUBS    , Value.ACE  );
         Card b = new Card(Suit.DIAMONDS , Value.TEN  );

@@ -1,6 +1,7 @@
 package card;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Card {
 
@@ -37,5 +38,18 @@ public class Card {
         // Texas Hold'em doesn't hold a value for suits - however some other gametypes might.
         // this will be where we could modify it's value based on suit
         return value.val;
+    }
+
+    /**
+     * Used to fuzz-test functions, i.e. {@link Hand#getKinds()} where a null value could be returned
+     * @return a randomly generated card
+     */
+    public static Card getRandomCard() {
+        Random rand = new Random();
+
+        Suit s = Suit.values()[rand.nextInt(Suit.values().length)];
+        Value v = Value.values()[rand.nextInt(Value.values().length)];
+
+        return new Card(s, v);
     }
 }
