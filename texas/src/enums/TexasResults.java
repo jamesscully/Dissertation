@@ -1,7 +1,6 @@
 package enums;
 
-public class TexasResults {
-    enum Result {
+public enum TexasResults {
         HIGH_CARD(1),
         PAIR(2),
         TWO_PAIR(3),
@@ -15,8 +14,7 @@ public class TexasResults {
 
         private final int value;
 
-        Result(int val) {
+        TexasResults(int val) {
             this.value = val;
         }
-    }
 }

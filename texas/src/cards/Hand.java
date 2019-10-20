@@ -105,25 +105,25 @@ public class Hand {
     /**
      * Determines whether there is any kinds in the hand.
      * Note, this must be checked for null - a highcard/straight/flush would return null.
-     * @return {@link TexasResults.Result#FULL_HOUSE}, {@link TexasResults.Result#FOUR_OF_KIND}, {@link TexasResults.Result#THREE_OF_KIND}, {@link TexasResults.Result#TWO_PAIR}, {@link TexasResults.Result#PAIR} or null if none found.
+     * @return {@link TexasResults#FULL_HOUSE}, {@link TexasResults#FOUR_OF_KIND}, {@link TexasResults#THREE_OF_KIND}, {@link TexasResults#TWO_PAIR}, {@link TexasResults#PAIR} or null if none found.
      *
      */
-    public TexasResults.Result getKinds() {
+    public TexasResults getKinds() {
         // if there's only two values in the map, then we either have 4 / 1 or 2 / 3 split.
         // Check for if we have a value containing 1.
         if( valueHashMap.size() == 2 &&
             ! valueHashMap.containsValue(1))
-            return TexasResults.Result.FULL_HOUSE;
+            return TexasResults.FULL_HOUSE;
 
         boolean threeKind;
         int pairs = 0;
 
         for(Map.Entry<Value, Integer> e : valueHashMap.entrySet()) {
             if(e.getValue() == 4)
-                return TexasResults.Result.FOUR_OF_KIND;
+                return TexasResults.FOUR_OF_KIND;
 
             if(e.getValue() == 3) {
-                return TexasResults.Result.THREE_OF_KIND;
+                return TexasResults.THREE_OF_KIND;
             }
 
             if(e.getValue() == 2) {
@@ -132,8 +132,8 @@ public class Hand {
         }
 
         if (pairs > 0) {
-            if(pairs == 2) return TexasResults.Result.TWO_PAIR;
-            if(pairs == 1) return TexasResults.Result.PAIR;
+            if(pairs == 2) return TexasResults.TWO_PAIR;
+            if(pairs == 1) return TexasResults.PAIR;
         }
 
         // todo fix this in algorithm
