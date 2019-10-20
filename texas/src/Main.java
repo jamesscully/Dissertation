@@ -4,9 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Deck deck = new Deck();
-
-        deck.initialize();
+        Deck deck = Deck.getInstance();
 
         Card a = new Card(Suit.CLUBS    , Value.ACE  );
         Card b = new Card(Suit.DIAMONDS , Value.TEN  );

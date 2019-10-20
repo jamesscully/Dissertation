@@ -3,17 +3,23 @@ package card;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class  Deck {
+public class Deck {
 
-    private static Deck instance;
+    private static Deck instance = null;
     private int cards_removed = 0;
 
     /**
      * Holds all cards available
      */
-    private ArrayList<Card> deck = new ArrayList<>();
+    private static ArrayList<Card> deck = new ArrayList<>();
 
-    public Deck() { }
+    private Deck() {
+        initialize();
+    }
+
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
 
     public static synchronized Deck getInstance() {
         if(instance == null) {
@@ -44,22 +50,7 @@ public class  Deck {
      * @return True if remove was successful
      */
     private boolean removeCard(Card c) {
-        int value = c.getValue();
-        int sID   = c.suit.id;
-
-        int position = ( (value * sID) + (13 % value) ) - cards_removed;
-
-        try
-        {
-            deck.remove(position);
-        }
-        catch (IndexOutOfBoundsException e) {
-            System.err.println("Index " + position + " was out of bounds in deck.");
-            return false;
-        }
-
-        cards_removed++;
-        return true;
+        return deck.remove(c);
     }
 
     /**
@@ -67,8 +58,6 @@ public class  Deck {
      * @return Card retrieved from deck
      */
     public Card pullCard() {
-        Random random = new Random();
-
         Card pull = Card.getRandomCard();
 
         // if removing the card returns false, try again
@@ -82,11 +71,19 @@ public class  Deck {
      * Prints the deck as it is currently.
      */
     public void printDeck() {
-        int i = 1;
+        int i = 0;
         for(Card c : deck) {
             System.out.printf("%2d: %17s\n", i, c);
             i++;
         }
+    }
+
+    public int size() {
+        return deck.size();
+    }
+
+    public boolean inDeck(Card c) {
+        return deck.contains(c);
     }
 
 

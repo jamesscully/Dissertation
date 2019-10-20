@@ -2,19 +2,19 @@ package card;
 
 public enum Value {
 
-    TWO   ("Two", 1),
-    THREE ("Three", 2),
-    FOUR  ("Four", 3),
-    FIVE  ("Five", 4),
-    SIX   ("Six", 5),
-    SEVEN ("Seven", 6),
-    EIGHT ("Eight", 7),
-    NINE  ("Nine", 8),
-    TEN   ("Ten", 9),
-    JOKER ("Joker", 10),
-    QUEEN ("Queen", 11),
-    KING  ("King", 12),
-    ACE   ("Ace", 13);
+    TWO   ("Two", 0),
+    THREE ("Three", 1),
+    FOUR  ("Four", 2),
+    FIVE  ("Five", 3),
+    SIX   ("Six", 4),
+    SEVEN ("Seven", 5),
+    EIGHT ("Eight", 6),
+    NINE  ("Nine", 7),
+    TEN   ("Ten", 8),
+    JACK  ("Jack", 9),
+    QUEEN ("Queen", 10),
+    KING  ("King", 11),
+    ACE   ("Ace", 12);
 
     public final int val;
     public final String str;

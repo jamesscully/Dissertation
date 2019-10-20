@@ -92,7 +92,7 @@ public class Hand {
                 valueHashMap.containsKey(Value.ACE)   &&
                 valueHashMap.containsKey(Value.KING)  &&
                 valueHashMap.containsKey(Value.QUEEN) &&
-                valueHashMap.containsKey(Value.JOKER) &&
+                valueHashMap.containsKey(Value.JACK) &&
                 valueHashMap.containsKey(Value.TEN);
 
         return neededValues;

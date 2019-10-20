@@ -31,14 +31,14 @@ public class HandTest {
     Hand STRAIGHT_FLUSH_2 = new Hand(
             new Card(Suit.DIAMONDS, Value.NINE),
             new Card(Suit.DIAMONDS, Value.TEN),
-            new Card(Suit.DIAMONDS, Value.JOKER),
+            new Card(Suit.DIAMONDS, Value.JACK),
             new Card(Suit.DIAMONDS, Value.QUEEN),
             new Card(Suit.DIAMONDS, Value.KING)
     );
 
     Hand ROYAL_FLUSH = new Hand(
             new Card(Suit.DIAMONDS, Value.TEN),
-            new Card(Suit.DIAMONDS, Value.JOKER),
+            new Card(Suit.DIAMONDS, Value.JACK),
             new Card(Suit.DIAMONDS, Value.QUEEN),
             new Card(Suit.DIAMONDS, Value.KING),
             new Card(Suit.DIAMONDS, Value.ACE)
