@@ -7,7 +7,7 @@ public class Card {
     public final Suit suit;
     public final Value value;
 
-    Card(Suit s, Value v) {
+    public Card(Suit s, Value v) {
         this.suit = s;
         this.value = v;
     }

@@ -33,19 +33,9 @@ public class Hand {
     Map<Suit, Integer> suitHashMap = new HashMap<>();
     Map<Value, Integer> valueHashMap = new HashMap<>();
 
-    public Hand() {
-        cards.add(new Card(Suit.CLUBS, Value.FIVE));
-        cards.add(new Card(Suit.SPADES, Value.ACE));
-        cards.add(new Card(Suit.HEARTS, Value.ACE));
-        cards.add(new Card(Suit.CLUBS, Value.TEN));
-        cards.add(new Card(Suit.CLUBS, Value.TEN));
+    public Hand(Card a, Card b, Card c, Card d, Card e) {
 
-        for (Card c : cards) {
-            //System.out.println(c.hashCode());
-          //  System.out.println(c);
-        }
-
-        //System.out.println(isHighCard());
+        cards.addAll(Arrays.asList(a, b, c, d, e));
 
         valMap();
         suitHash();
@@ -93,6 +83,14 @@ public class Hand {
         return neededValues;
     }
 
+    /**
+     * This determines whether the hand is in numerical order (ascending)
+     *
+     * It also relies on the {@link Hand#cards} array, as this should not change the card positions.
+     *
+     * @// TODO: 10/20/19 Add descending order
+     * @return Whether the hand is classed as a straight
+     */
     public boolean isStraight() {
 
         int valPrevious = cards.get(0).value.val;
@@ -107,6 +105,38 @@ public class Hand {
         }
 
         return true;
+    }
+
+    public Result getKinds() {
+        // if there's only two values in the map, then that means we have a 2/3 split thus full house.
+        if(valueHashMap.size() == 2)
+            return Result.FULL_HOUSE;
+
+        boolean threeKind;
+        int pairs = 0;
+
+        for(Map.Entry<Value, Integer> e : valueHashMap.entrySet()) {
+            if(e.getValue() == 4)
+                return Result.FOUR_OF_KIND;
+
+            if(e.getValue() == 3) {
+                return Result.THREE_OF_KIND;
+            }
+
+            if(e.getValue() == 2) {
+                pairs++;
+            }
+        }
+
+
+
+        if (pairs > 0) {
+            if(pairs == 2) return Result.TWO_PAIR;
+            if(pairs == 1) return Result.PAIR;
+        }
+
+        // todo fix this in algorithm
+        return null;
     }
 
     /**
