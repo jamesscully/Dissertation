@@ -1,9 +1,9 @@
 package tests;
 
-import card.Card;
-import card.Hand;
-import card.Suit;
-import card.Value;
+import cards.Card;
+import cards.Hand;
+import cards.Suit;
+import cards.Value;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

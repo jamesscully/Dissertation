@@ -1,4 +1,4 @@
-package card;
+package cards;
 
 import java.util.*;
 
@@ -27,7 +27,7 @@ public class Hand {
 
     ArrayList<Card> cards = new ArrayList<>();
 
-    Map<Suit, Integer> suitHashMap = new HashMap<>();
+    Map<Suit, Integer>  suitHashMap  = new HashMap<>();
     Map<Value, Integer> valueHashMap = new HashMap<>();
 
     public Hand(Card a, Card b, Card c, Card d, Card e) {
@@ -39,10 +39,7 @@ public class Hand {
 
     }
 
-
     public void evaluate() {
-
-
 
     }
 
@@ -69,6 +66,7 @@ public class Hand {
     public boolean isFlush() {
         if (suitHashMap == null) {
             System.err.println("Suit Hashmap was not initialized!");
+            return false;
         }
 
         // if the entire hand is the same suit, then the map should only be size of 1
@@ -179,19 +177,6 @@ public class Hand {
             map.put(c.suit, curCount == null ? 1 : curCount + 1);
         }
         suitHashMap = map;
-    }
-
-    /**
-     * Generates a random hand (does not use {@link Deck})
-     * @return Random Hand
-     */
-    public static Hand getRandomHand() {
-        Card r1 = Card.getRandomCard();
-        Card r2 = Card.getRandomCard();
-        Card r3 = Card.getRandomCard();
-        Card r4 = Card.getRandomCard();
-        Card r5 = Card.getRandomCard();
-        return new Hand(r1, r2, r3, r4, r5);
     }
 
     @Override

@@ -1,4 +1,4 @@
-import card.*;
+import cards.*;
 
 public class Main {
 

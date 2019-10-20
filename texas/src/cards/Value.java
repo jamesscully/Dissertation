@@ -1,4 +1,4 @@
-package card;
+package cards;
 
 public enum Value {
 

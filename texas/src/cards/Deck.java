@@ -1,12 +1,10 @@
-package card;
+package cards;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Deck {
 
     private static Deck instance = null;
-    private int cards_removed = 0;
 
     /**
      * Holds all cards available
@@ -15,10 +13,6 @@ public class Deck {
 
     private Deck() {
         initialize();
-    }
-
-    public ArrayList<Card> getDeck() {
-        return deck;
     }
 
     public static synchronized Deck getInstance() {
@@ -31,12 +25,11 @@ public class Deck {
     /**
      * Populate {@link Deck#deck} with all needed cards.
      */
-    public void initialize() {
+    private void initialize() {
         resetDeck();
     }
 
     public void resetDeck() {
-        cards_removed = 0;
         for(Suit s : Suit.values()) {
             for(Value v : Value.values()) {
                 deck.add(new Card(s, v));
@@ -68,6 +61,20 @@ public class Deck {
     }
 
     /**
+     * Creates and returns a Hand
+     * @return Returns a new Hand object
+     */
+    public Hand pullHand() {
+        return new Hand(
+                pullCard(),
+                pullCard(),
+                pullCard(),
+                pullCard(),
+                pullCard()
+        );
+    }
+
+    /**
      * Prints the deck as it is currently.
      */
     public void printDeck() {
@@ -78,10 +85,19 @@ public class Deck {
         }
     }
 
+    /**
+     * Gets current size of deck (available cards)
+     * @return Size of Deck
+     */
     public int size() {
         return deck.size();
     }
 
+    /**
+     * Tests whether card is in deck / available
+     * @param c Card to check
+     * @return True if card is available
+     */
     public boolean inDeck(Card c) {
         return deck.contains(c);
     }
