@@ -2,8 +2,9 @@ package tests;
 
 import cards.Card;
 import cards.Hand;
-import cards.Suit;
-import cards.Value;
+import enums.Suit;
+import enums.TexasResults;
+import enums.Value;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -113,10 +114,10 @@ public class HandTest {
 
     @Test
     public void getKinds() {
-        assertEquals(Hand.Result.FOUR_OF_KIND, FLUSH_FOK.getKinds());
-        assertEquals(Hand.Result.THREE_OF_KIND, THREEOFKIND.getKinds());
-        assertEquals(Hand.Result.TWO_PAIR, TWOPAIR.getKinds());
-        assertEquals(Hand.Result.PAIR, PAIR.getKinds());
+        assertEquals(TexasResults.Result.FOUR_OF_KIND, FLUSH_FOK.getKinds());
+        assertEquals(TexasResults.Result.THREE_OF_KIND, THREEOFKIND.getKinds());
+        assertEquals(TexasResults.Result.TWO_PAIR, TWOPAIR.getKinds());
+        assertEquals(TexasResults.Result.PAIR, PAIR.getKinds());
     }
 
     @Test

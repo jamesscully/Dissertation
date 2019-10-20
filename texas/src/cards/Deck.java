@@ -1,5 +1,8 @@
 package cards;
 
+import enums.Suit;
+import enums.Value;
+
 import java.util.ArrayList;
 
 public class Deck {

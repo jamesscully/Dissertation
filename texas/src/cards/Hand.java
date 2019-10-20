@@ -1,27 +1,12 @@
 package cards;
 
+import enums.Suit;
+import enums.TexasResults;
+import enums.Value;
+
 import java.util.*;
 
 public class Hand {
-
-    public enum Result {
-        HIGH_CARD(1),
-        PAIR(2),
-        TWO_PAIR(3),
-        THREE_OF_KIND(4),
-        STRAIGHT(5),
-        FLUSH(6),
-        FULL_HOUSE(7),
-        FOUR_OF_KIND(8),
-        STRAIGHT_FLUSH(9),
-        ROYAL_FLUSH(10);
-
-        private final int value;
-
-        Result(int val) {
-            this.value = val;
-        }
-    }
 
     private final static int MAX_CARDS = 5;
 
@@ -103,10 +88,10 @@ public class Hand {
      */
     public boolean isStraight() {
 
-        int valPrevious = cards.get(0).value.val;
+        int valPrevious = cards.get(0).getValue();
 
         for(int i = 1; i < cards.size(); i++) {
-            int valCurrent = cards.get(i).value.val;
+            int valCurrent = cards.get(i).getValue();
 
             if(valCurrent != valPrevious + 1)
                 return false;
@@ -120,25 +105,25 @@ public class Hand {
     /**
      * Determines whether there is any kinds in the hand.
      * Note, this must be checked for null - a highcard/straight/flush would return null.
-     * @return {@link Hand.Result#FULL_HOUSE}, {@link Hand.Result#FOUR_OF_KIND}, {@link Hand.Result#THREE_OF_KIND}, {@link Hand.Result#TWO_PAIR}, {@link Hand.Result#PAIR} or null if none found.
+     * @return {@link TexasResults.Result#FULL_HOUSE}, {@link TexasResults.Result#FOUR_OF_KIND}, {@link TexasResults.Result#THREE_OF_KIND}, {@link TexasResults.Result#TWO_PAIR}, {@link TexasResults.Result#PAIR} or null if none found.
      *
      */
-    public Result getKinds() {
+    public TexasResults.Result getKinds() {
         // if there's only two values in the map, then we either have 4 / 1 or 2 / 3 split.
         // Check for if we have a value containing 1.
         if( valueHashMap.size() == 2 &&
             ! valueHashMap.containsValue(1))
-            return Result.FULL_HOUSE;
+            return TexasResults.Result.FULL_HOUSE;
 
         boolean threeKind;
         int pairs = 0;
 
         for(Map.Entry<Value, Integer> e : valueHashMap.entrySet()) {
             if(e.getValue() == 4)
-                return Result.FOUR_OF_KIND;
+                return TexasResults.Result.FOUR_OF_KIND;
 
             if(e.getValue() == 3) {
-                return Result.THREE_OF_KIND;
+                return TexasResults.Result.THREE_OF_KIND;
             }
 
             if(e.getValue() == 2) {
@@ -147,8 +132,8 @@ public class Hand {
         }
 
         if (pairs > 0) {
-            if(pairs == 2) return Result.TWO_PAIR;
-            if(pairs == 1) return Result.PAIR;
+            if(pairs == 2) return TexasResults.Result.TWO_PAIR;
+            if(pairs == 1) return TexasResults.Result.PAIR;
         }
 
         // todo fix this in algorithm
@@ -173,8 +158,8 @@ public class Hand {
     private void suitHash() {
         Map<Suit, Integer> map = new HashMap<>();
         for(Card c : cards) {
-            Integer curCount = map.get(c.suit);
-            map.put(c.suit, curCount == null ? 1 : curCount + 1);
+            Integer curCount = map.get(c.getSuit());
+            map.put(c.getSuit(), curCount == null ? 1 : curCount + 1);
         }
         suitHashMap = map;
     }

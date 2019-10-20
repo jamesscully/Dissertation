@@ -1,4 +1,6 @@
 import cards.*;
+import enums.Suit;
+import enums.Value;
 
 public class Main {
 

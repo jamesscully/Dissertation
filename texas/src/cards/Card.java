@@ -1,11 +1,14 @@
 package cards;
 
+import enums.Suit;
+import enums.Value;
+
 import java.util.Objects;
 import java.util.Random;
 
 public class Card {
 
-    public final Suit suit;
+    private final Suit suit;
     public final Value value;
 
     public Card(Suit s, Value v) {
@@ -38,6 +41,10 @@ public class Card {
         // Texas Hold'em doesn't hold a value for suits - however some other gametypes might.
         // this will be where we could modify it's value based on suit
         return value.val;
+    }
+
+    public Suit getSuit() {
+        return suit;
     }
 
     /**
