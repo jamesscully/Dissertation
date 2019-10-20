@@ -2,11 +2,9 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{outlines}
-
 \usepackage{graphicx}
-
 \usepackage[T1]{fontenc}
-
+\usepackage{subcaption}
 
 
 \graphicspath{ {./images/} }
@@ -62,13 +60,36 @@
 
 Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Quite a number of these apps attempt to rectify this by occasionally handing out free chips to keep players using them, such as Zynga Poker. \\
 
-A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products.  \\
+A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products. They also typically use false labels in order to promote these purchases, as seen in figure 1.
+
+
+\begin{center}
+
+\begin{figure}[h]
+	\makebox[\textwidth][c]{
+	\begin{subfigure}[h]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{zynga_before_free_edit}
+		\caption{Label insinuating 'FREE' chips}
+	\end{subfigure}	
+	~
+	\begin{subfigure}[h]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{zynga_after_free}
+		\caption{A multitude of purchases}
+	\end{subfigure}	
+	}
+	
+	\caption{A common deception used in popular poker applications}
+	
+\end{figure}
+	
+\end{center}
+
 
 A solution to this would be an open-source approach, whereby the community can fix bugs that arise, add features to the official build; removing the need for transactions to support development. \\ 
 
 As mentioned previously, many of these do not give much control to the user, such as customizing match settings. In existing apps, most only have presets and are at the hands of the developers. In regards to user experience, it is best to offer control to the user, as they can tailor the game to their likings. This effect can be seen in a variety of areas not limited to software; think having clothes fit to ones preferences, or the ability to make changes to a home. % https://www.nngroup.com/articles/customization-personalization/
 
-
+\newpage
 \section*{Aims and Objectives}
 
 The aim of this project is to create a mobile, multi-player poker game as well as a server for people to host their lobbies. 
@@ -76,8 +97,6 @@ The aim of this project is to create a mobile, multi-player poker game as well a
 With this in mind, we have some key objectives to consider: 
 
 \begin{outline}
-
-
 	\1 Players are able to view multiple statistics:
 		\2 Previous hands dealt
 		\2 Total win / losses
@@ -88,9 +107,6 @@ With this in mind, we have some key objectives to consider:
 		\2 Is open-source and can be used by the public for private servers
 		\2 Is cross-platform, to ensure it is portable.
 	\1 Hands that are given out should not be repeated or predictable i.e. near-complete randomness (not time-based seeds)
-	
-	
-	
 \end{outline}
 
 \newpage
@@ -108,8 +124,6 @@ This project is going to be developed alongside other studies and as such will b
 
 % https://jserd.springeropen.com/articles/10.1186/s40411-016-0032-7
 % https://www.gdcvault.com/play/1013175/Agile-Methodology-in-Game-Development
-
-
 
 It is also imperative that a task management system is to be used such as GitHub issues; this will allow for the project to be easily picked up from a certain point and continued, as there will be a few phases where focus on the project will need to be diverted briefly. \\
 
@@ -135,7 +149,7 @@ Evaluation towards the end of development will incorporate feedback from users, 
 \section*{Gantt Chart}
 
 \begin{center}
-	\makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{gantt_chart.png}}
+	\makebox[\textwidth][c]{\includegraphics[width=1.3\textwidth]{gantt_chart.png}}
 \end{center}
 
 

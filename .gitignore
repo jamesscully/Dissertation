@@ -2,3 +2,9 @@
 *.dvi
 *.log
 *.synctex.gz
+
+*.ipr
+*.ims
+*.iws
+*.iml
+*.class
