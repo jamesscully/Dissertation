@@ -1,13 +1,10 @@
 package card;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Hand {
 
-    enum Result {
+    public enum Result {
         HIGH_CARD(1),
         PAIR(2),
         TWO_PAIR(3),
@@ -49,10 +46,16 @@ public class Hand {
 
     }
 
-    public boolean isHighCard() {
-        HashSet<Card> temp = new HashSet<>(cards);
-        // if we still have the MAX_CARDS, then we don't have any combinations
-        return (temp.size() == MAX_CARDS);
+    public Card getHighestCard() {
+
+        Card highest = cards.get(0);
+
+        for(Card c : cards) {
+            if(c.getValue() > highest.getValue())
+                highest = c;
+        }
+
+        return highest;
     }
 
     public boolean isFlush() {
@@ -108,8 +111,10 @@ public class Hand {
     }
 
     public Result getKinds() {
-        // if there's only two values in the map, then that means we have a 2/3 split thus full house.
-        if(valueHashMap.size() == 2)
+        // if there's only two values in the map, then we either have 4 / 1 or 2 / 3 split.
+        // Check for if we have a value containing 1.
+        if( valueHashMap.size() == 2 &&
+            ! valueHashMap.containsValue(1))
             return Result.FULL_HOUSE;
 
         boolean threeKind;
@@ -144,31 +149,19 @@ public class Hand {
      */
     public void valMap() {
         Map<Value, Integer> map = new HashMap<>();
-
         for(Card c : cards) {
             Integer curCount = map.get(c.value);
             map.put(c.value, curCount == null ? 1 : curCount + 1);
         }
-
-        for(Map.Entry entry : map.entrySet()) {
-            System.out.println("Val: " + entry.getKey() + " Count: " + entry.getValue());
-        }
-
         valueHashMap = map;
     }
 
     public void suitHash() {
         Map<Suit, Integer> map = new HashMap<>();
-
         for(Card c : cards) {
             Integer curCount = map.get(c.suit);
             map.put(c.suit, curCount == null ? 1 : curCount + 1);
         }
-        System.out.println("SUITS: ");
-        for(Map.Entry entry : map.entrySet()) {
-            System.out.println("Val: " + entry.getKey() + " Count: " + entry.getValue());
-        }
-
         suitHashMap = map;
     }
 
