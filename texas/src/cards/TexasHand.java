@@ -10,9 +10,13 @@ public class TexasHand extends Hand {
 
     private final static int MAX_CARDS = 5;
 
-    public TexasHand(Card a, Card b, Card c, Card d, Card e) {
-        cards.addAll(Arrays.asList(a, b, c, d, e));
+    public boolean IS_TABLE = false;
 
+    public TexasHand(Card ... a) {
+        cards.addAll(Arrays.asList(a));
+    }
+
+    public void init() {
         getCardCountMap();
         getSuitCountMap();
     }
@@ -108,7 +112,6 @@ public class TexasHand extends Hand {
             ! cardCountMap.containsValue(1))
             return TexasResults.FULL_HOUSE;
 
-        boolean threeKind;
         int pairs = 0;
 
         for(Map.Entry<Face, Integer> e : cardCountMap.entrySet()) {

@@ -6,7 +6,7 @@ import enums.Face;
 import java.util.Objects;
 import java.util.Random;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private final Suit suit;
     public final Face face;
@@ -45,6 +45,10 @@ public class Card {
         return face.getValue();
     }
 
+    public Integer getValueInteger() {
+        return face.getValue();
+    }
+
     public Suit getSuit() {
         return suit;
     }
@@ -60,5 +64,11 @@ public class Card {
         Face v = Face.values()[rand.nextInt(Face.values().length)];
 
         return new Card(s, v);
+    }
+
+    @Override
+    public int compareTo(Card card) {
+
+        return getValueInteger().compareTo(card.getValueInteger());
     }
 }

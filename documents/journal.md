@@ -31,6 +31,12 @@ This will assist later on when write-ups are due.
 
 #### Backend changes
 
+**20/10/19 : Refactoring Hand into TexasHand**
+Changed the Hand class to TexasHand specifically for that gamemode. Moreover, using polymorphism to enable generic functions for each hand (get suits + amt, get face values + amt)
+
+
+
+
 #### Frontend changes
 
 #### Resource changes
