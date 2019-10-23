@@ -6,6 +6,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{subcaption}
 
+\usepackage[square,sort,comma,numbers,super]{natbib}
+
+\usepackage{hyperref}
 
 \graphicspath{ {./images/} }
 
@@ -58,9 +61,9 @@
 
 
 
-Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Quite a number of these apps attempt to rectify this by occasionally handing out free chips to keep players using them, such as Zynga Poker. \\
+Poker is a game loved by many around the world twice over and as such has found its way into mobile applications. Many of these do not give control to the players, and are much like in real life, focused on money, rather than a casual and relaxed game. Zynga Poker for example, has been criticized in the past for "throwing too many unwanted features" in the way of the playing the game, despite seeing an increase in revenue. \cite{zynga_unwanted} \\
 
-A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products. They also typically use false labels in order to promote these purchases, as seen in figure 1.
+A quick search of the Google Play Store reveals 250 poker applications, however most of these include some form of monetization whereby the player is likely to purchase chips in order to continue playing, when they have lost all of their chips. Many people prefer mobile games to be simple, easy to use and not plagued with offers for in-game products. They also typically use false labels in order to promote these purchases, as seen in Fig 1.
 
 
 \begin{center}
@@ -84,10 +87,7 @@ A quick search of the Google Play Store reveals 250 poker applications, however 
 	
 \end{center}
 
-
-A solution to this would be an open-source approach, whereby the community can fix bugs that arise, add features to the official build; removing the need for transactions to support development. \\ 
-
-As mentioned previously, many of these do not give much control to the user, such as customizing match settings. In existing apps, most only have presets and are at the hands of the developers. In regards to user experience, it is best to offer control to the user, as they can tailor the game to their likings. This effect can be seen in a variety of areas not limited to software; think having clothes fit to ones preferences, or the ability to make changes to a home. % https://www.nngroup.com/articles/customization-personalization/
+As mentioned previously, many of these do not give much control to the user, such as customizing match settings. In existing apps, most only have presets and are at the hands of the developers. In regards to user experience, it is best to offer control to the user, as they can tailor the game to their likings. This effect can be seen in a variety of areas not limited to software; think having clothes fit to ones preferences, or the ability to make changes to a home. \cite{customize} % https://www.nngroup.com/articles/customization-personalization/
 
 \newpage
 \section*{Aims and Objectives}
@@ -120,7 +120,7 @@ Firstly, research will need to be undertaken on areas to innovate upon and frame
 
 \subsection*{Methodology and On-going processes}
 
-This project is going to be developed alongside other studies and as such will be obstructed by other pieces of coursework at some points. Because of this, the Agile methodology will be used as this allows for more flexible deadlines and progress. Other more "rigid" methodologies such as Waterfall are not suitable as game / app development is a \textbf{\textit{very}} iterative process, not linear. \\ 
+This project is going to be developed alongside other studies and as such will be obstructed by other pieces of coursework at some points. Because of this, the Agile methodology will be used as this allows for more flexible deadlines and progress. Other more "rigid" methodologies such as Waterfall are not suitable as game development is a \textbf{\textit{very}} iterative process, not linear. \cite{iterative} \\ 
 
 % https://jserd.springeropen.com/articles/10.1186/s40411-016-0032-7
 % https://www.gdcvault.com/play/1013175/Agile-Methodology-in-Game-Development
@@ -131,17 +131,70 @@ A journal will be kept on the repository for documenting choices made, problems 
 
 \subsection*{Testing and Evaluation}
 
-In similar fashion to the journal, development will include regular unit tests on the back-end and can be integrated into Continuous Integration (CI), as this will generate a pass or fail on the unit tests with each commit.  \\
+In similar fashion to the journal, development will include regular unit tests on the back-end and can be integrated into Continuous Integration (CI), as this will generate a pass or fail on the unit tests with each commit. However, this mustn't be compared to a Test-Driven approach, whereby we would write strictly write tests before actual programming, as we do not have too much time to write tests - which could have a negative effect on productivity \cite{tdd_productivity}   \\
+
+% https://www.sciencedirect.com/science/article/pii/S0950584903002040#aep-section-id36
 
 For the front-end, slightly less frequent testing will be done in the form of black/white box testing as automated unit tests are not suitable for user interfaces. 
 
-Evaluation towards the end of development will incorporate feedback from users, findings from quality reviews (both code and interface). 
+Evaluation towards the end of development will incorporate feedback from users, findings from quality reviews (both code and user interface). 
 
 
 
 
 \newpage
 \section*{Bibliography}
+
+\begin{thebibliography}{9}
+
+
+
+
+\bibitem{zynga_unwanted}
+\begin{flushleft}
+	Jeff Grubb,
+	\textit{Zynga stock price jumps 7\% as new chief executive replaces Pincus}, \\
+	1 Mar 2016 \\
+	Retrieved from \url{https://venturebeat.com/2016/03/01/zynga-stock-price-jumps-8-as-new-chief-executive-replaces-pincus/}
+\end{flushleft}
+
+\bibitem{customize}
+\begin{flushleft}
+	NNGroup; Amy Schade,
+	\textit{Customization vs. Personalization in the User Experience},
+	10 Jul 2016
+	\textit{Why Customize?}	
+	Retrieved from \url{https://www.nngroup.com/articles/customization-personalization/}
+\end{flushleft}
+
+\bibitem{iterative}	
+
+\begin{flushleft}
+	Henna-Riikka Ruonala,
+	\textit{Agile Game Development: A Systematic Literature Review}, \\
+	22 Nov 2016, \\
+	5.3 Use of Agile Methods; Page 22 \\
+	\url{https://pdfs.semanticscholar.org/4bb7/66bee969dd51a5d48ad880523ed475e7c773.pdf}
+\end{flushleft}
+
+\bibitem{tdd_productivity}
+\begin{flushleft}
+	Boby George \& Laurie Williams, 
+	\textit{A structured experiment of test-driven development}, \\
+	15 Apr 2004, \\
+	Retrieved from \url{https://www.sciencedirect.com/science/article/pii/S0950584903002040#aep-section-id36}
+\end{flushleft}
+	
+
+
+
+	
+
+	
+	
+	
+
+\end{thebibliography}
 
 
 

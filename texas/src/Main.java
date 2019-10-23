@@ -18,8 +18,6 @@ public class Main {
         Card f = new Card(Suit.SPADES   , Face.THREE);
         Card g = new Card(Suit.HEARTS   , Face.FOUR );
 
-
-
         TexasHand h = new TexasHand(a, b);
 
         TexasHand t = new TexasHand(c, d, e, f, g);
