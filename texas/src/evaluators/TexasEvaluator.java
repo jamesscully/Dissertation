@@ -109,16 +109,8 @@ public class TexasEvaluator {
                 previousVal = value;
                 streak++;
             }
-
-
-
         }
-
-
-
-
         return true;
-
     }
 
     /**
@@ -128,7 +120,6 @@ public class TexasEvaluator {
      *
      */
     public TexasResults getKinds() {
-
         return null;
     }
 
