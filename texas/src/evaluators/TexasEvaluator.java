@@ -5,6 +5,7 @@ import cards.TexasHand;
 import enums.Face;
 import enums.Suit;
 import enums.TexasResults;
+import game.TexasTable;
 
 import java.util.*;
 
@@ -15,30 +16,75 @@ public class TexasEvaluator {
 
     TexasHand overall = null;
 
-    ArrayList<Card> cards = new ArrayList<>();
 
     Map<Suit, Integer> suitCountMap = new HashMap<>();
     Map<Face, Integer> cardCountMap = new HashMap<>();;
 
+    ArrayList<Card> cards = new ArrayList<>();
 
-    public TexasEvaluator(TexasHand player, TexasHand table) {
+    public TexasEvaluator(TexasHand player, TexasTable table) {
         this.player = player;
 
-        if(!table.IS_TABLE)
-            throw new IllegalArgumentException("TexasEvaluator: second argument must be have IS_TABLE flag enabled.");
+//        if(!table)
+//            throw new IllegalArgumentException("TexasEvaluator: second argument must be have IS_TABLE flag enabled.");
 
-        this.table  = table;
+        this.table  = table.tableCards;
 
 
         cards.addAll(player.getCards());
-        cards.addAll(table.getCards());
+        cards.addAll(this.table.getCards());
 
         Collections.sort(cards);
 
         getCardSuits();
         getCardValues();
-
     }
+
+    public TexasEvaluator(String debugStringToHand) {
+        if(debugStringToHand.length() != 20)
+            System.exit(1);
+
+        String[] strCards = debugStringToHand.split("\\s");
+
+        for(String s : strCards) {
+            s = s.toUpperCase();
+
+            Face face = null;
+            Suit suit = null;
+
+            switch (s.charAt(0)) {
+                case 'A': face = Face.ACE;   break;
+                case 'K': face = Face.KING;  break;
+                case 'Q': face = Face.QUEEN; break;
+                case 'J': face = Face.JACK;  break;
+                case '0': face = Face.TEN;   break;
+                case '9': face = Face.NINE;  break;
+                case '8': face = Face.EIGHT; break;
+                case '7': face = Face.SEVEN; break;
+                case '6': face = Face.SIX;   break;
+                case '5': face = Face.FIVE;  break;
+                case '4': face = Face.FOUR;  break;
+                case '3': face = Face.THREE; break;
+                case '2': face = Face.TWO;   break;
+            }
+
+            switch (s.charAt(1)) {
+                case 'D': suit = Suit.DIAMONDS; break;
+                case 'S': suit = Suit.SPADES;   break;
+                case 'C': suit = Suit.CLUBS;    break;
+                case 'H': suit = Suit.HEARTS;   break;
+            }
+
+            cards.add(new Card(suit, face));
+        }
+
+        Collections.sort(cards);
+
+        getCardSuits();
+        getCardValues();
+    }
+
+
 
     public TexasResults evaluate() {
 
@@ -89,7 +135,6 @@ public class TexasEvaluator {
      * @return Whether the hand is classed as a straight
      */
     public boolean isStraight() {
-
         System.out.println("Sorted :   " + cards);
         System.out.println("Value map: " + cardCountMap);
 
@@ -100,17 +145,20 @@ public class TexasEvaluator {
 
         int streak = 0;
 
-        int previousVal = 0;
-        for(int i = 0; i < 7; i++)  {
-            Card cCard = sorted.get(i);
-            int value = cCard.getValue();
+        // our previous value going in should be the first in the sorted array
+        int previousVal = sorted.get(0).getValue();
 
-            if(previousVal == value - 1) {
+        for(int i = 1; i < 7; i++)  {
+            Card cCard = sorted.get(i);
+            int value  = cCard.getValue();
+
+            if(previousVal == value + 1) {
                 previousVal = value;
                 streak++;
             }
         }
-        return true;
+
+        return (streak == 4);
     }
 
     /**

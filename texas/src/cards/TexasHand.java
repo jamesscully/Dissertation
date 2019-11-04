@@ -8,12 +8,16 @@ import java.util.*;
 
 public class TexasHand extends Hand {
 
-    private final static int MAX_CARDS = 5;
-
     public boolean IS_TABLE = false;
 
-    public TexasHand(Card ... a) {
-        cards.addAll(Arrays.asList(a));
+    public TexasHand(Card a, Card b) {
+        cards.add(a);
+        cards.add(b);
+    }
+
+    public TexasHand(Card... a) {
+        IS_TABLE = true;
+        Collections.addAll(cards, a);
     }
 
     public void init() {

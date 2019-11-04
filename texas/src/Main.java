@@ -24,9 +24,7 @@ public class Main {
 
         t.IS_TABLE = true;
 
-        TexasEvaluator eval = new TexasEvaluator(h, t);
 
-        eval.isStraight();
 
 
 
