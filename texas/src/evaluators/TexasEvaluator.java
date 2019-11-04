@@ -152,13 +152,27 @@ public class TexasEvaluator {
             Card cCard = sorted.get(i);
             int value  = cCard.getValue();
 
+            // if we have a previous card of same value, just skip over.
+            if(previousVal == value)
+                continue;
+
+            // if the previous card was higher than the current, then add to streak
             if(previousVal == value + 1) {
-                previousVal = value;
                 streak++;
+            } else {
+                streak = 0;
             }
+
+            // if we've already managed a straight, then return true.
+            // note that this should return the highest STRAIGHT, as we're descending down.
+            // todo make this function return points where there is a straight beginning, to determine straight flushes.
+            if(streak == 4)
+                return true;
+
+            previousVal = value;
         }
 
-        return (streak == 4);
+        return false;
     }
 
     /**
