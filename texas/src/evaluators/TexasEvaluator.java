@@ -7,15 +7,13 @@ import enums.Suit;
 import enums.TexasResults;
 import game.TexasTable;
 
+
 import java.util.*;
 
 public class TexasEvaluator {
 
     TexasHand player = null;
     TexasHand table  = null;
-
-    TexasHand overall = null;
-
 
     Map<Suit, Integer> suitCountMap = new HashMap<>();
     Map<Face, Integer> cardCountMap = new HashMap<>();;
@@ -24,9 +22,6 @@ public class TexasEvaluator {
 
     public TexasEvaluator(TexasHand player, TexasTable table) {
         this.player = player;
-
-//        if(!table)
-//            throw new IllegalArgumentException("TexasEvaluator: second argument must be have IS_TABLE flag enabled.");
 
         this.table  = table.tableCards;
 
@@ -66,6 +61,11 @@ public class TexasEvaluator {
                 case '4': face = Face.FOUR;  break;
                 case '3': face = Face.THREE; break;
                 case '2': face = Face.TWO;   break;
+
+                default:
+                    System.err.println(s.charAt(0) + " is not a valid face!");
+                    System.exit(1);
+                    break;
             }
 
             switch (s.charAt(1)) {
@@ -73,12 +73,17 @@ public class TexasEvaluator {
                 case 'S': suit = Suit.SPADES;   break;
                 case 'C': suit = Suit.CLUBS;    break;
                 case 'H': suit = Suit.HEARTS;   break;
+
+                default:
+                    System.err.println(s.charAt(1) + " is not a valid suit!");
+                    System.exit(1);
+                    break;
             }
 
             cards.add(new Card(suit, face));
         }
 
-        Collections.sort(cards);
+        Collections.sort(cards, Collections.reverseOrder());
 
         getCardSuits();
         getCardValues();
@@ -87,7 +92,6 @@ public class TexasEvaluator {
 
 
     public TexasResults evaluate() {
-
         return TexasResults.HIGH_CARD;
     }
 
@@ -126,7 +130,50 @@ public class TexasEvaluator {
      */
     public boolean isRoyalFlush() {
 
-        return false;
+        // we can only have a royal flush if there is 5> cards of the same suit
+        if( !(suitCountMap.containsValue(5) || suitCountMap.containsValue(6) || suitCountMap.containsValue(7)) )
+            return false;
+
+        Suit flush = null;
+
+        // get the suit that contains the 5 cards.
+        // it's unlikely that there will be 6 or 7 of the same suit, but not impossible!
+        for(Map.Entry<Suit,Integer> entry : suitCountMap.entrySet()) {
+            if(entry.getValue() >= 5)
+                flush = entry.getKey();
+        }
+
+        boolean haveAce   = false,
+                haveKing  = false,
+                haveQueen = false,
+                haveJoker = false,
+                haveTen   = false;
+
+        for(Card c : cards) {
+            // if it's not the suit that holds 5 of the cards in the hand, continue
+            if(c.getSuit() != flush)
+                continue;
+
+            switch (c.getFace()) {
+                case ACE:
+                    haveAce = true;
+                    break;
+                case KING:
+                    haveKing = true;
+                    break;
+                case QUEEN:
+                    haveQueen = true;
+                    break;
+                case JACK:
+                    haveJoker = true;
+                    break;
+                case TEN:
+                    haveTen = true;
+                    break;
+            }
+        }
+        // these can only be true if they all belong to the same suit and are present.
+        return (haveAce && haveKing && haveQueen && haveJoker && haveTen);
     }
 
     /**
@@ -135,21 +182,14 @@ public class TexasEvaluator {
      * @return Whether the hand is classed as a straight
      */
     public boolean isStraight() {
-        System.out.println("Sorted :   " + cards);
-        System.out.println("Value map: " + cardCountMap);
-
-        ArrayList<Card> sorted = new ArrayList<>(cards);
-        Collections.sort(sorted, Collections.reverseOrder());
-
-        System.out.println(sorted);
 
         int streak = 0;
 
         // our previous value going in should be the first in the sorted array
-        int previousVal = sorted.get(0).getValue();
+        int previousVal = cards.get(0).getValue();
 
         for(int i = 1; i < 7; i++)  {
-            Card cCard = sorted.get(i);
+            Card cCard = cards.get(i);
             int value  = cCard.getValue();
 
             // if we have a previous card of same value, just skip over.
@@ -171,7 +211,6 @@ public class TexasEvaluator {
 
             previousVal = value;
         }
-
         return false;
     }
 
@@ -197,10 +236,8 @@ public class TexasEvaluator {
             Integer count = cardCountMap.get(c.getFace());
             cardCountMap.put(c.getFace(), count == null ? 1 : count + 1);
         }
+
+
+
     }
-
-
-
-
-
 }

@@ -27,7 +27,15 @@ This will assist later on when write-ups are due.
 
 ### Development changes
 
+** Pseudocode was a bad idea **
+Generally, for smaller algorithms pseudocode is a given. However, in this case it was not feasible as evaluating a TexasHM hand is extremely difficult with no output; it is very easy to overlook certain edge cases when no output or tests are there to prove you right.
+
+
 #### Design changes
+** TDD and how I wasn't going to fully adhere to it **
+After developing some methods in the actual program itself, I've noticed that going 50/50 and writing tests alongside code is extremely useful.
+Some things to probably put into it would be that it really benefits finding edge cases or cases out of the ordinary where they aren't easily noticeable when you're designing them.
+
 
 #### Backend changes
 

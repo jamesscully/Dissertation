@@ -88,25 +88,16 @@ public class TexasHandTest {
 
     @Test
     public void isRoyalFlush() {
+        assertTrue(new TexasEvaluator("AD KD JD QD 0D QS JC").isRoyalFlush());
+        assertTrue(new TexasEvaluator("4D AD KD QD JD 2D 0D").isRoyalFlush());
+        assertTrue(new TexasEvaluator("3D 8D AD KD QD JD 0D").isRoyalFlush());
+        assertTrue(new TexasEvaluator("7D 0D KD QD AD JD 3D").isRoyalFlush());
+
+        assertFalse(new TexasEvaluator("2D 3D 4D 5D 6D 7D 8D").isRoyalFlush());
+        assertFalse(new TexasEvaluator("8D 4D 2D 7D 8D 0D AD").isRoyalFlush());
+
 
     }
-
-    TexasHand tblHandStr2 = new TexasHand(
-            new Card(Suit.DIAMONDS, Face.TEN),
-            new Card(Suit.SPADES, Face.EIGHT),
-            new Card(Suit.CLUBS, Face.NINE),
-            new Card(Suit.DIAMONDS, Face.NINE),
-            new Card(Suit.DIAMONDS, Face.ACE)
-    );
-
-    TexasHand STRAIGHT2 = new TexasHand (
-            new Card(Suit.HEARTS, Face.SEVEN),
-            new Card(Suit.HEARTS, Face.SIX)
-    );
-
-
-
-
 
     @Test
     public void isStraight() {
@@ -120,7 +111,6 @@ public class TexasHandTest {
         // Test that multiple of the same card does not affect streak
         assertTrue(new TexasEvaluator("KD QD JD JD JD 0D 9D").isStraight());
 
-
         /* Falses */
 
         assertFalse(new TexasEvaluator("0D 0D 0D 0D AD QD JD").isStraight());
@@ -133,6 +123,9 @@ public class TexasHandTest {
 
     @Test
     public void getKinds() {
-
+        assertEquals(TexasResults.FOUR_OF_KIND,  new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
+        assertEquals(TexasResults.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
+        assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
+        assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
     }
 }
