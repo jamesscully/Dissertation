@@ -7,8 +7,11 @@ import enums.Suit;
 import enums.TexasResults;
 import game.TexasTable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
 
 public class TexasEvaluator {
 
@@ -16,7 +19,7 @@ public class TexasEvaluator {
     TexasHand table  = null;
 
     Map<Suit, Integer> suitCountMap = new HashMap<>();
-    Map<Face, Integer> cardCountMap = new HashMap<>();;
+    Map<Face, Integer> cardCountMap = new HashMap<>();
 
     ArrayList<Card> cards = new ArrayList<>();
 
@@ -116,6 +119,8 @@ public class TexasEvaluator {
      * Determines whether the hand has a flush
      * @return True if all cards are the same suit
      */
+
+    //todo rework
     public boolean isFlush() {
         for(Map.Entry<Suit, Integer> entry : suitCountMap.entrySet()) {
             if(entry.getValue() == 5)
@@ -218,9 +223,10 @@ public class TexasEvaluator {
      * Determines whether there is any kinds in the hand.
      * Note, this must be checked for null - a highcard/straight/flush would return null.
      * @return {@link TexasResults#FULL_HOUSE}, {@link TexasResults#FOUR_OF_KIND}, {@link TexasResults#THREE_OF_KIND}, {@link TexasResults#TWO_PAIR}, {@link TexasResults#PAIR} or null if none found.
-     *
      */
     public TexasResults getKinds() {
+
+
         return null;
     }
 
@@ -236,8 +242,5 @@ public class TexasEvaluator {
             Integer count = cardCountMap.get(c.getFace());
             cardCountMap.put(c.getFace(), count == null ? 1 : count + 1);
         }
-
-
-
     }
 }

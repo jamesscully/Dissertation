@@ -95,8 +95,9 @@ public class TexasHandTest {
 
         assertFalse(new TexasEvaluator("2D 3D 4D 5D 6D 7D 8D").isRoyalFlush());
         assertFalse(new TexasEvaluator("8D 4D 2D 7D 8D 0D AD").isRoyalFlush());
-
-
+        assertFalse(new TexasEvaluator("0D kD qD jh aD 0D AD").isRoyalFlush());
+        assertFalse(new TexasEvaluator("8D 4D 2D 7D 8D 0D AD").isRoyalFlush());
+        assertFalse(new TexasEvaluator("8D 4D 2D 7D 8D 0D AD").isRoyalFlush());
     }
 
     @Test
@@ -108,7 +109,6 @@ public class TexasHandTest {
         assertTrue(new TexasEvaluator("2D 3D 4D 5D 6D QD JD").isStraight());
         assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
 
-        // Test that multiple of the same card does not affect streak
         assertTrue(new TexasEvaluator("KD QD JD JD JD 0D 9D").isStraight());
 
         /* Falses */
@@ -117,7 +117,6 @@ public class TexasHandTest {
         assertFalse(new TexasEvaluator("2D 5D 9D JD 0D QD JD").isStraight());
         assertFalse(new TexasEvaluator("kD 2D 0D 4D 8D 7D 6D").isStraight());
         assertFalse(new TexasEvaluator("2D 3D 9D 3D 4D QD JD").isStraight());
-
 
     }
 
