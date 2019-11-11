@@ -7,10 +7,7 @@ import enums.Suit;
 import enums.TexasResults;
 import game.TexasTable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class TexasEvaluator {
@@ -18,8 +15,8 @@ public class TexasEvaluator {
     TexasHand player = null;
     TexasHand table  = null;
 
-    Map<Suit, Integer> suitCountMap = new HashMap<>();
-    Map<Face, Integer> cardCountMap = new HashMap<>();
+    TreeMap<Suit, Integer> suitCountMap = new TreeMap<>();
+    TreeMap<Face, Integer> cardCountMap = new TreeMap<>();
 
     ArrayList<Card> cards = new ArrayList<>();
 
@@ -226,6 +223,27 @@ public class TexasEvaluator {
      */
     public TexasResults getKinds() {
 
+        TreeMap<Face, TexasResults> pairs = new TreeMap<>();
+
+        // used to deteremine a full house;
+        // which occurs when we have a three-of-kind and a two pair.
+        boolean fullHouse3OK = false;
+        boolean fullHouse2PR = false;
+
+        // we'll order the map in descending order, that way we can see our highest-power face pairs first.
+        for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
+            if(e.getValue() == 4)
+                pairs.put(e.getKey(), TexasResults.FOUR_OF_KIND);
+            if(e.getValue() == 3) {
+                pairs.put(e.getKey(), TexasResults.THREE_OF_KIND);
+                fullHouse3OK = true;
+            }
+            if(e.getValue() == 2) {
+                pairs.put(e.getKey(), TexasResults.TWO_PAIR);
+                fullHouse2PR = true;
+            }
+        }
+
 
         return null;
     }
@@ -235,6 +253,8 @@ public class TexasEvaluator {
             Integer count = suitCountMap.get(c.getSuit());
             suitCountMap.put(c.getSuit(), count == null ? 1 : count + 1);
         }
+
+
     }
 
     private void getCardValues() {
