@@ -1,10 +1,10 @@
 package cards;
 
-import enums.Suit;
-import enums.TexasResults;
 import enums.Face;
+import enums.TexasResults;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
 
 public class TexasHand extends Hand {
 

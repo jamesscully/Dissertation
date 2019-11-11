@@ -1,7 +1,7 @@
 package cards;
 
-import enums.Suit;
 import enums.Face;
+import enums.Suit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

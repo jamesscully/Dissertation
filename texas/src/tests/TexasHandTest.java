@@ -2,19 +2,14 @@ package tests;
 
 import cards.Card;
 import cards.TexasHand;
+import enums.Face;
 import enums.Suit;
 import enums.TexasResults;
-import enums.Face;
 import evaluators.TexasEvaluator;
-import game.Table;
 import game.TexasTable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 import static org.junit.Assert.*;
 

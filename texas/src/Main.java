@@ -1,7 +1,8 @@
-import cards.*;
-import enums.Suit;
+import cards.Card;
+import cards.Deck;
+import cards.TexasHand;
 import enums.Face;
-import evaluators.TexasEvaluator;
+import enums.Suit;
 
 public class Main {
 
