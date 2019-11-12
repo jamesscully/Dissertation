@@ -228,10 +228,14 @@ public class TexasEvaluator {
 
         TreeMap<Face, TexasResults> pairs = new TreeMap<>();
 
+        //todo make this return the Kind and the high card associated with it
+
         // used to deteremine a full house;
         // which occurs when we have a three-of-kind and a two pair.
         boolean fullHouse3OK = false;
         boolean fullHouse2PR = false;
+
+        int iPairs = -1;
 
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
@@ -242,13 +246,21 @@ public class TexasEvaluator {
                 fullHouse3OK = true;
             }
             if(e.getValue() == 2) {
-                pairs.put(e.getKey(), TexasResults.TWO_PAIR);
+                pairs.put(e.getKey(), TexasResults.PAIR);
                 fullHouse2PR = true;
+                iPairs++;
             }
         }
 
+        TexasResults result = null;
 
-        return null;
+        System.out.println(pairs);
+
+        if(pairs.size() == 1)
+            result = pairs.firstEntry().getValue();
+
+
+        return result;
     }
 
     private void getCardSuits() {
@@ -256,8 +268,6 @@ public class TexasEvaluator {
             Integer count = suitCountMap.get(c.getSuit());
             suitCountMap.put(c.getSuit(), count == null ? 1 : count + 1);
         }
-
-
     }
 
     private void getCardValues() {
