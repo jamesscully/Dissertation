@@ -12,7 +12,7 @@ public abstract class Hand {
     protected ArrayList<Card> cards = new ArrayList<>();
 
     protected Map<Suit, Integer> suitCountMap = new HashMap<>();
-    protected Map<Face, Integer> cardCountMap = new HashMap<>();;
+    protected Map<Face, Integer> cardCountMap = new HashMap<>();
 
     private void getCardSuits() {
         for(Card c : cards) {

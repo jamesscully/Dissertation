@@ -121,5 +121,6 @@ public class TexasHandTest {
         assertEquals(TexasResults.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
         assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
         assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
+        assertEquals(TexasResults.FULL_HOUSE,      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
     }
 }

@@ -233,9 +233,11 @@ public class TexasEvaluator {
         // used to deteremine a full house;
         // which occurs when we have a three-of-kind and a two pair.
         boolean fullHouse3OK = false;
-        boolean fullHouse2PR = false;
+        Face THOFKIND_HIGH = null;
+        boolean fullHousePR = false;
+        Face PAIR_HIGH = null;
 
-        int iPairs = -1;
+        int iPairs = 0;
 
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
@@ -247,7 +249,7 @@ public class TexasEvaluator {
             }
             if(e.getValue() == 2) {
                 pairs.put(e.getKey(), TexasResults.PAIR);
-                fullHouse2PR = true;
+                fullHousePR = true;
                 iPairs++;
             }
         }
@@ -259,6 +261,11 @@ public class TexasEvaluator {
         if(pairs.size() == 1)
             result = pairs.firstEntry().getValue();
 
+        if(iPairs > 1)
+            result = TexasResults.TWO_PAIR;
+        
+        if(fullHouse3OK && fullHousePR)
+            result = TexasResults.FULL_HOUSE;
 
         return result;
     }
