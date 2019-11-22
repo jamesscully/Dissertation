@@ -6,6 +6,7 @@ import enums.Face;
 import enums.Suit;
 import enums.TexasResults;
 import evaluators.TexasEvaluator;
+import game.Table;
 import game.TexasTable;
 import org.junit.After;
 import org.junit.Before;
@@ -22,10 +23,6 @@ public class TexasHandTest {
             new Card(Suit.DIAMONDS, Face.KING),
             new Card(Suit.DIAMONDS, Face.ACE)
     );
-
-
-
-
 
     TexasTable TABLE = new TexasTable(tableHand);
 
@@ -55,9 +52,6 @@ public class TexasHandTest {
     );
 
 
-
-
-
     @Before
     public void setUp() throws Exception {
 
@@ -69,6 +63,17 @@ public class TexasHandTest {
 
     @Test
     public void evaluate() {
+
+
+        assertEquals(new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate(), TexasResults.THREE_OF_KIND  );
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
+
+
+
     }
 
     @Test
@@ -103,7 +108,6 @@ public class TexasHandTest {
         assertTrue(new TexasEvaluator("0D 2D 0D 9D 8D 7D 6D").isStraight());
         assertTrue(new TexasEvaluator("2D 3D 4D 5D 6D QD JD").isStraight());
         assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
-
         assertTrue(new TexasEvaluator("KD QD JD JD JD 0D 9D").isStraight());
 
         /* Falses */

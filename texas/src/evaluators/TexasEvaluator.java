@@ -95,6 +95,37 @@ public class TexasEvaluator {
 
 
     public TexasResults evaluate() {
+
+        TexasResults kindOutput = getKinds();
+
+        if(isRoyalFlush())
+            return TexasResults.ROYAL_FLUSH;
+
+        // straight flush goes here
+
+        if(kindOutput == TexasResults.FOUR_OF_KIND)
+            return kindOutput;
+
+        if(kindOutput == TexasResults.FULL_HOUSE)
+            return kindOutput;
+
+        if(isFlush())
+            return TexasResults.FLUSH;
+
+        if(isStraight())
+            return TexasResults.STRAIGHT;
+
+        // todo this could be reduced to returning if not null, we'll do that later
+
+        if(kindOutput == TexasResults.THREE_OF_KIND)
+            return kindOutput;
+
+        if(kindOutput == TexasResults.TWO_PAIR)
+            return kindOutput;
+
+        if(kindOutput == TexasResults.PAIR)
+            return kindOutput;
+
         return TexasResults.HIGH_CARD;
     }
 
