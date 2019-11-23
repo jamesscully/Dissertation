@@ -12,6 +12,13 @@ Rekop poker will feature Texas Hold'em as its primary gamemode and hold a focus 
 #### Table of Contents
 
 * **Planning Documents**
-  - Vision and Scope
+  - [Vision and Scope](documents/vision_scope.pdf)
   - Class diagram
+
+
 * **Testing**
+  - Backend - [Texas Tests](texas/src/tests)
+  - UI - Black Box (N/A), White Box (N/A)
+
+* **Implementation**
+  - Backend - [Texas Hold'em](texas/src/)
