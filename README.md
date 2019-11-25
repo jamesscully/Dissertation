@@ -1,3 +1,7 @@
+<div style="text-align: center">
+    <img src="resources/rekopbanner.png" width="50%"/>
+</div>
+
 ## Rekop Poker - a multi-player, Android poker game
 
 By the gods, *a new poker game!*
@@ -13,7 +17,8 @@ Rekop poker will feature Texas Hold'em as its primary gamemode and hold a focus 
 
 * **Planning Documents**
   - [Vision and Scope](documents/vision_scope.pdf)
-  - Class diagram
+  - Class diagram - N/A
+  - [Code Style Guidelines](documents/codestyle.md)
 
 
 * **Testing**

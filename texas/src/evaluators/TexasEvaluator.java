@@ -4,7 +4,7 @@ import cards.Card;
 import cards.TexasHand;
 import enums.Face;
 import enums.Suit;
-import enums.TexasResults;
+import enums.Result;
 import game.TexasTable;
 
 import java.util.ArrayList;
@@ -94,39 +94,39 @@ public class TexasEvaluator {
 
 
 
-    public TexasResults evaluate() {
+    public Result evaluate() {
 
-        TexasResults kindOutput = getKinds();
+        Result kindOutput = getKinds();
 
         if(isRoyalFlush())
-            return TexasResults.ROYAL_FLUSH;
+            return Result.ROYAL_FLUSH;
 
         // straight flush goes here
 
-        if(kindOutput == TexasResults.FOUR_OF_KIND)
+        if(kindOutput == Result.FOUR_OF_KIND)
             return kindOutput;
 
-        if(kindOutput == TexasResults.FULL_HOUSE)
+        if(kindOutput == Result.FULL_HOUSE)
             return kindOutput;
 
         if(isFlush())
-            return TexasResults.FLUSH;
+            return Result.FLUSH;
 
         if(isStraight())
-            return TexasResults.STRAIGHT;
+            return Result.STRAIGHT;
 
         // todo this could be reduced to returning if not null, we'll do that later
 
-        if(kindOutput == TexasResults.THREE_OF_KIND)
+        if(kindOutput == Result.THREE_OF_KIND)
             return kindOutput;
 
-        if(kindOutput == TexasResults.TWO_PAIR)
+        if(kindOutput == Result.TWO_PAIR)
             return kindOutput;
 
-        if(kindOutput == TexasResults.PAIR)
+        if(kindOutput == Result.PAIR)
             return kindOutput;
 
-        return TexasResults.HIGH_CARD;
+        return Result.HIGH_CARD;
     }
 
 
@@ -253,11 +253,11 @@ public class TexasEvaluator {
     /**
      * Determines whether there is any kinds in the hand.
      * Note, this must be checked for null - a highcard/straight/flush would return null.
-     * @return {@link TexasResults#FULL_HOUSE}, {@link TexasResults#FOUR_OF_KIND}, {@link TexasResults#THREE_OF_KIND}, {@link TexasResults#TWO_PAIR}, {@link TexasResults#PAIR} or null if none found.
+     * @return {@link Result#FULL_HOUSE}, {@link Result#FOUR_OF_KIND}, {@link Result#THREE_OF_KIND}, {@link Result#TWO_PAIR}, {@link Result#PAIR} or null if none found.
      */
-    public TexasResults getKinds() {
+    public Result getKinds() {
 
-        TreeMap<Face, TexasResults> pairs = new TreeMap<>();
+        TreeMap<Face, Result> pairs = new TreeMap<>();
 
         //todo make this return the Kind and the high card associated with it
 
@@ -273,19 +273,19 @@ public class TexasEvaluator {
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
             if(e.getValue() == 4)
-                pairs.put(e.getKey(), TexasResults.FOUR_OF_KIND);
+                pairs.put(e.getKey(), Result.FOUR_OF_KIND);
             if(e.getValue() == 3) {
-                pairs.put(e.getKey(), TexasResults.THREE_OF_KIND);
+                pairs.put(e.getKey(), Result.THREE_OF_KIND);
                 fullHouse3OK = true;
             }
             if(e.getValue() == 2) {
-                pairs.put(e.getKey(), TexasResults.PAIR);
+                pairs.put(e.getKey(), Result.PAIR);
                 fullHousePR = true;
                 iPairs++;
             }
         }
 
-        TexasResults result = null;
+        Result result = null;
 
         System.out.println(pairs);
 
@@ -293,10 +293,10 @@ public class TexasEvaluator {
             result = pairs.firstEntry().getValue();
 
         if(iPairs > 1)
-            result = TexasResults.TWO_PAIR;
+            result = Result.TWO_PAIR;
         
         if(fullHouse3OK && fullHousePR)
-            result = TexasResults.FULL_HOUSE;
+            result = Result.FULL_HOUSE;
 
         return result;
     }

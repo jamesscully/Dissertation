@@ -1,13 +1,7 @@
 package tests;
 
-import cards.Card;
-import cards.TexasHand;
-import enums.Face;
-import enums.Suit;
-import enums.TexasResults;
+import enums.Result;
 import evaluators.TexasEvaluator;
-import game.Table;
-import game.TexasTable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,43 +9,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TexasHandTest {
-
-    TexasHand tableHand = new TexasHand(
-            new Card(Suit.DIAMONDS, Face.TEN),
-            new Card(Suit.SPADES, Face.TEN),
-            new Card(Suit.CLUBS, Face.TWO),
-            new Card(Suit.DIAMONDS, Face.KING),
-            new Card(Suit.DIAMONDS, Face.ACE)
-    );
-
-    TexasTable TABLE = new TexasTable(tableHand);
-
-    TexasHand THOFKIND = new TexasHand(
-            new Card(Suit.HEARTS, Face.TWO),
-            new Card(Suit.SPADES, Face.TWO)
-    );
-
-    TexasHand FROFKIND = new TexasHand (
-            new Card(Suit.HEARTS, Face.TEN),
-            new Card(Suit.HEARTS, Face.TEN)
-    );
-
-    TexasHand FLUSH = new TexasHand (
-            new Card(Suit.DIAMONDS, Face.ACE),
-            new Card(Suit.DIAMONDS, Face.ACE)
-    );
-    
-    TexasHand TWOFKIND = new TexasHand (
-            new Card(Suit.HEARTS, Face.TWO),
-            new Card(Suit.HEARTS, Face.ACE)
-    );
-
-    TexasHand STRAIGHT = new TexasHand (
-            new Card(Suit.HEARTS, Face.QUEEN),
-            new Card(Suit.HEARTS, Face.JACK)
-    );
-
-
     @Before
     public void setUp() throws Exception {
 
@@ -65,14 +22,15 @@ public class TexasHandTest {
     public void evaluate() {
 
 
-        assertEquals(new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate(), TexasResults.THREE_OF_KIND  );
+        assertEquals(new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate(), Result.THREE_OF_KIND  );
+        assertEquals(new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate(), Result.STRAIGHT);
+        assertEquals(new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate(),  Result.THREE_OF_KIND);
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
-
-
+//        assertEquals(new TexasEvaluator("").evaluate(),  );
 
     }
 
@@ -121,10 +79,10 @@ public class TexasHandTest {
 
     @Test
     public void getKinds() {
-        assertEquals(TexasResults.FOUR_OF_KIND,  new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
-        assertEquals(TexasResults.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
-        assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
-        assertEquals(TexasResults.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
-        assertEquals(TexasResults.FULL_HOUSE,      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
+        assertEquals(Result.FOUR_OF_KIND,  new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
+        assertEquals(Result.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
+        assertEquals(Result.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
+        assertEquals(Result.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
+        assertEquals(Result.FULL_HOUSE,      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
     }
 }
