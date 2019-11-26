@@ -154,8 +154,6 @@ public class TexasEvaluator {
      * Determines whether the hand has a flush
      * @return True if all cards are the same suit
      */
-
-    //todo rework
     public boolean isFlush() {
         for(Map.Entry<Suit, Integer> entry : suitCountMap.entrySet()) {
             if(entry.getValue() == 5)
@@ -183,6 +181,7 @@ public class TexasEvaluator {
                 flush = entry.getKey();
         }
 
+        // these must all be true for part of a royal flush to exist
         boolean haveAce   = false,
                 haveKing  = false,
                 haveQueen = false,
@@ -194,22 +193,13 @@ public class TexasEvaluator {
             if(c.getSuit() != flush)
                 continue;
 
+            // determine which of our booleans should be set
             switch (c.getFace()) {
-                case ACE:
-                    haveAce = true;
-                    break;
-                case KING:
-                    haveKing = true;
-                    break;
-                case QUEEN:
-                    haveQueen = true;
-                    break;
-                case JACK:
-                    haveJoker = true;
-                    break;
-                case TEN:
-                    haveTen = true;
-                    break;
+                case ACE:   haveAce = true;   break;
+                case KING:  haveKing = true;  break;
+                case QUEEN: haveQueen = true; break;
+                case JACK:  haveJoker = true; break;
+                case TEN:   haveTen = true;   break;
             }
         }
         // these can only be true if they all belong to the same suit and are present.
@@ -231,15 +221,18 @@ public class TexasEvaluator {
         Suit prevSuit   = cards.get(0).getSuit();
 
         for(int i = 1; i < 7; i++)  {
-            Card cCard = cards.get(i);
-            int value  = cCard.getValue();
-            Suit suit = cCard.getSuit();
+
+            // these are the attributes of card i
+            Card card   = cards.get(i);
+            Suit suit   = card.getSuit();
+            int  value  = card.getValue();
 
             // if we have a previous card of same value, just skip over.
             if(previousVal == value)
                 continue;
 
             // if the previous card was higher than the current, then add to streak
+            // else, reset counter to 0.
             if(previousVal == value + 1) {
                 streak++;
 
@@ -256,6 +249,7 @@ public class TexasEvaluator {
             // note that this should return the highest STRAIGHT, as we're descending down.
             // todo make this function return points where there is a straight beginning, to determine straight flushes.
             if(streak == 4) {
+                // this removes the need for ANOTHER function for St. Flushes.
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
 
@@ -279,16 +273,13 @@ public class TexasEvaluator {
      */
     public Rank getKinds() {
 
+        // what Face we have and what pair of it
         TreeMap<Face, Rank> pairs = new TreeMap<>();
 
-        //todo make this return the Kind and the high card associated with it
-
         // used to deteremine a full house;
-        // which occurs when we have a three-of-kind and a two pair.
+        // which occurs when we have a three-of-kind and a two pair co-exist
         boolean fullHouse3OK = false;
-        Face THOFKIND_HIGH = null;
         boolean fullHousePR = false;
-        Face PAIR_HIGH = null;
 
         int iPairs = 0;
 
@@ -308,8 +299,6 @@ public class TexasEvaluator {
         }
 
         Rank result = null;
-
-        System.out.println(pairs);
 
         if(pairs.size() == 1)
             result = pairs.firstEntry().getValue();
