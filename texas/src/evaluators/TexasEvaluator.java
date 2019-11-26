@@ -37,8 +37,7 @@ public class TexasEvaluator {
 
         Collections.sort(cards);
 
-        getCardSuits();
-        getCardValues();
+        genMaps();
     }
 
     public TexasEvaluator(String debugStringToHand) {
@@ -91,8 +90,7 @@ public class TexasEvaluator {
 
         Collections.sort(cards, Collections.reverseOrder());
 
-        getCardSuits();
-        getCardValues();
+        genMaps();
     }
 
 
@@ -168,6 +166,8 @@ public class TexasEvaluator {
      */
     public boolean isRoyalFlush() {
 
+
+
         // we can only have a royal flush if there is 5> cards of the same suit
         if( !(suitCountMap.containsValue(5) || suitCountMap.containsValue(6) || suitCountMap.containsValue(7)) )
             return false;
@@ -195,11 +195,11 @@ public class TexasEvaluator {
 
             // determine which of our booleans should be set
             switch (c.getFace()) {
-                case ACE:   haveAce = true;   break;
-                case KING:  haveKing = true;  break;
+                case ACE:   haveAce   = true; break;
+                case KING:  haveKing  = true; break;
                 case QUEEN: haveQueen = true; break;
                 case JACK:  haveJoker = true; break;
-                case TEN:   haveTen = true;   break;
+                case TEN:   haveTen   = true; break;
             }
         }
         // these can only be true if they all belong to the same suit and are present.
@@ -312,17 +312,13 @@ public class TexasEvaluator {
         return result;
     }
 
-    private void getCardSuits() {
+    private void genMaps() {
         for(Card c : cards) {
-            Integer count = suitCountMap.get(c.getSuit());
-            suitCountMap.put(c.getSuit(), count == null ? 1 : count + 1);
-        }
-    }
+            Integer sCount = suitCountMap.get(c.getSuit());
+            Integer fCount = cardCountMap.get(c.getFace());
 
-    private void getCardValues() {
-        for(Card c : cards) {
-            Integer count = cardCountMap.get(c.getFace());
-            cardCountMap.put(c.getFace(), count == null ? 1 : count + 1);
+            suitCountMap.put(c.getSuit(), sCount == null ? 1 : sCount + 1);
+            cardCountMap.put(c.getFace(), fCount == null ? 1 : fCount + 1);
         }
     }
 }
