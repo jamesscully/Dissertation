@@ -5,6 +5,7 @@ import cards.TexasHand;
 import enums.Face;
 import enums.Suit;
 import enums.Rank;
+import game.TResult;
 import game.TexasTable;
 
 import java.util.ArrayList;
@@ -94,22 +95,21 @@ public class TexasEvaluator {
 
 
 
-    public Rank evaluate() {
+    public TResult evaluate() {
 
         // these conditions must be done in sequence, for order of rankings
 
         Rank kindOutput = getKinds();
 
-
         // this is required so that StraightFlushFlag is set
 
-        boolean isStraight = isStraight();
+        TResult isStraight = isStraight();
 
         if(isRoyalFlush())
             return Rank.ROYAL_FLUSH;
 
         if(StraightFlushFlag)
-            return Rank.STRAIGHT_FLUSH;
+            return isStraight;
 
         if(kindOutput == Rank.FOUR_OF_KIND)
             return kindOutput;
@@ -120,8 +120,8 @@ public class TexasEvaluator {
         if(isFlush())
             return Rank.FLUSH;
 
-        if(isStraight)
-            return Rank.STRAIGHT;
+        if(isStraight != null)
+            return isStraight;
         
         if(kindOutput != null)
             return kindOutput;
@@ -207,7 +207,9 @@ public class TexasEvaluator {
      * It also relies on the {@link TexasHand} array, as this should not change the card positions.
      * @return Whether the hand is classed as a straight
      */
-    public boolean isStraight() {
+    public TResult isStraight() {
+
+        System.out.println("Using cards: " + cards);
 
         int valStreak = 0;
         int suitStreak = 0;
@@ -248,13 +250,19 @@ public class TexasEvaluator {
                 // this removes the need for ANOTHER function for St. Flushes.
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
-                return true;
+
+                Card high = cards.get(i - valStreak);
+                Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
+
+                System.out.println("Returning true, high card: " + cards.get(i - valStreak));
+
+                return new TResult(high, result);
             }
 
             previousVal = value;
             previousSuit = suit;
         }
-        return false;
+        return null;
     }
 
     /**
