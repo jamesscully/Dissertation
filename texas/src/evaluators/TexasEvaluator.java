@@ -121,8 +121,8 @@ public class TexasEvaluator {
         if(kindOutput.rank == Rank.FULL_HOUSE)
             return kindOutput;
 
-        if(isFlush())
-            return Rank.FLUSH;
+        if( (result = isFlush()) != null)
+            return result;
 
         if(isStraight != null)
             return isStraight;
@@ -138,12 +138,23 @@ public class TexasEvaluator {
      * Determines whether the hand has a flush
      * @return True if all cards are the same suit
      */
-    public boolean isFlush() {
+    public TResult isFlush() {
+
+        Suit flush = null;
+
         for(Map.Entry<Suit, Integer> entry : suitCountMap.entrySet()) {
-            if(entry.getValue() == 5)
-                return true;
+            if(entry.getValue() >= 5) {
+                flush = entry.getKey();
+            }
         }
-        return false;
+
+        // this will be searching high to low, so we can catch the first instance of the highest suit
+        for(Card c : cards) {
+            if(c.getSuit() == flush)
+                return new TResult(c, Rank.FLUSH);
+        }
+
+        return null;
     }
 
     /**
