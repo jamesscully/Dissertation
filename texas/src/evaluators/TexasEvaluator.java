@@ -40,11 +40,11 @@ public class TexasEvaluator {
         genMaps();
     }
 
-    public TexasEvaluator(String debugStringToHand) {
-        if(debugStringToHand.length() != 20)
+    public TexasEvaluator(String strToHand) {
+        if(strToHand.length() != 20)
             System.exit(1);
 
-        String[] strCards = debugStringToHand.split("\\s");
+        String[] strCards = strToHand.split("\\s");
 
         for(String s : strCards) {
             cards.add(Card.strToCard(s));
