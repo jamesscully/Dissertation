@@ -99,7 +99,7 @@ public class TexasEvaluator {
 
         // these conditions must be done in sequence, for order of rankings
 
-        Rank kindOutput = getKinds();
+        TResult kindOutput = getKinds();
 
         // this is required so that StraightFlushFlag is set
 
@@ -115,10 +115,10 @@ public class TexasEvaluator {
         if(StraightFlushFlag)
             return isStraight;
 
-        if(kindOutput == Rank.FOUR_OF_KIND)
+        if(kindOutput.rank == Rank.FOUR_OF_KIND)
             return kindOutput;
 
-        if(kindOutput == Rank.FULL_HOUSE)
+        if(kindOutput.rank == Rank.FULL_HOUSE)
             return kindOutput;
 
         if(isFlush())
@@ -130,24 +130,8 @@ public class TexasEvaluator {
         if(kindOutput != null)
             return kindOutput;
 
-        return Rank.HIGH_CARD;
-    }
-
-
-    /**
-     * Gets the highest valued card in the hand
-     * @return {@link Card} of highest value in hand
-     */
-    public Card getHighestCard() {
-
-        Card highest = cards.get(0);
-
-        for(Card c : cards) {
-            if(c.getValue() > highest.getValue())
-                highest = c;
-        }
-
-        return highest;
+        // the highest card will always be first as we use a sorted collection
+        return new TResult(cards.get(0), Rank.HIGH_CARD);
     }
 
     /**
