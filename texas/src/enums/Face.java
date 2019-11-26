@@ -28,7 +28,8 @@ public enum Face {
         return val;
     }
 
-    public String getName() {
+    @Override
+    public String toString() {
         return str;
     }
 }
