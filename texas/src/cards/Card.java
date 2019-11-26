@@ -16,21 +16,6 @@ public class Card implements Comparable<Card> {
         this.face = v;
     }
 
-    @Override
-    public String toString() {
-        // Ace of Spades
-        // Ten of Hearts
-        return "" + face.getName() + " of " + suit.name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Card card = (Card) o;
-        return suit == card.suit &&
-                face == card.face;
-    }
 
     @Override
     public int hashCode() {

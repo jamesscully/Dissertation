@@ -1,6 +1,7 @@
 package tests;
 
 import cards.Card;
+import enums.Face;
 import enums.Rank;
 import evaluators.TexasEvaluator;
 import game.TResult;
@@ -24,10 +25,23 @@ public class TexasHandTest {
     public void evaluate() {
 
 
-        assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate());
-        assertEquals(Rank.STRAIGHT,      new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
-        assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate());
-        assertEquals(Rank.STRAIGHT_FLUSH, new TexasEvaluator("KD QD JD 0D 9D JC 3S").evaluate());
+        assertEquals(new TResult(Face.ACE, Rank.THREE_OF_KIND),
+                     new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate());
+
+        assertEquals(new TResult(Face.ACE, Rank.STRAIGHT),
+                new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
+
+        assertEquals(new TResult(Face.EIGHT, Rank.STRAIGHT),
+                new TexasEvaluator("AD KS 8H 7S 6D 5C 4S").evaluate());
+
+        assertEquals(new TResult(Face.ACE, Rank.STRAIGHT),
+                     new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
+
+        assertEquals(new TResult(Face.ACE, Rank.THREE_OF_KIND),
+                     new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate());
+
+        assertEquals(new TResult(Face.KING, Rank.STRAIGHT_FLUSH),
+                     new TexasEvaluator("KD QD JD 0D 9D JC 3S").evaluate());
 
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
@@ -62,6 +76,8 @@ public class TexasHandTest {
         assertNull(new TexasEvaluator("8D 4D 2D 7D 8D 0D AD").isRoyalFlush());
     }
 
+
+
     @Test
     public void isStraight() {
 
@@ -81,21 +97,23 @@ public class TexasHandTest {
 
     }
 
+
+
     @Test
     public void getKinds() {
-        assertEquals(new TResult(Card.strToCard("0D"), Rank.FOUR_OF_KIND),
+        assertEquals(new TResult(Face.TEN, Rank.FOUR_OF_KIND),
                      new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
 
-        assertEquals(new TResult(Card.strToCard("0D"), Rank.THREE_OF_KIND),
+        assertEquals(new TResult(Face.TEN, Rank.THREE_OF_KIND),
                      new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
 
-        assertEquals(new TResult(Card.strToCard("0D"), Rank.TWO_PAIR),
+        assertEquals(new TResult(Face.KING, Rank.TWO_PAIR),
                      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
 
-        assertEquals(new TResult(Card.strToCard("0D"), Rank.TWO_PAIR),
+        assertEquals(new TResult(Face.QUEEN, Rank.TWO_PAIR),
                      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
 
-        assertEquals(new TResult(Card.strToCard("QD"), Rank.FULL_HOUSE),
+        assertEquals(new TResult(Face.QUEEN, Rank.FULL_HOUSE),
                      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
     }
 }

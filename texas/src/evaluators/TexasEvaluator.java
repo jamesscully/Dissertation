@@ -77,11 +77,16 @@ public class TexasEvaluator {
         if(StraightFlushFlag)
             return isStraight;
 
-        if(kindOutput.rank == Rank.FOUR_OF_KIND)
-            return kindOutput;
+        // because kindOutput may be null, we need to ignore it to get past to straight
+        try {
+            if(kindOutput.rank == Rank.FOUR_OF_KIND)
+                return kindOutput;
 
-        if(kindOutput.rank == Rank.FULL_HOUSE)
-            return kindOutput;
+            if(kindOutput.rank == Rank.FULL_HOUSE)
+                return kindOutput;
+
+        } catch (NullPointerException ignored) { }
+
 
         if( (result = isFlush()) != null)
             return result;
@@ -93,7 +98,7 @@ public class TexasEvaluator {
             return kindOutput;
 
         // the highest card will always be first as we use a sorted collection
-        return new TResult(cards.get(0), Rank.HIGH_CARD);
+        return new TResult(cards.get(0).face, Rank.HIGH_CARD);
     }
 
     /**
@@ -113,7 +118,7 @@ public class TexasEvaluator {
         // this will be searching high to low, so we can catch the first instance of the highest suit
         for(Card c : cards) {
             if(c.getSuit() == flush)
-                return new TResult(c, Rank.FLUSH);
+                return new TResult(c.face, Rank.FLUSH);
         }
 
         return null;
@@ -163,10 +168,7 @@ public class TexasEvaluator {
 
         if(haveAce && haveKing && haveQueen && haveJoker && haveTen) {
             // since the ACE will always be highest in royal flushes,
-            // we can simply create a new card as such
-
-            Card high = new Card(flush, Face.ACE);
-            return new TResult(high, Rank.ROYAL_FLUSH);
+            return new TResult(Face.ACE, Rank.ROYAL_FLUSH);
         }
 
         return null;
@@ -183,6 +185,8 @@ public class TexasEvaluator {
 
         int valStreak = 0;
         int suitStreak = 0;
+
+        int origin = 0;
 
         // our previous value going in should be the first in the sorted array
         int previousVal = cards.get(0).getValue();
@@ -211,6 +215,7 @@ public class TexasEvaluator {
 
             } else {
                 valStreak = 0;
+                origin = i;
             }
 
             // if we've already managed a straight, then return true.
@@ -221,10 +226,10 @@ public class TexasEvaluator {
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
 
-                Card high = cards.get(i - valStreak);
+                Face high = cards.get(origin).face;
                 Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
 
-                System.out.println("Returning true, high card: " + cards.get(i - valStreak));
+                System.out.println("Returning true, high card: " + high + "rank:" + result);
 
                 return new TResult(high, result);
             }
@@ -251,8 +256,8 @@ public class TexasEvaluator {
         boolean fhTwoPair = false;
 
         Card hFourKind = null;
-        Card hThrKind  = null;
-        Card hTwpKind  = null;
+        Face hThrKind  = null;
+        Face hTwpKind  = null;
 
         TResult result = null;
 
@@ -262,18 +267,16 @@ public class TexasEvaluator {
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
             if(e.getValue() == 4) {
                 pairsMap.put(e.getKey(), Rank.FOUR_OF_KIND);
-                hFourKind = new Card(Suit.CLUBS, e.getKey());
-                result = new TResult(hFourKind, Rank.FOUR_OF_KIND);
+                return new TResult(e.getKey(), Rank.FOUR_OF_KIND);
             }
             if(e.getValue() == 3) {
                 pairsMap.put(e.getKey(), Rank.THREE_OF_KIND);
                 fhThrKind = true;
-                hThrKind = new Card(Suit.CLUBS, e.getKey());
+                hThrKind = e.getKey();
             }
             if(e.getValue() == 2) {
                 pairsMap.put(e.getKey(), Rank.PAIR);
                 fhTwoPair = true;
-                hTwpKind = new Card(Suit.CLUBS, e.getKey());
 
                 pairs++;
             }
@@ -287,13 +290,16 @@ public class TexasEvaluator {
         if(pairsMap.size() == 1) {
             Map.Entry<Face, Rank> r = pairsMap.firstEntry();
             // suit does not matter in texas, thus we can just return as clubs
-            Card high = new Card(Suit.CLUBS, r.getKey());
 
-            result = new TResult(high, r.getValue());
+            result = new TResult(r.getKey(), r.getValue());
         }
 
-        if(pairs > 1)
+        if(pairs > 1) {
+            // get our highest face in the pairs map
+            hTwpKind = pairsMap.descendingMap().firstKey();
+
             result = new TResult(hTwpKind, Rank.TWO_PAIR);
+        }
 
         return result;
     }
