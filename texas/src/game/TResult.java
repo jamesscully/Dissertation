@@ -31,9 +31,6 @@ public class TResult {
 
     @Override
     public String toString() {
-        return "TResult{" +
-                "highest=" + highest +
-                ", rank=" + rank +
-                '}';
+        return "" + rank + "(" + highest + " high)";
     }
 }
