@@ -31,7 +31,6 @@ public class TexasEvaluator {
 
         this.table  = table.tableCards;
 
-
         cards.addAll(player.getCards());
         cards.addAll(this.table.getCards());
 
@@ -96,6 +95,8 @@ public class TexasEvaluator {
 
 
     public Rank evaluate() {
+
+        // these conditions must be done in sequence
 
         Rank kindOutput = getKinds();
 
@@ -166,8 +167,6 @@ public class TexasEvaluator {
      */
     public boolean isRoyalFlush() {
 
-
-
         // we can only have a royal flush if there is 5> cards of the same suit
         if( !(suitCountMap.containsValue(5) || suitCountMap.containsValue(6) || suitCountMap.containsValue(7)) )
             return false;
@@ -213,12 +212,12 @@ public class TexasEvaluator {
      */
     public boolean isStraight() {
 
-        int streak = 0;
+        int valStreak = 0;
         int suitStreak = 0;
 
         // our previous value going in should be the first in the sorted array
         int previousVal = cards.get(0).getValue();
-        Suit prevSuit   = cards.get(0).getSuit();
+        Suit previousSuit   = cards.get(0).getSuit();
 
         for(int i = 1; i < 7; i++)  {
 
@@ -234,21 +233,21 @@ public class TexasEvaluator {
             // if the previous card was higher than the current, then add to streak
             // else, reset counter to 0.
             if(previousVal == value + 1) {
-                streak++;
+                valStreak++;
 
-                if(suit == prevSuit)
+                if(suit == previousSuit)
                     suitStreak++;
                 else
                     suitStreak = 0;
 
             } else {
-                streak = 0;
+                valStreak = 0;
             }
 
             // if we've already managed a straight, then return true.
             // note that this should return the highest STRAIGHT, as we're descending down.
             // todo make this function return points where there is a straight beginning, to determine straight flushes.
-            if(streak == 4) {
+            if(valStreak == 4) {
                 // this removes the need for ANOTHER function for St. Flushes.
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
@@ -257,7 +256,7 @@ public class TexasEvaluator {
             }
 
             previousVal = value;
-            prevSuit = suit;
+            previousSuit = suit;
         }
 
 
@@ -274,40 +273,42 @@ public class TexasEvaluator {
     public Rank getKinds() {
 
         // what Face we have and what pair of it
-        TreeMap<Face, Rank> pairs = new TreeMap<>();
+        TreeMap<Face, Rank> pairsMap = new TreeMap<>();
 
         // used to deteremine a full house;
         // which occurs when we have a three-of-kind and a two pair co-exist
-        boolean fullHouse3OK = false;
-        boolean fullHousePR = false;
+        boolean fhThrKind = false;
+        boolean fhTwoPair = false;
 
-        int iPairs = 0;
+        int pairs = 0;
 
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
             if(e.getValue() == 4)
-                pairs.put(e.getKey(), Rank.FOUR_OF_KIND);
+                pairsMap.put(e.getKey(), Rank.FOUR_OF_KIND);
             if(e.getValue() == 3) {
-                pairs.put(e.getKey(), Rank.THREE_OF_KIND);
-                fullHouse3OK = true;
+                pairsMap.put(e.getKey(), Rank.THREE_OF_KIND);
+                fhThrKind = true;
             }
             if(e.getValue() == 2) {
-                pairs.put(e.getKey(), Rank.PAIR);
-                fullHousePR = true;
-                iPairs++;
+                pairsMap.put(e.getKey(), Rank.PAIR);
+                fhTwoPair = true;
+                pairs++;
             }
         }
 
         Rank result = null;
 
-        if(pairs.size() == 1)
-            result = pairs.firstEntry().getValue();
+        if(fhThrKind && fhTwoPair)
+            result = Rank.FULL_HOUSE;
 
-        if(iPairs > 1)
+        if(pairsMap.size() == 1)
+            result = pairsMap.firstEntry().getValue();
+
+        if(pairs > 1)
             result = Rank.TWO_PAIR;
         
-        if(fullHouse3OK && fullHousePR)
-            result = Rank.FULL_HOUSE;
+
 
         return result;
     }
@@ -317,6 +318,9 @@ public class TexasEvaluator {
             Integer sCount = suitCountMap.get(c.getSuit());
             Integer fCount = cardCountMap.get(c.getFace());
 
+            // for both:
+            // if we have no value in the map, set to one,
+            // else, increment value for key
             suitCountMap.put(c.getSuit(), sCount == null ? 1 : sCount + 1);
             cardCountMap.put(c.getFace(), fCount == null ? 1 : fCount + 1);
         }
