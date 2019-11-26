@@ -101,6 +101,9 @@ public class TexasEvaluator {
 
         Rank kindOutput = getKinds();
 
+        // we call this early to ensure that StraightFlushFlag has been updated.
+        boolean isStraight = isStraight();
+
         if(isRoyalFlush())
             return Rank.ROYAL_FLUSH;
 
@@ -116,7 +119,7 @@ public class TexasEvaluator {
         if(isFlush())
             return Rank.FLUSH;
 
-        if(isStraight())
+        if(isStraight)
             return Rank.STRAIGHT;
 
         // todo this could be reduced to returning if not null, we'll do that later
@@ -258,7 +261,6 @@ public class TexasEvaluator {
             if(streak == 4) {
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
-
                 return true;
             }
 
