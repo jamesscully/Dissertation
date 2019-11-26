@@ -25,6 +25,7 @@ public class TexasHandTest {
         assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate());
         assertEquals(Rank.STRAIGHT,      new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
         assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate());
+        assertEquals(Rank.STRAIGHT_FLUSH, new TexasEvaluator("0D 9D 8D 7D 6D 5D 3S").evaluate());
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );

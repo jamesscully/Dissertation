@@ -96,9 +96,12 @@ public class TexasEvaluator {
 
     public Rank evaluate() {
 
-        // these conditions must be done in sequence
+        // these conditions must be done in sequence, for order of rankings
 
         Rank kindOutput = getKinds();
+
+        // this is required so that StraightFlushFlag is set
+        boolean isStraight = isStraight();
 
         if(isRoyalFlush())
             return Rank.ROYAL_FLUSH;
@@ -115,18 +118,10 @@ public class TexasEvaluator {
         if(isFlush())
             return Rank.FLUSH;
 
-        if(isStraight())
+        if(isStraight)
             return Rank.STRAIGHT;
-
-        // todo this could be reduced to returning if not null, we'll do that later
-
-        if(kindOutput == Rank.THREE_OF_KIND)
-            return kindOutput;
-
-        if(kindOutput == Rank.TWO_PAIR)
-            return kindOutput;
-
-        if(kindOutput == Rank.PAIR)
+        
+        if(kindOutput != null)
             return kindOutput;
 
         return Rank.HIGH_CARD;
