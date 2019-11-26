@@ -24,6 +24,9 @@ It shall also document things such as bug fixes and how technologies have helped
 This will assist later on when write-ups are due.
 
 ### Specification / Planning Documents
+#### Things to Talk about
+	- Tests that outsmart me; looking at tests, believing I have the right result, when the tests show I'm wrong.
+
 
 ### Development changes
 
@@ -42,6 +45,7 @@ Some things to probably put into it would be that it really benefits finding edg
 **20/10/19 : Refactoring Hand into TexasHand**
 Changed the Hand class to TexasHand specifically for that gamemode. Moreover, using polymorphism to enable generic functions for each hand (get suits + amt, get face values + amt)
 
+- Changed our evaluator to use TResults. This allows for in the future, where we will want to relay the highest card within a result, i.e. Pair (King High)
 
 
 
@@ -52,6 +56,9 @@ Changed the Hand class to TexasHand specifically for that gamemode. Moreover, us
 #### General changes
 
 #### Miscellaneous changes
+
+
+
 
 
 ### Bug fixes

@@ -5,6 +5,7 @@ import cards.TexasHand;
 import enums.Face;
 import enums.Suit;
 import enums.Rank;
+import game.TResult;
 import game.TexasTable;
 
 import java.util.ArrayList;
@@ -39,52 +40,14 @@ public class TexasEvaluator {
         genMaps();
     }
 
-    public TexasEvaluator(String debugStringToHand) {
-        if(debugStringToHand.length() != 20)
+    public TexasEvaluator(String strToHand) {
+        if(strToHand.length() != 20)
             System.exit(1);
 
-        String[] strCards = debugStringToHand.split("\\s");
+        String[] strCards = strToHand.split("\\s");
 
         for(String s : strCards) {
-            s = s.toUpperCase();
-
-            Face face = null;
-            Suit suit = null;
-
-            switch (s.charAt(0)) {
-                case 'A': face = Face.ACE;   break;
-                case 'K': face = Face.KING;  break;
-                case 'Q': face = Face.QUEEN; break;
-                case 'J': face = Face.JACK;  break;
-                case '0': face = Face.TEN;   break;
-                case '9': face = Face.NINE;  break;
-                case '8': face = Face.EIGHT; break;
-                case '7': face = Face.SEVEN; break;
-                case '6': face = Face.SIX;   break;
-                case '5': face = Face.FIVE;  break;
-                case '4': face = Face.FOUR;  break;
-                case '3': face = Face.THREE; break;
-                case '2': face = Face.TWO;   break;
-
-                default:
-                    System.err.println(s.charAt(0) + " is not a valid face!");
-                    System.exit(1);
-                    break;
-            }
-
-            switch (s.charAt(1)) {
-                case 'D': suit = Suit.DIAMONDS; break;
-                case 'S': suit = Suit.SPADES;   break;
-                case 'C': suit = Suit.CLUBS;    break;
-                case 'H': suit = Suit.HEARTS;   break;
-
-                default:
-                    System.err.println(s.charAt(1) + " is not a valid suit!");
-                    System.exit(1);
-                    break;
-            }
-
-            cards.add(new Card(suit, face));
+            cards.add(Card.strToCard(s));
         }
 
         Collections.sort(cards, Collections.reverseOrder());
@@ -94,79 +57,82 @@ public class TexasEvaluator {
 
 
 
-    public Rank evaluate() {
+    public TResult evaluate() {
 
         // these conditions must be done in sequence, for order of rankings
 
-        Rank kindOutput = getKinds();
-
+        TResult kindOutput = getKinds();
 
         // this is required so that StraightFlushFlag is set
 
-        boolean isStraight = isStraight();
+        TResult isStraight = isStraight();
 
-        if(isRoyalFlush())
-            return Rank.ROYAL_FLUSH;
+        // variable to hold each test
+        TResult result = null;
+
+        // assignment in if statement is to remove calling method twice
+        if( (result = isRoyalFlush()) != null)
+            return result;
 
         if(StraightFlushFlag)
-            return Rank.STRAIGHT_FLUSH;
+            return isStraight;
 
-        if(kindOutput == Rank.FOUR_OF_KIND)
-            return kindOutput;
+        // because kindOutput may be null, we need to ignore it to get past to straight
+        try {
+            if(kindOutput.rank == Rank.FOUR_OF_KIND)
+                return kindOutput;
 
-        if(kindOutput == Rank.FULL_HOUSE)
-            return kindOutput;
+            if(kindOutput.rank == Rank.FULL_HOUSE)
+                return kindOutput;
 
-        if(isFlush())
-            return Rank.FLUSH;
+        } catch (NullPointerException ignored) { }
 
-        if(isStraight)
-            return Rank.STRAIGHT;
+
+        if( (result = isFlush()) != null)
+            return result;
+
+        if(isStraight != null)
+            return isStraight;
         
         if(kindOutput != null)
             return kindOutput;
 
-        return Rank.HIGH_CARD;
-    }
-
-
-    /**
-     * Gets the highest valued card in the hand
-     * @return {@link Card} of highest value in hand
-     */
-    public Card getHighestCard() {
-
-        Card highest = cards.get(0);
-
-        for(Card c : cards) {
-            if(c.getValue() > highest.getValue())
-                highest = c;
-        }
-
-        return highest;
+        // the highest card will always be first as we use a sorted collection
+        return new TResult(cards.get(0).face, Rank.HIGH_CARD);
     }
 
     /**
      * Determines whether the hand has a flush
      * @return True if all cards are the same suit
      */
-    public boolean isFlush() {
+    public TResult isFlush() {
+
+        Suit flush = null;
+
         for(Map.Entry<Suit, Integer> entry : suitCountMap.entrySet()) {
-            if(entry.getValue() == 5)
-                return true;
+            if(entry.getValue() >= 5) {
+                flush = entry.getKey();
+            }
         }
-        return false;
+
+        // this will be searching high to low, so we can catch the first instance of the highest suit
+        for(Card c : cards) {
+            if(c.getSuit() == flush)
+                return new TResult(c.face, Rank.FLUSH);
+        }
+
+        return null;
     }
 
     /**
      * Determines whether the hand is a royal flush
      * @return True if hand is a royal flush
      */
-    public boolean isRoyalFlush() {
+    public TResult isRoyalFlush() {
 
         // we can only have a royal flush if there is 5> cards of the same suit
         if( !(suitCountMap.containsValue(5) || suitCountMap.containsValue(6) || suitCountMap.containsValue(7)) )
-            return false;
+            return null;
 
         Suit flush = null;
 
@@ -199,7 +165,13 @@ public class TexasEvaluator {
             }
         }
         // these can only be true if they all belong to the same suit and are present.
-        return (haveAce && haveKing && haveQueen && haveJoker && haveTen);
+
+        if(haveAce && haveKing && haveQueen && haveJoker && haveTen) {
+            // since the ACE will always be highest in royal flushes,
+            return new TResult(Face.ACE, Rank.ROYAL_FLUSH);
+        }
+
+        return null;
     }
 
     /**
@@ -207,10 +179,14 @@ public class TexasEvaluator {
      * It also relies on the {@link TexasHand} array, as this should not change the card positions.
      * @return Whether the hand is classed as a straight
      */
-    public boolean isStraight() {
+    public TResult isStraight() {
+
+        System.out.println("Using cards: " + cards);
 
         int valStreak = 0;
         int suitStreak = 0;
+
+        int origin = 0;
 
         // our previous value going in should be the first in the sorted array
         int previousVal = cards.get(0).getValue();
@@ -239,6 +215,7 @@ public class TexasEvaluator {
 
             } else {
                 valStreak = 0;
+                origin = i;
             }
 
             // if we've already managed a straight, then return true.
@@ -248,13 +225,19 @@ public class TexasEvaluator {
                 // this removes the need for ANOTHER function for St. Flushes.
                 if(suitStreak == 4)
                     StraightFlushFlag = true;
-                return true;
+
+                Face high = cards.get(origin).face;
+                Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
+
+                System.out.println("Returning true, high card: " + high + "rank:" + result);
+
+                return new TResult(high, result);
             }
 
             previousVal = value;
             previousSuit = suit;
         }
-        return false;
+        return null;
     }
 
     /**
@@ -262,7 +245,7 @@ public class TexasEvaluator {
      * Note, this must be checked for null - a highcard/straight/flush would return null.
      * @return {@link Rank#FULL_HOUSE}, {@link Rank#FOUR_OF_KIND}, {@link Rank#THREE_OF_KIND}, {@link Rank#TWO_PAIR}, {@link Rank#PAIR} or null if none found.
      */
-    public Rank getKinds() {
+    public TResult getKinds() {
 
         // what Face we have and what pair of it
         TreeMap<Face, Rank> pairsMap = new TreeMap<>();
@@ -272,35 +255,51 @@ public class TexasEvaluator {
         boolean fhThrKind = false;
         boolean fhTwoPair = false;
 
+        Card hFourKind = null;
+        Face hThrKind  = null;
+        Face hTwpKind  = null;
+
+        TResult result = null;
+
         int pairs = 0;
 
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
         for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
-            if(e.getValue() == 4)
+            if(e.getValue() == 4) {
                 pairsMap.put(e.getKey(), Rank.FOUR_OF_KIND);
+                return new TResult(e.getKey(), Rank.FOUR_OF_KIND);
+            }
             if(e.getValue() == 3) {
                 pairsMap.put(e.getKey(), Rank.THREE_OF_KIND);
                 fhThrKind = true;
+                hThrKind = e.getKey();
             }
             if(e.getValue() == 2) {
                 pairsMap.put(e.getKey(), Rank.PAIR);
                 fhTwoPair = true;
+
                 pairs++;
             }
         }
 
-        Rank result = null;
 
+        // three of kind will always be the highest
         if(fhThrKind && fhTwoPair)
-            result = Rank.FULL_HOUSE;
+            result = new TResult(hThrKind, Rank.FULL_HOUSE);
 
-        if(pairsMap.size() == 1)
-            result = pairsMap.firstEntry().getValue();
+        if(pairsMap.size() == 1) {
+            Map.Entry<Face, Rank> r = pairsMap.firstEntry();
+            // suit does not matter in texas, thus we can just return as clubs
 
-        if(pairs > 1)
-            result = Rank.TWO_PAIR;
-        
+            result = new TResult(r.getKey(), r.getValue());
+        }
 
+        if(pairs > 1) {
+            // get our highest face in the pairs map
+            hTwpKind = pairsMap.descendingMap().firstKey();
+
+            result = new TResult(hTwpKind, Rank.TWO_PAIR);
+        }
 
         return result;
     }
