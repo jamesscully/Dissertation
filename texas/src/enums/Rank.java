@@ -1,6 +1,6 @@
 package enums;
 
-public enum Result {
+public enum Rank {
         HIGH_CARD(1),
         PAIR(2),
         TWO_PAIR(3),
@@ -14,7 +14,7 @@ public enum Result {
 
         private final int value;
 
-        Result(int val) {
+        Rank(int val) {
             this.value = val;
         }
 }

@@ -1,6 +1,6 @@
 package tests;
 
-import enums.Result;
+import enums.Rank;
 import evaluators.TexasEvaluator;
 import org.junit.After;
 import org.junit.Before;
@@ -22,9 +22,9 @@ public class TexasHandTest {
     public void evaluate() {
 
 
-        assertEquals(new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate(), Result.THREE_OF_KIND  );
-        assertEquals(new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate(), Result.STRAIGHT);
-        assertEquals(new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate(),  Result.THREE_OF_KIND);
+        assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate());
+        assertEquals(Rank.STRAIGHT,      new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
+        assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("AS AD AH 2S 5S JC 3S").evaluate());
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
@@ -62,7 +62,7 @@ public class TexasHandTest {
     public void isStraight() {
 
         assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
-        assertTrue(new TexasEvaluator("AD KD QD JD 0D QD JD").isStraight());
+        assertTrue(new TexasEvaluator("AD KH QD JD 0D QD JD").isStraight());
         assertTrue(new TexasEvaluator("0D 2D 0D 9D 8D 7D 6D").isStraight());
         assertTrue(new TexasEvaluator("2D 3D 4D 5D 6D QD JD").isStraight());
         assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
@@ -79,10 +79,10 @@ public class TexasHandTest {
 
     @Test
     public void getKinds() {
-        assertEquals(Result.FOUR_OF_KIND,  new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
-        assertEquals(Result.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
-        assertEquals(Result.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
-        assertEquals(Result.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
-        assertEquals(Result.FULL_HOUSE,      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
+        assertEquals(Rank.FOUR_OF_KIND,  new TexasEvaluator("0D 0D 0D 0D AD QD JD").getKinds());
+        assertEquals(Rank.THREE_OF_KIND, new TexasEvaluator("0D 0D 0D 4D AD QD KD").getKinds());
+        assertEquals(Rank.TWO_PAIR,      new TexasEvaluator("0D 0D KD KD AD QD JD").getKinds());
+        assertEquals(Rank.TWO_PAIR,      new TexasEvaluator("0D 0D QD QD AD 2D JD").getKinds());
+        assertEquals(Rank.FULL_HOUSE,      new TexasEvaluator("0D 0D QD QD QD 2D JD").getKinds());
     }
 }

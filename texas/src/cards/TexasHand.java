@@ -1,10 +1,6 @@
 package cards;
 
-import enums.Face;
-import enums.Result;
-
 import java.util.Collections;
-import java.util.Map;
 
 public class TexasHand extends Hand {
 
@@ -19,5 +15,5 @@ public class TexasHand extends Hand {
         IS_TABLE = true;
         Collections.addAll(cards, a);
     }
-    
+
 }
