@@ -60,11 +60,9 @@ public class TexasEvaluator {
     public TResult evaluate() {
 
         // these conditions must be done in sequence, for order of rankings
-
         TResult kindOutput = getKinds();
 
         // this is required so that StraightFlushFlag is set
-
         TResult isStraight = isStraight();
 
         // variable to hold each test

@@ -135,7 +135,9 @@
 
 \section*{Introduction}
 
-When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. 
+When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. From the authors own personal experience and observations with free and open software, it can be quite difficult to implement in some areas (such as games), however the ability to control a game how you would like and the ability to not have to rely on companies servers, trudge through in-app payments and ads is a unseen experience today, yet  is revelled.
+
+Texas Hold'em itself, our initial gamemode, is one of the most 
 
 
 
@@ -174,7 +176,7 @@ assertFalse(new TexasEvaluator("kD 2D 0D 4D 8D 7D 6D").isStraight());
 assertFalse(new TexasEvaluator("2D 3D 9D 3D 4D QD JD").isStraight());
 \end{lstlisting}
 
-Regarding the vectors of error, having instantenous feedback, whereby it was easy to debug providing breakpoints, the actual outcome and generally a sense of direction.
+Regarding the vectors of error, having instantenous feedback, whereby it was easy to debug providing breakpoints, the actual outcome and generally a sense of direction. 
 
 
 
@@ -189,6 +191,17 @@ The project itself is being broken down into three compartments - a backend that
 The backend is written solely in Java as this allows for good interoperability with multiple other operating systems - Android being the main one. It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
 
 For example, we've created data classes for Faces and Suits, each containing values for easy comparison. Furthermore, we've created a Deck class that allows for the user to pull a random card from a standard 52-card deck and ensure that it hasn't been pulled before. These building blocks allow for future development by providing the basics needed in a standard card game.
+
+The main engine of the backend is the evaluator, which takes all total cards on the table and evaluates the hand itself. 
+
+\subsection*{Server}
+
+Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance.
+This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer disconnection issues. 
+
+The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to keep track of what cards have been used. 
+
+The server is responsible for the game-state itself, which will prevent players becoming out of sync. 
 
 
 \subsection*{Algorithms}
@@ -255,12 +268,6 @@ public void isFlush() {
 \textbf{New: } \\
 assertTrue(new TexasEvaluator("AD KD JD QD 0D QS JC").isRoyalFlush());
 ); 
-
-
-
-
-
-
 
 \section*{Bibliography}
 
