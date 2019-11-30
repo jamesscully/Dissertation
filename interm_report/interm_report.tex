@@ -135,6 +135,7 @@
 
 \section*{Introduction}
 
+When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. 
 
 
 
@@ -186,6 +187,17 @@ Regarding the vectors of error, having instantenous feedback, whereby it was eas
 
 \section*{Design}
 
+\subsection*{Overview}
+
+The project itself is being broken down into three compartments - a backend that satisfies the core Texas Hold'em gamemode, the server which will provide the connections needed for players to play together on their own networks and the Android app, which links both of these together with the graphical interface. 
+
+\subsection*{Backend}
+
+The backend is written solely in Java as this allows for good interoperability with multiple other operating systems - Android being the main one. It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
+
+For example, we've created data classes for Faces and Suits, each containing values for easy comparison. Furthermore, we've created a Deck class that allows for the user to pull a random card from a standard 52-card deck and ensure that it hasn't been pulled before. These building blocks allow for future development by providing the basics needed in a standard card game.
+
+
 \subsection*{Algorithms}
 
 \entry{Hand Strength}
@@ -206,9 +218,7 @@ The algorithm for hand-strength is not very efficient, and as such is comprised 
 \section*{Progress}
 \subsection*{Management}
 
-The first point of attack was to be the planning documents - enlisting our ideal creation and pseudocode simultaneously. However, upon writing pseudocode it became evident that there was much that would be looked over. 
-
-It becomes very difficult to implement certain hands, such as a straight flush 
+Management has been key in this project, of which I have not performed greatly. Time has been spent on modules which are lesser credits and although that coursework must be done, it shouldn't take as much time as it does. To combat this, I've essentially tried to keep doing atleast one task a day - whether it be debugging a function or atleast analysing what the error is, or writing a function.
 
 
 \subsection*{Contributions and Reflections}

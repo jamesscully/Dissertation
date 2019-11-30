@@ -9,7 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".TexasHoldemActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_texas_holdem"
+            android:parentActivityName=".MainMenu"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.scullyapps.rekop.MainMenu" />
+        </activity>
+        <activity
+            android:name=".MainMenu"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_main_menu"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FullscreenTheme"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.scullyapps.rekop.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
