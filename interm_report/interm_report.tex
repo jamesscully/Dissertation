@@ -11,7 +11,30 @@
 \usepackage{pdflscape}
 \usepackage{hyperref}
 \usepackage{afterpage}
+
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{textblue}{rgb}{.2,.2,.7}
+\definecolor{textred}{rgb}{0.54,0,0}
+\definecolor{textgreen}{rgb}{0,0.43,0}
+
 \usepackage{listings}
+
+\lstset{language=Java, 
+numbers=left, 
+numberstyle=\tiny, 
+stepnumber=1,
+numbersep=5pt, 
+tabsize=4,
+basicstyle=\ttfamily,
+keywordstyle=\color{textblue},
+commentstyle=\color{textred},   
+stringstyle=\color{textgreen},
+frame=none,                    
+columns=fullflexible,
+keepspaces=true,
+xleftmargin=\parindent,
+showstringspaces=false}
 
 \graphicspath{ {./images/} }
 
@@ -86,6 +109,7 @@
 \newcommand{\queendiamonds}{\includegraphics[height=\cardheight]{cards/queen_of_diamonds.png}}
 \newcommand{\queenhearts}{\includegraphics[height=\cardheight]{cards/queen_of_hearts.png}}
 \newcommand{\queenspades}{\includegraphics[height=\cardheight]{cards/queen_of_spades.png}}
+
 
 
 
@@ -165,15 +189,10 @@ Take this snippet from the testing whether a hand is a straight or not:
 \begin{lstlisting}*[language=java]
 assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
 assertTrue(new TexasEvaluator("AD KD QD JD 0D QD JD").isStraight());
-assertTrue(new TexasEvaluator("0D 2D 0D 9D 8D 7D 6D").isStraight());
-assertTrue(new TexasEvaluator("2D 3D 4D 5D 6D QD JD").isStraight());
-assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
-assertTrue(new TexasEvaluator("KD QD JD JD JD 0D 9D").isStraight());
 /* Falses */
 assertFalse(new TexasEvaluator("0D 0D 0D 0D AD QD JD").isStraight());
 assertFalse(new TexasEvaluator("2D 5D 9D JD 0D QD JD").isStraight());
-assertFalse(new TexasEvaluator("kD 2D 0D 4D 8D 7D 6D").isStraight());
-assertFalse(new TexasEvaluator("2D 3D 9D 3D 4D QD JD").isStraight());
+
 \end{lstlisting}
 
 Regarding the vectors of error, having instantenous feedback, whereby it was easy to debug providing breakpoints, the actual outcome and generally a sense of direction. 
@@ -196,7 +215,7 @@ The main engine of the backend is the evaluator, which takes all total cards on 
 
 \subsection*{Server}
 
-Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance.
+Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance..
 This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer disconnection issues. 
 
 The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to keep track of what cards have been used. 
@@ -207,13 +226,13 @@ The server is responsible for the game-state itself, which will prevent players 
 \subsection*{Algorithms}
 
 \entry{Hand Strength}
-The algorithm for hand-strength is not very efficient, and as such is comprised of simply checking a sorted array of cards to see whether they meet a certain condition. This has a performance impact as we often make repeated calls 
+The algorithm for hand-strength is very basic and as such is ineffcient, however this is not the main focus of the project. We have methods which test for example, a straight (including straight flush), royal flush, a flush, etc. We then test each of these methods in order of ranking. \\
 
 
 \entry{Win evaluation}
+Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result and the highest card. 
 
-
-
+If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
 
 
 \section*{Implementation}
@@ -244,14 +263,11 @@ Reflecting upon how I assumed Test-Driven Development would take much of our tim
 
 Although, initially I was under the assumption that each test case was going to have to be made up of newly created objects. Frustrated that test cases were taking too long and a nuisance to write, I created a factory pattern within the evaluator class itself to resolve, for example, "0D 0D 2D KD AD QD JD" into an actual hand + table.  \\
 
-I believe that the examples below really do speak for themselves. 
+The example below shows how writing test cases becomes much easier through this method. Note, these are testing separate methods, but the meaning is still shown.
 
 \begin{minipage}{.5\textwidth}
 
-\begin{lstlisting}[
-language=java,
-basicstyle=\small
-]
+\begin{lstlisting}
 TexasHand FLUSH_FOK = new TexasHand(
     new Card(Suit.CLUBS, Face.FOUR),
     new Card(Suit.CLUBS, Face.FOUR),
@@ -264,10 +280,13 @@ public void isFlush() {
     assertTrue(FLUSH_FOK.isFlush());
 \end{lstlisting}
 \end{minipage}
+\begin{minipage}{.5\textwidth}
 
-\textbf{New: } \\
+\begin{lstlisting}[breaklines=true]
 assertTrue(new TexasEvaluator("AD KD JD QD 0D QS JC").isRoyalFlush());
-); 
+\end{lstlisting}
+\end{minipage}
+
 
 \section*{Bibliography}
 
