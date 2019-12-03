@@ -11,7 +11,30 @@
 \usepackage{pdflscape}
 \usepackage{hyperref}
 \usepackage{afterpage}
+
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\definecolor{textblue}{rgb}{.2,.2,.7}
+\definecolor{textred}{rgb}{0.54,0,0}
+\definecolor{textgreen}{rgb}{0,0.43,0}
+
 \usepackage{listings}
+
+\lstset{language=Java, 
+numbers=left, 
+numberstyle=\tiny, 
+stepnumber=1,
+numbersep=5pt, 
+tabsize=4,
+basicstyle=\ttfamily,
+keywordstyle=\color{textblue},
+commentstyle=\color{textred},   
+stringstyle=\color{textgreen},
+frame=none,                    
+columns=fullflexible,
+keepspaces=true,
+xleftmargin=\parindent,
+showstringspaces=false}
 
 \graphicspath{ {./images/} }
 
@@ -89,6 +112,7 @@
 
 
 
+
 \hspace{0pt}
 
 \vfill
@@ -129,32 +153,47 @@
 
 
 
+\tableofcontents
+
+
+
+\newpage
+
+
+
+
+
+
+
+
+
+
 %%%
 % Page 1: 
 %%%
 
-\section*{Introduction}
+\section{Introduction}
 
-When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. 
+When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. From the authors own personal experience and observations with free and open software, it can be quite difficult to implement in some areas (such as games), however the ability to control a game how you would like and the ability to not have to rely on companies servers, trudge through in-app payments and ads is a unseen experience today, yet  is revelled.
 
 
 
-\section*{Motivation}
+\section{Motivation}
 Rekop poker aims to provide an alternative to other multi-player applications on the Android app store as many of these prevent user customization and introduce in-app purchases, with no ability for players to play locally on their own network. 
 
 
 
 
-\section*{Related Work}
+\section{Related Work}
 
 
 
 
-\section*{Description}
+\section{Description}
 
 
 
-\section*{Methodology}
+\section{Methodology}
 
 Test-Driven Development has been essential so far in the development of the poker algorithm. Evaluating Texas Hold'em hands has many vectors of errors and being able to write tests before and alongside implementation helped out immensely. 
 
@@ -163,59 +202,73 @@ Take this snippet from the testing whether a hand is a straight or not:
 \begin{lstlisting}*[language=java]
 assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
 assertTrue(new TexasEvaluator("AD KD QD JD 0D QD JD").isStraight());
-assertTrue(new TexasEvaluator("0D 2D 0D 9D 8D 7D 6D").isStraight());
-assertTrue(new TexasEvaluator("2D 3D 4D 5D 6D QD JD").isStraight());
-assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
-assertTrue(new TexasEvaluator("KD QD JD JD JD 0D 9D").isStraight());
 /* Falses */
 assertFalse(new TexasEvaluator("0D 0D 0D 0D AD QD JD").isStraight());
 assertFalse(new TexasEvaluator("2D 5D 9D JD 0D QD JD").isStraight());
-assertFalse(new TexasEvaluator("kD 2D 0D 4D 8D 7D 6D").isStraight());
-assertFalse(new TexasEvaluator("2D 3D 9D 3D 4D QD JD").isStraight());
+
 \end{lstlisting}
 
-Regarding the vectors of error, having instantenous feedback, whereby it was easy to debug providing breakpoints, the actual outcome and generally a sense of direction.
+Regarding the vectors of error, having instantenous feedback, whereby it was easy to debug providing breakpoints, the actual outcome and generally a sense of direction. 
 
 
 
+\section{Design}
 
-
-
-
-
-
-
-\section*{Design}
-
-\subsection*{Overview}
+\subsection{Overview}
 
 The project itself is being broken down into three compartments - a backend that satisfies the core Texas Hold'em gamemode, the server which will provide the connections needed for players to play together on their own networks and the Android app, which links both of these together with the graphical interface. 
 
 \subsection*{Backend}
 
-The backend is written solely in Java as this allows for good interoperability with multiple other operating systems - Android being the main one. It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
+The backend is written solely in Java as the language itself is platform agnostic - Android being reliant upon Java (bytecode). It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
 
 For example, we've created data classes for Faces and Suits, each containing values for easy comparison. Furthermore, we've created a Deck class that allows for the user to pull a random card from a standard 52-card deck and ensure that it hasn't been pulled before. These building blocks allow for future development by providing the basics needed in a standard card game.
+
+
+
+\subsection*{Server}
+
+Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance. This is because if the host is to lose connection permanently or temporarily, the rest would be unable to play.
+This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. 
+
+The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player until necessary. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to deal hands out. 
+
+Therefore, the only messages required by the client to send are their actions, such as how much they are betting, whether they fold or raise. 
+
+\begin{center}
+\includegraphics[scale=0.65]{server_diag}
+\end{center}
+
+
+\subsection*{User Interface / Android application}
+
+The most critical part and the binding element of this project is the actual mobile application itself. One of the criticisms with poker apps and the aforementioned 'bothering' of the user with offers, is that the design is not simple and intuitive. We've opted to use basic Android activities and layouts instead of a mobile game engine, such as the likes of Unreal's mobile components or Unity. This is because often these engines, while they are powerful, have a steep learning curve to master and implement; they also do not always have the best backwards compatibility with older devices. As our Android target is KitKat (Vers. 4.4), most components of our interface will work on these devices. 
+
+
+
+
 
 
 \subsection*{Algorithms}
 
 \entry{Hand Strength}
-The algorithm for hand-strength is not very efficient, and as such is comprised of simply checking a sorted array of cards to see whether they meet a certain condition. This has a performance impact as we often make repeated calls 
+The algorithm for hand-strength is very basic and as such is ineffcient, however this is not the main focus of the project. The base of our algorithm is in a TexasEvaluator class, whereby we test each potential result i.e. straight, flush in their own methods. We then sequentially run these methods in order of ranking, so that we can return a result. 
+
+It is inefficient, however it is not the total focus of the project to ensure that it is efficient. 
 
 
 \entry{Win evaluation}
+Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result and the highest card. 
+
+If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
+
+
+\section{Implementation}
 
 
 
 
-
-\section*{Implementation}
-
-
-
-
-\section*{Progress}
+\section{Progress}
 \subsection*{Management}
 
 Management has been key in this project, of which I have not performed greatly. Time has been spent on modules which are lesser credits and although that coursework must be done, it shouldn't take as much time as it does. To combat this, I've essentially tried to keep doing atleast one task a day - whether it be debugging a function or atleast analysing what the error is, or writing a function.
@@ -223,29 +276,19 @@ Management has been key in this project, of which I have not performed greatly. 
 
 \subsection*{Contributions and Reflections}
 
-\newpage
-\TODO{Reflect - How hard evaluating a hand of poker can be; was not a simple process and underestimated. I.e. Talk about how detecting whether a straight may not be the most powerful, if a flush exists.}
+A key goal of all software is that it must be efficient - both in terms of code complexity and performance. Upon undertaking this project it was naively assumed that, given how easy it is to recognize the outcome of a poker round in reality, it wouldn't be too difficult to implement efficiently through code. 
 
+It is therefore that the algorithm currently used is very compartmentalized, and potentially slower than some implementations (such as look-up tables or doing bit-wise operations). For example, it takes between 50 - 100ms for one result to be calculated on a desktop computer. Since most servers will be running on one, it doesn't particularly matter about the performance as much as the other aspects of the program.\\
 
-A key goal of all software is that it must be efficient - both in terms of code complexity and performance. Upon undertaking this project it was naively assumed that, given how easy it is to recognize the outcome of a poker round in reality, it musn't be too difficult to implement efficiently through code. 
+Reflecting upon how I assumed Test-Driven Development would take much of our time before and during up and that we did not have "too much time to write tests and develop a fully-functional program", this couldn't have been further from the truth. Having instant feedback on whether it passed, what the result was and the ability to debug into it was essential. \\
 
-Evaluating poker hands efficiently becomes very complex and convoluted once the amount of hands possible is realised and how determining the outcome of some hands can be tricky. \\
+Although, initially I was under the assumption that each test case was going to have to be made up of newly created objects. Frustrated that test cases were taking too long and a nuisance to write, I created a factory-esque pattern within the evaluator class itself to resolve, for example, "0D 0D 2D KD AD QD JD" into an actual hand + table cards.  \\
 
-
-
-
-Reflecting upon how I assumed Test-Driven Development would take much of our time before and during up and that we did not have "too much time to write tests and develop a fully-functional program", I couldn't have been further from the truth. Having instant feedback on whether it passed, what the result was and the ability to debug into it was essential. \\
-
-Although, initially I was under the assumption that each test case was going to have to be made up of newly created objects. Frustrated that test cases were taking too long and a nuisance to write, I created a factory pattern within the evaluator class itself to resolve, for example, "0D 0D 2D KD AD QD JD" into an actual hand + table.  \\
-
-I believe that the examples below really do speak for themselves. 
+The example below shows how writing test cases becomes much easier through this method, rather than creating a new object for each test case.
 
 \begin{minipage}{.5\textwidth}
 
-\begin{lstlisting}[
-language=java,
-basicstyle=\small
-]
+\begin{lstlisting}
 TexasHand FLUSH_FOK = new TexasHand(
     new Card(Suit.CLUBS, Face.FOUR),
     new Card(Suit.CLUBS, Face.FOUR),
@@ -258,18 +301,15 @@ public void isFlush() {
     assertTrue(FLUSH_FOK.isFlush());
 \end{lstlisting}
 \end{minipage}
+\begin{minipage}{.5\textwidth}
 
-\textbf{New: } \\
-assertTrue(new TexasEvaluator("AD KD JD QD 0D QS JC").isRoyalFlush());
-); 
-
-
-
-
+\begin{lstlisting}[breaklines=true]
+assertTrue(new TexasEvaluator("4C 4C 4C 4C AC QS JC").isFlush());
+\end{lstlisting}
+\end{minipage}
 
 
-
-\section*{Bibliography}
+\section{Bibliography}
 
 
 
