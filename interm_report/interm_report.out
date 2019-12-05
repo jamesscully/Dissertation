@@ -4,6 +4,13 @@
 \BOOKMARK [1][-]{section.4}{Description}{}% 4
 \BOOKMARK [1][-]{section.5}{Methodology}{}% 5
 \BOOKMARK [1][-]{section.6}{Design}{}% 6
-\BOOKMARK [1][-]{section.7}{Implementation}{}% 7
-\BOOKMARK [1][-]{section.8}{Progress}{}% 8
-\BOOKMARK [1][-]{section.9}{Bibliography}{}% 9
+\BOOKMARK [2][-]{subsection.6.1}{Overview}{section.6}% 7
+\BOOKMARK [2][-]{subsection.6.2}{Backend}{section.6}% 8
+\BOOKMARK [2][-]{subsection.6.3}{Server}{section.6}% 9
+\BOOKMARK [2][-]{subsection.6.4}{User Interface / Android application}{section.6}% 10
+\BOOKMARK [2][-]{subsection.6.5}{Algorithms}{section.6}% 11
+\BOOKMARK [1][-]{section.7}{Implementation}{}% 12
+\BOOKMARK [1][-]{section.8}{Progress}{}% 13
+\BOOKMARK [2][-]{subsection.8.1}{Management}{section.8}% 14
+\BOOKMARK [2][-]{subsection.8.2}{Contributions and Reflections}{section.8}% 15
+\BOOKMARK [1][-]{section.9}{Bibliography}{}% 16

@@ -47,6 +47,9 @@ showstringspaces=false}
 \title{Interim Report: \pt}
 \author{James Scully}
 
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
 
 
 \begin{document}
@@ -214,11 +217,11 @@ Regarding the vectors of error, having instantenous feedback, whereby it was eas
 
 \section{Design}
 
-\subsection*{Overview}
+\subsection{Overview}
 
 The project itself is being broken down into three compartments - a backend that satisfies the core Texas Hold'em gamemode, the server which will provide the connections needed for players to play together on their own networks and the Android app, which links both of these together with the graphical interface. 
 
-\subsection*{Backend}
+\subsection{Backend}
 
 The backend is written solely in Java as the language itself is platform agnostic - Android being reliant upon Java (bytecode). It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
 
@@ -226,7 +229,7 @@ For example, we've created data classes for Faces and Suits, each containing val
 
 
 
-\subsection*{Server}
+\subsection{Server}
 
 Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance. This is because if the host is to lose connection permanently or temporarily, the rest would be unable to play.
 This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. 
@@ -240,9 +243,20 @@ Therefore, the only messages required by the client to send are their actions, s
 \end{center}
 
 
+\subsection{User Interface / Android application}
+
+The most critical part and the binding element of this project is the actual mobile application itself. The user interface is to be kept simple, with the main menu being a simple strip of buttons that can be added to for extra gamemodes or features. There is a navigation bar that will allow the user to switch between playing, statistics, profile and to exit. 
+The interface is required to be simple, as this allows for intuitive and good user experience with the application.
 
 
-\subsection*{Algorithms}
+
+
+
+
+
+
+
+\subsection{Algorithms}
 
 \entry{Hand Strength}
 The algorithm for hand-strength is very basic and as such is ineffcient, however this is not the main focus of the project. The base of our algorithm is in a TexasEvaluator class, whereby we test each potential result i.e. straight, flush in their own methods. We then sequentially run these methods in order of ranking, so that we can return a result. 
@@ -262,12 +276,12 @@ If two players contest the highest result, but have the same highest card, then 
 
 
 \section{Progress}
-\subsection*{Management}
+\subsection{Management}
 
 Management has been key in this project, of which I have not performed greatly. Time has been spent on modules which are lesser credits and although that coursework must be done, it shouldn't take as much time as it does. To combat this, I've essentially tried to keep doing atleast one task a day - whether it be debugging a function or atleast analysing what the error is, or writing a function.
 
 
-\subsection*{Contributions and Reflections}
+\subsection{Contributions and Reflections}
 
 A key goal of all software is that it must be efficient - both in terms of code complexity and performance. Upon undertaking this project it was naively assumed that, given how easy it is to recognize the outcome of a poker round in reality, it wouldn't be too difficult to implement efficiently through code. 
 
