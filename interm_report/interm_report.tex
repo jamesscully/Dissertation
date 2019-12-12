@@ -259,18 +259,6 @@ The following figure shows how we've changed our initial wireframe slightly. As 
 	
 \end{figure}
 
-\subsection{User Interface / Android application}
-
-The most critical part and the binding element of this project is the actual mobile application itself. The user interface is to be kept simple, with the main menu being a simple strip of buttons that can be added to for extra gamemodes or features. There is a navigation bar that will allow the user to switch between playing, statistics, profile and to exit. 
-The interface is required to be simple, as this allows for intuitive and good user experience with the application.
-
-
-
-
-
-
-
-
 
 \subsection{Algorithms}
 
@@ -283,7 +271,7 @@ Win evaluation can be done by sorting each players hand by result, i.e. Royal Fl
 
 If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
 
-
+\newpage
 \section{Implementation}
 
 \subsection{Project Requirements}
@@ -335,7 +323,7 @@ As mentioned previously, we wanted to add base classes for the ability to add ot
 
 
 \subsection{Face}
-For the face class, we opted to use an enum as these are generic datatypes that are both easy to read in code (they do not need to necessarily be initialized) and can be assigned a value similar to normal classes. 
+For the Face, we opted to use an enumerated as these are generic datatypes that are both easy to read in code (they do not need to be initialized each time) and can be assigned values similar to normal classes. 
 
 This was chosen because it simplifies reading the code, but they can also easily define other values in their constructor. The code below shows this, as we can set a custom display value, e.g. "Three" and a value for the card. Later on, we can use these values to sort hands and make determining straights much easier.
 
@@ -347,11 +335,7 @@ public enum Face {
     THREE ("Three", 1),
     FOUR  ("Four", 2),
     FIVE  ("Five", 3),
-    SIX   ("Six", 4),
-    SEVEN ("Seven", 5),
-    EIGHT ("Eight", 6),
-    NINE  ("Nine", 7),
-    TEN   ("Ten", 8),
+	...
     JACK  ("Jack", 9),
     QUEEN ("Queen", 10),
     KING  ("King", 11),
