@@ -36,4 +36,8 @@ public enum Rank {
         Rank(int val) {
             this.value = val;
         }
+
+        private void negative() {
+
+        }
 }
