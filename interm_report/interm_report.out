@@ -1,0 +1,28 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Motivation}{}% 2
+\BOOKMARK [1][-]{section.3}{Methodology}{}% 3
+\BOOKMARK [1][-]{section.4}{Design}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Overview}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Backend}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Server}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{User Interface / Android application}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.5}{Algorithms}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 10
+\BOOKMARK [2][-]{subsection.5.1}{Project Requirements}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.2}{Backend}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.3}{Server}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.4}{Application}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.5}{Face}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.6}{Evaluating Hands of Texas Hold'em}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.7}{Determining a Straight}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Progress}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Management}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Contributions and Reflections}{section.6}% 20
+\BOOKMARK [1][-]{section.7}{Appendix}{}% 21
+\BOOKMARK [2][-]{subsection.7.1}{Old Gantt Chart}{section.7}% 22
+\BOOKMARK [2][-]{subsection.7.2}{New Gantt Chart}{section.7}% 23
+\BOOKMARK [2][-]{subsection.7.3}{Abstract System Design}{section.7}% 24
+\BOOKMARK [2][-]{subsection.7.4}{Straight method}{section.7}% 25
+\BOOKMARK [2][-]{subsection.7.5}{TPokerThread run method}{section.7}% 26
+\BOOKMARK [2][-]{subsection.7.6}{TPokerClient main method}{section.7}% 27
+\BOOKMARK [1][-]{section.8}{Bibliography}{}% 28
