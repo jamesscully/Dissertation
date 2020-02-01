@@ -42,7 +42,7 @@ public class DeckTest {
         }
 
         assertEquals(1, deck.size());
-        assertEquals(51, pulled.size());
+        assertEquals(50, pulled.size());
 
     }
 

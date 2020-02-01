@@ -15,12 +15,13 @@ public class Deck {
     private static ArrayList<Card> deck = new ArrayList<>();
 
     private Deck() {
-        initialize();
+
     }
 
-    public static synchronized Deck getInstance() {
+    public static Deck getInstance() {
         if(instance == null) {
             instance = new Deck();
+            resetDeck();
         }
         return instance;
     }
@@ -28,11 +29,9 @@ public class Deck {
     /**
      * Populate {@link Deck#deck} with all needed cards.
      */
-    private void initialize() {
-        resetDeck();
-    }
 
-    public void resetDeck() {
+
+    public static void resetDeck() {
         for(Suit s : Suit.values()) {
             for(Face v : Face.values()) {
                 deck.add(new Card(s, v));

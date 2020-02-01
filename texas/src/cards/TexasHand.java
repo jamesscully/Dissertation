@@ -16,4 +16,8 @@ public class TexasHand extends Hand {
         Collections.addAll(cards, a);
     }
 
+    public void addCard(Card c) {
+        this.cards.add(c);
+    }
+
 }

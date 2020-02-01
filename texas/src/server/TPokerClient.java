@@ -5,53 +5,67 @@ import enums.Face;
 import enums.Suit;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketTimeoutException;
 
 public class TPokerClient {
+
+    // 5 second timeout; in case max is full
+    public static final int SOCKET_TIMEOUT = 5 * 1000;
+
+    public static ObjectOutputStream out = null;
+    public static ObjectInputStream  in  = null;
 
 
     public static void main(String[] args) {
         Socket sock = null;
 
-        DataOutputStream out = null;
-        DataInputStream  in  = null;
-        ObjectInputStream servOut = null;
+
+
+        Card first, second;
 
         try {
-            sock = new Socket("127.0.0.1", 1337);
-            System.out.println("Connected");
+            sock = new Socket("127.0.0.1", TPokerServer.PORT);
+
+            // in the case the server is full, we'll get a timeout
+            // sock.setSoTimeout(SOCKET_TIMEOUT);
+
+            System.out.println("TPokerClient: Connecting...");
 
             // in is our input stream, in this case command-line
             // out is the servers
-            in = new DataInputStream(System.in);
-            out = new DataOutputStream(sock.getOutputStream());
+            out = new ObjectOutputStream(sock.getOutputStream());
+            in = new ObjectInputStream(sock.getInputStream());
 
-            servOut = new ObjectInputStream(sock.getInputStream());
 
-            String line = (String) servOut.readUTF();
+            System.out.println("TPokerClient: Retrieving first card...");
+            first  = (Card) in.readObject();
+            System.out.println("TPokerClient: Got first, retrieving second...");
+            second = (Card) in.readObject();
 
-            if(line == null || line.isEmpty()) {
-                System.out.println("Line was null or empty");
-            } else {
-                System.out.println("Retrieved data (connectionID, Face, Suit): " + line);
-                getCardFromData(line);
+            System.out.println(
+                    String.format("Retrieved cards: \n %s \n %s", first, second)
+            );
+
+
+            System.out.println("Waiting for server to ask us for response.");
+            String ping = in.readUTF();
+
+            if(ping.equals("PING")) {
+                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+                inputResponse();
             }
 
-        } catch (IOException i) {
-            System.out.println("Exception Caught");
+        } catch (ConnectException e) {
+            System.err.println("TPokerClient: Unable to connect to the server; is it running?");
+            return;
+        } catch (SocketTimeoutException e) {
+            System.err.println("TPokerClient: There was an error connecting to the server; it may be full.");
+            return;
+        } catch (IOException | ClassNotFoundException i) {
+            System.out.println("TPokerClient: Exception Caught");
             i.printStackTrace();
-        }
-
-        String line = "";
-
-        while(!line.equals("disc")) {
-            try {
-                line = in.readLine();
-                out.writeUTF(line);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         try {
@@ -62,19 +76,19 @@ public class TPokerClient {
 
     }
 
-    public static void getCardFromData(String data) {
+    public static void inputResponse() {
 
-        // our data is in the form of: connectionID, Face and Suit so, 0, 1, 2
-        String[] split = data.split("\\s+");
+        String line = "";
 
-        Face face = Face.valueOf(split[1]);
-        Suit suit = Suit.valueOf(split[2]);
+        while(!line.equals("disc")) {
+            try {
+                line = in.readLine();
 
-        Card card = new Card(suit, face);
-
-        System.out.println(card.toString());
-
+                System.out.println("TPokerClient: TPokerClient: Writing data: " + line);
+                out.writeUTF(line);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-
 }

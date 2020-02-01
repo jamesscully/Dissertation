@@ -8,10 +8,7 @@ import enums.Rank;
 import game.TResult;
 import game.TexasTable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class TexasEvaluator {
