@@ -41,28 +41,21 @@ public class TPokerThread implements Runnable {
             // read input from the user. If we receive DISCONNECT, then we close the connection.
             // else we simply print their instruction. These requests can be forwarded to other components in the future.
             while(!line.equals("DISCONNECT")) {
-                try {
-                    line = in.readUTF();
-
-                } catch (IOException e) {
-                    System.out.printf("TPokerThread: Client %s has stopped responding, killing...\n", clientID);
-                    return;
-                }
+//                try {
+//                    // line = in.readUTF();
+//
+//                } catch (IOException e) {
+//                    System.out.printf("TPokerThread: Client %s has stopped responding, killing...\n", clientID);
+//                    e.printStackTrace();
+//                    return;
+//                }
             }
 
             // close all IO connections
-            client.close(); out.close(); in.close();
+            // client.close(); out.close(); in.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void requestAction() throws IOException {
-        DataInputStream in  = new DataInputStream(new BufferedInputStream(client.getInputStream()));
-        ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-
-        out.write(5);
     }
 }

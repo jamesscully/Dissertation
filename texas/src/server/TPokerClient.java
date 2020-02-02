@@ -3,29 +3,32 @@ package server;
 import cards.Card;
 import enums.Face;
 import enums.Suit;
+import enums.TAction;
 
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Scanner;
 
 public class TPokerClient {
 
     // 5 second timeout; in case max is full
     public static final int SOCKET_TIMEOUT = 5 * 1000;
 
-    public static ObjectOutputStream out = null;
     public static ObjectInputStream  in  = null;
+    public static ObjectOutputStream out = null;
+
+    public static Scanner stdIn = null;
 
 
     public static void main(String[] args) {
         Socket sock = null;
 
-
-
         Card first, second;
 
         try {
+
             sock = new Socket("127.0.0.1", TPokerServer.PORT);
 
             // in the case the server is full, we'll get a timeout
@@ -36,8 +39,9 @@ public class TPokerClient {
             // in is our input stream, in this case command-line
             // out is the servers
             out = new ObjectOutputStream(sock.getOutputStream());
-            in = new ObjectInputStream(sock.getInputStream());
+             in = new ObjectInputStream (sock.getInputStream());
 
+            stdIn = new Scanner(System.in);
 
             System.out.println("TPokerClient: Retrieving first card...");
             first  = (Card) in.readObject();
@@ -69,6 +73,7 @@ public class TPokerClient {
         }
 
         try {
+            System.out.println("TPokerClient: Closing sockets.");
             in.close(); out.close(); sock.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,16 +81,27 @@ public class TPokerClient {
 
     }
 
-    public static void inputResponse() {
+    public static void inputResponse() throws IOException {
 
         String line = "";
 
         while(!line.equals("disc")) {
             try {
-                line = in.readLine();
+                line = stdIn.nextLine();
+
+                System.out.println("Got input: " + line );
+
+                if(TAction.parseTAction(line) == null) {
+                    continue;
+                }
 
                 System.out.println("TPokerClient: TPokerClient: Writing data: " + line);
+
                 out.writeUTF(line);
+                out.flush();
+
+                System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

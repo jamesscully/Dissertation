@@ -9,6 +9,7 @@ import game.TexasTable;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
@@ -30,7 +31,7 @@ public class TPokerServer implements Runnable {
 
 
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 1;
 
     Deck deck = Deck.getInstance();
 
@@ -69,6 +70,8 @@ public class TPokerServer implements Runnable {
                 }
 
                 client = this.serverSocket.accept();
+
+                System.out.println(pool.getActiveCount());
                 System.out.println("TPokerServer: Connection accepted, id = " + clientID++);
 
             } catch (IOException e) {
@@ -91,8 +94,6 @@ public class TPokerServer implements Runnable {
             );
 
             socks.add(player);
-
-
         }
 
         playStage();
@@ -107,6 +108,12 @@ public class TPokerServer implements Runnable {
 
     private void playStage() {
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("TPokerServer: Entered PlayStage");
 
         boolean isPreStage = true, isFlop = false, isTurn = false, isRiver = false;
@@ -114,17 +121,16 @@ public class TPokerServer implements Runnable {
         while(isPlayStage) {
 
             while(isPreStage) {
-
-                System.out.println("TPokerServer: waiting for player actions");
-
                 // this will block the thread until all players have made their move.
                 getTableActions();
 
+                // we'll want to keep this stage going, until no raises have been made
                 if(playerActions.containsValue(TAction.RAISE)) {
                     continue;
                 }
             }
 
+            System.out.println("Exiting prestage");
         }
     }
 
@@ -136,21 +142,24 @@ public class TPokerServer implements Runnable {
     public void getTableActions() {
         for(Player p : socks) {
 
+            ObjectOutputStream out;
+            ObjectInputStream   in;
+
+            out = p.objOut;
+            in  = p.objIn;
+
+            System.out.println("Using out/in streams with IDs\n\t" + out + "\n\t" + in);
+
             try {
                 System.out.println("TPokerServer: Sending PING request");
 
-
-
-                ObjectOutputStream out = new ObjectOutputStream(p.socket.getOutputStream());
-                out.reset();
+                // the PING is just a name to tell the client we need their input.
+                // this prevents race conditions where client B would be ignored if A was chosen b4
                 out.writeUTF("PING");
                 out.flush();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
 
             // do nothing if they have folded
             if(p.folded)
@@ -160,22 +169,42 @@ public class TPokerServer implements Runnable {
             boolean validAction = false;
 
             try {
-                DataInputStream in  = new DataInputStream(new BufferedInputStream(p.socket.getInputStream()));
-
                 while(!validAction) {
+                    System.out.println("TPokerServer: waiting for input (action) ...");
+
                     message = in.readUTF();
+
                     System.out.println("TPokerServer: received input " + message);
 
                     TAction action = TAction.parseTAction(message);
 
+                    // parseTAction returns null if not applicable; only want normals.
                     if(action != null) {
-                        System.out.println(action);
+
+                        // put the action + player into a hashmap,
                         playerActions.put(p, action);
+                        // this will break us out of the whileloop for the player
+                        validAction = true;
+
+
+                        // if they have folded, mark them so we don't include them later
+                        if(action == TAction.FOLD) {
+                            p.folded = true;
+                        }
+
+                        continue;
                     }
 
+                    System.out.println("TPokerServer: invalid input: " + message);
                 }
 
                 System.out.println("TPokerServer: received valid input: " + message);
+
+            } catch (EOFException e) {
+                System.err.println("TPokerServer: EOFException Caught");
+                e.printStackTrace();
+
+                System.exit(1);
 
             } catch (IOException e) {
                 System.out.println("TPokerServer: PlayStage receive message error");

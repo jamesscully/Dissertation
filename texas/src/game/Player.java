@@ -8,13 +8,15 @@ import server.TPokerThread;
 
 import java.io.*;
 import java.net.*;
-import java.util.Arrays;
 
 public class Player {
 
     public String username;
 
-    static int id = 0;
+    static int _id = 0;
+
+
+    public int id = 0;
 
     public Socket socket;
 
@@ -32,26 +34,27 @@ public class Player {
     public int chips = 1000;
 
     public Player(Socket s) {
-        id = id++;
+        id = _id++;
         this.socket = s;
 
         try {
 
-            System.err.println("Player: setObjOut");
+            // these need to be arranged this way; they wait for the peer (client-program) to create their in/outs
             objOut = new ObjectOutputStream(socket.getOutputStream());
-
-            System.err.println("Player: setObjIn");
             objIn  = new ObjectInputStream (socket.getInputStream());
 
+            System.out.println("Creating out/in streams with IDs\n\t" + objOut + "\n\t" + objIn);
 
             Card c1, c2;
 
+            // we'll pull the first two cards here
             c1 = Deck.getInstance().pullCard();
             c2 = Deck.getInstance().pullCard();
 
-            thread = new TPokerThread(socket, Integer.toString(id), c1, c2);
+            thread = new TPokerThread(socket, Integer.toString(_id), c1, c2);
 
-            thread.in = objIn;
+            // assign the threads in/out here; we can keep track of it.
+            thread.in   = objIn;
             thread.out  = objOut;
 
         } catch (IOException e) {
