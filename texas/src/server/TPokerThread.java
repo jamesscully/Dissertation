@@ -13,6 +13,7 @@ public class TPokerThread implements Runnable {
     String clientID;
 
     Card first, second;
+    Card third, fourth, fifth;
 
     public ObjectInputStream  in;
     public ObjectOutputStream out;
@@ -27,6 +28,11 @@ public class TPokerThread implements Runnable {
         System.out.println("TPokerThread: Found cards: " + first + ", " + second);
     }
 
+    boolean PRE_FLOP_DONE = false;
+    boolean FLOP_DONE     = false;
+    boolean TURN_DONE     =  false;
+    boolean RIVER_DONE    = false;
+
     @Override
     public void run() {
         try {
@@ -36,20 +42,14 @@ public class TPokerThread implements Runnable {
             out.writeObject(second);
             out.flush();
 
-            String line = "";
+            while(!PRE_FLOP_DONE) {
 
-            // read input from the user. If we receive DISCONNECT, then we close the connection.
-            // else we simply print their instruction. These requests can be forwarded to other components in the future.
-            while(!line.equals("DISCONNECT")) {
-//                try {
-//                    // line = in.readUTF();
-//
-//                } catch (IOException e) {
-//                    System.out.printf("TPokerThread: Client %s has stopped responding, killing...\n", clientID);
-//                    e.printStackTrace();
-//                    return;
-//                }
             }
+
+            out.writeObject(third);
+            out.writeObject(fourth);
+            out.writeObject(fifth);
+            out.flush();
 
             // close all IO connections
             // client.close(); out.close(); in.close();

@@ -9,7 +9,6 @@ import game.TexasTable;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
@@ -25,13 +24,13 @@ public class TPokerServer implements Runnable {
     protected Thread       ourThread    = null;
     protected ThreadPoolExecutor pool      = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
 
-    ArrayList<Player> socks = new ArrayList<>();
+    ArrayList<Player> players = new ArrayList<>();
 
     protected static int  clientID      = 0;
 
 
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 1;
+    public static final int MAX_PLAYERS = 3;
 
     Deck deck = Deck.getInstance();
 
@@ -93,7 +92,7 @@ public class TPokerServer implements Runnable {
                     player.thread
             );
 
-            socks.add(player);
+            players.add(player);
         }
 
         playStage();
@@ -128,9 +127,100 @@ public class TPokerServer implements Runnable {
                 if(playerActions.containsValue(TAction.RAISE)) {
                     continue;
                 }
+
+                isPreStage = false;
+                isFlop = true;
             }
 
-            System.out.println("Exiting prestage");
+            dealFlop();
+
+            System.out.println("TPokerServer: Flop has been dealt");
+            while(isFlop) {
+                getTableActions();
+
+                if(playerActions.containsValue(TAction.RAISE)) {
+                    continue;
+                }
+
+                isFlop = false;
+                isTurn = true;
+            }
+
+            dealRound("TURN");
+
+            System.out.println("TPokerServer: Turn has been dealt");
+            while(isTurn) {
+                getTableActions();
+
+                if(playerActions.containsValue(TAction.RAISE)) {
+                    continue;
+                }
+
+                isTurn = false;
+                isRiver = true;
+            }
+
+            dealRound("RIVER");
+
+            System.out.println("TPokerServer: River has been dealt");
+            while(isRiver) {
+                getTableActions();
+
+                if(playerActions.containsValue(TAction.RAISE)) {
+                    continue;
+                }
+
+                isRiver = false;
+            }
+
+            System.out.println("TPokerServer: Players should be told their winnings now.");
+
+
+            System.out.println("Exiting pre `stage");
+        }
+    }
+
+    public void dealRound(String round) {
+        for(Player p : players) {
+            if(p.folded)
+                continue;
+
+            if(round.equals("TURN"))
+                p.thread.FLOP_DONE = true;
+
+            if(round.equals("RIVER"))
+                p.thread.TURN_DONE = true;
+
+            dealCard(p);
+        }
+    }
+
+    public void dealFlop() {
+        System.out.println("TPokerServer: Dealing flop");
+
+        for(Player p : players) {
+            if(p.folded)
+                continue;
+
+            p.thread.PRE_FLOP_DONE = true;
+
+            dealCard(p);
+            dealCard(p);
+            dealCard(p);
+        }
+    }
+
+
+    public void dealCard(Player p) {
+
+        Card card = deck.pullCard();
+
+        System.out.println("TPokerServer: Dealing Flop Card: " + card);
+
+        try {
+            p.objOut.writeObject(card);
+        } catch (IOException e) {
+            System.err.println("TPokerServer: Error dealing card");
         }
     }
 
@@ -140,7 +230,11 @@ public class TPokerServer implements Runnable {
      * This gathers all the actions from players currently sat on the table. We'll call this after every stage i.e. flop, river, turn.
      */
     public void getTableActions() {
-        for(Player p : socks) {
+        for(Player p : players) {
+
+            // do nothing if they have folded
+            if(p.folded)
+                continue;
 
             ObjectOutputStream out;
             ObjectInputStream   in;
@@ -160,10 +254,6 @@ public class TPokerServer implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            // do nothing if they have folded
-            if(p.folded)
-                continue;
 
             String message = "";
             boolean validAction = false;

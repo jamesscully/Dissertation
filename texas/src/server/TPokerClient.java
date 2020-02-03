@@ -21,11 +21,14 @@ public class TPokerClient {
 
     public static Scanner stdIn = null;
 
+    // we'll convert this to an array later; this is for 'sketching' purposes.
+    static Card first, second, third, fourth, fifth, sixth, seventh;
+
 
     public static void main(String[] args) {
         Socket sock = null;
 
-        Card first, second;
+
 
         try {
 
@@ -49,17 +52,43 @@ public class TPokerClient {
             second = (Card) in.readObject();
 
             System.out.println(
-                    String.format("Retrieved cards: \n %s \n %s", first, second)
+                    String.format("TPokerClient: Retrieved cards: \n %s \n %s", first, second)
             );
 
 
-            System.out.println("Waiting for server to ask us for response.");
+            System.out.println("TPokerClient: Waiting for server to ask us for response.");
             String ping = in.readUTF();
 
             if(ping.equals("PING")) {
                 System.out.println("What would you like to do? CALL | RAISE X | FOLD");
                 inputResponse();
+            } else {
+                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
+                System.exit(1);
             }
+
+            System.out.println("TPokerClient: Waiting for flop cards");
+
+            third  = (Card) in.readObject();
+            fourth = (Card) in.readObject();
+            fifth  = (Card) in.readObject();
+
+            System.out.printf("TPokerClient: Retrieved cards from flop: \n %s \n %s \n %s\n", third, fourth, fifth);
+
+            ping = in.readUTF();
+
+            if(ping.equals("PING")) {
+                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+                inputResponse();
+            } else {
+                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
+                System.exit(1);
+            }
+
+            // turn
+
+
+
 
         } catch (ConnectException e) {
             System.err.println("TPokerClient: Unable to connect to the server; is it running?");
@@ -82,10 +111,11 @@ public class TPokerClient {
     }
 
     public static void inputResponse() throws IOException {
+        boolean valid = false;
 
         String line = "";
 
-        while(!line.equals("disc")) {
+        while(!valid) {
             try {
                 line = stdIn.nextLine();
 
@@ -101,6 +131,8 @@ public class TPokerClient {
                 out.flush();
 
                 System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
+
+                valid = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
