@@ -87,6 +87,40 @@ public class TPokerClient {
 
             // turn
 
+            System.out.println("TPokerClient: Waiting for turn card");
+
+            sixth = (Card) in.readObject();
+
+            System.out.printf("TPokerClient: Got turn card \n%s", sixth);
+
+            ping = in.readUTF();
+
+            if(ping.equals("PING")) {
+                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+                inputResponse();
+            } else {
+                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
+                System.exit(1);
+            }
+
+            // river
+
+            System.out.println("TPokerClient: Waiting for river card");
+
+            sixth = (Card) in.readObject();
+
+            System.out.printf("TPokerClient: Got river card \n%s", sixth);
+
+            ping = in.readUTF();
+
+            if(ping.equals("PING")) {
+                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+                inputResponse();
+            } else {
+                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
+                System.exit(1);
+            }
+
 
 
 
