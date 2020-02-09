@@ -9,7 +9,7 @@
 \usepackage{geometry}
 \usepackage[square,sort,comma,numbers,super]{natbib}
 \usepackage{pdflscape}
-\usepackage{hyperref}
+\usepackage[colorlinks,allcolors=blue]{hyperref}
 \usepackage{afterpage}
 
 \usepackage[utf8]{inputenc}
@@ -18,13 +18,19 @@
 \definecolor{textred}{rgb}{0.54,0,0}
 \definecolor{textgreen}{rgb}{0,0.43,0}
 
+\usepackage{enumitem}
+\setlist{nosep}
+
 \usepackage{listings}
+\usepackage[export]{adjustbox}
+\usepackage{wrapfig}
+
+
 
 \lstset{language=Java, 
-numbers=left, 
-numberstyle=\tiny, 
+lineskip=-.1cm,
 stepnumber=1,
-numbersep=5pt, 
+numbersep=2pt, 
 tabsize=4,
 basicstyle=\ttfamily,
 keywordstyle=\color{textblue},
@@ -48,8 +54,8 @@ showstringspaces=false}
 \author{James Scully}
 
 \setcounter{tocdepth}{4}
-\setcounter{secnumdepth}{5}
 
+\setcounter{secnumdepth}{5}
 
 
 \begin{document}
@@ -127,8 +133,16 @@ showstringspaces=false}
 	
 	{\Large \textbf{Interim Report:} \pn \ Poker } \linebreak
 	
+
+	\textbf{I hereby declare that  this dissertation is all my own work, except as indicated in the text}\\
+	\textbf{Signature}: J. W. Scully \\
+	\textbf{Date}: 13/12/2019 \linebreak
+	
+	
+	
+	
 	\begin{large}
-		James Scully (4304469) \\
+		James Scully (14304469) \\
 		psyjs20@nottingham.ac.uk \\
 		G400 Computer Science \\
 	\end{large}
@@ -169,38 +183,42 @@ showstringspaces=false}
 
 \section{Introduction}
 
-When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. From the authors own personal experience and observations with free and open software, it can be quite difficult to implement in some areas (such as games), however the ability to control a game how you would like and the ability to not have to rely on companies servers, trudge through in-app payments and ads is a unseen experience today. Some also do not allow for players with unreliable connections to continue; they are simply dropped from the game.  \\
+
+
+Poker is a type of card game that is played and watched in tournaments by many around the world. Because of it's wide popularity, it has spawned multiple types, the most popular one being Texas Hold'em, which is the main type used in both research \hyperlink{research_texas}{(A Gilpin, 2006)} and is the main variant used in the World Series of Poker \hyperlink{wsop_texas}{(WSOP, 2019)}. Other types include the similar yet lesser-known Omaha hold'em and Five-card draw; a simpler type of poker, which does not utilize the typical table seen in both hold'ems. \\
+
+When one looks for a casual poker game that offers power to the actual end user, rather than attempting to fish money it can be quite difficult to find. From the authors own personal experience and observations with free and open software, it can be quite difficult to implement in some areas (such as games), however the ability to control a game how you would like and the ability to not have to rely on companies servers, trudge through in-application payments and ads is a unseen experience today. Some also do not allow for players with unreliable connections to continue; they are simply dropped from the game.  \\
 
 I believe that many of these are far too focused on the financial aspect of the game and neglect the small groups whom simply would like another medium to play poker. This is because lobbies are often not customizable and will drop players whom do not have a good enough network connection to the lobby, so that more players are able to join.  \\
 
 To remedy these issues, Rekop poker will be developed to handle disconnections or unstable connections by reserving their place in the lobby and the ability to join back when the player is available to. It will also not feature micro-transactions and provide the ability for players to host their own servers, with their own settings.
 
-
-
 \section{Motivation}
-Rekop poker aims to provide an alternative to other multi-player applications on the Android app store as many of these prevent user customization and introduce in-app purchases, with no ability for players to play locally on their own network. 
+Rekop poker aims to provide a new, alternative to other multi-player applications on the Google Play store, as many of these prevent user customization and introduce in-application purchases, with no ability for players to play locally on their own network. 
 
-It is for this reason that Rekop poker is being developed, so that there is an open-source alternative where players have the control over the game. 
+It is for this reason that Rekop poker is being developed, so that there is an open-source alternative where players have the control over the game as opposed to company owned servers and incentives to make money. 
 
-
+\newpage
 \section{Methodology}
 
 Test-Driven Development has been essential so far in the development of the poker algorithm. Evaluating Texas Hold'em hands has many vectors of errors and being able to write tests before and alongside implementation helped out immensely. 
 
 Take this snippet from the testing whether a hand is a straight or not: 
 
-\begin{lstlisting}*[language=java]
+\begin{lstlisting}*[language=java,numbers=none]
 assertTrue(new TexasEvaluator("0D 0D 2D KD AD QD JD").isStraight());
 assertTrue(new TexasEvaluator("AD KD QD JD 0D QD JD").isStraight());
-/* Falses */
+/* Falses */ 
 assertFalse(new TexasEvaluator("0D 0D 0D 0D AD QD JD").isStraight());
 assertFalse(new TexasEvaluator("2D 5D 9D JD 0D QD JD").isStraight());
 
 \end{lstlisting}
 
-This allowed me to rapidly create test cases, but more importantly easily generate cases which could break the method itself via edge cases or worst case scenarios. For example, one issue that was resolved was the method would register duplicate cards as being a straight, i.e. only 4 sequential cards would be needed. 
+This allowed me to rapidly create test cases, but more importantly easily generate cases which could break the method itself via edge cases or worst case scenarios. For example, one issue that was resolved was the method would register duplicate cards as being a straight, i.e. only 4 sequential cards would be needed. \\
 
-Agile has also been a driving methodology - primarily creating a very basic yet functional version of the software and accepting of changing requirements. For example, the backend was created first so that the gamemode itself was in an acceptable state. From here, it made it easier to visualize how the server would handle sending, receiving and processing the player's cards. 
+Agile has also been a driving development cycle - primarily creating a very basic yet functional version of the software and accepting of changing requirements. For example, the back-end was created first so that the game mode itself was in an acceptable state. From here, it made it easier to visualize how the server would handle sending, receiving and processing the player's cards. \\
+
+Though this helps develop a certain sector and thus the entire project succeed, as observed by the link of Agile/iterative incentive to success in \hyperlink{agile_success}{(P Serrador, 2015)}, it can lead to over-development of one area and cause tunnel-vision, as was the case with not developing both the poker back-end and the server software at-least somewhat concurrently. For a time-constrained project like this, it is best to find a middle-ground.
 
 
 \newpage
@@ -208,29 +226,29 @@ Agile has also been a driving methodology - primarily creating a very basic yet 
 
 \subsection{Overview}
 
-The project itself is being broken down into three compartments - a backend that satisfies the core Texas Hold'em gamemode, the server which will provide the connections needed for players to play together on their own networks and the Android app, which links both of these together with the graphical interface. 
+The project itself is being broken down into three compartments - a backend that satisfies the core Texas Hold'em gamemode, the server which will provide the connections needed for players to play together on their own networks and the Android application, which links both of these together with the graphical interface. \\
 
-The system as a whole is very server-side, as this holds all the data instead of the clients. Appendix entry 3 shows the basic design of the system, whereby the client only receives its current hand, the ranking of their hand and the cards currently shown on the table. 
+The system as a whole is very server-sided, as this holds all the data instead of the clients. Appendix 7.3 shows the basic design of the system, whereby the client only receives its current hand, the ranking of their hand and the cards currently shown on the table. \\
 
-
-
+For this project, we'll be developing on Android with use of standard Java libraries, though this is subject to change. Artwork will be designed with myself, with the addition of royalty-free music as needed. This will be credited. 
 
 \subsection{Backend}
 
-The backend is written solely in Java as the language itself is platform agnostic - Android being reliant upon Java (bytecode). It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. 
+The backend is written solely in Java as the language itself is platform agnostic - Android being reliant upon Java (bytecode). This also allows for the server to run on Linux, Windows and Mac, as per the requirements. It has been broken down in such a way that game modes other than Texas Hold'em can be added to it, enabling further development down the line. \\
 
 For example, we've created data classes for Faces and Suits, each containing values for easy comparison. Furthermore, we've created a Deck class that allows for the user to pull a random card from a standard 52-card deck and ensure that it hasn't been pulled before. These building blocks allow for future development by providing the basics needed in a standard card game.
 
 
-
+\newpage
 \subsection{Server}
 
 Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance. This is because if the host is to lose connection permanently or temporarily, the rest would be unable to play.
-This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. 
 
-The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player until necessary. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to deal hands out. 
+This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. \\
 
-Therefore, the only messages required by the client to send are their actions, such as how much they are betting, whether they fold or raise. 
+The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player until necessary. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to deal hands out. \\
+
+Therefore, the only messages required by the client to send are their actions, such as how much they are betting, whether they fold or raise. We are still investigating into how we can transform this to allow for disconnection tolerance.
 
 \begin{center}
 \includegraphics[scale=0.65]{server_diag}
@@ -250,10 +268,10 @@ The following figure shows how we've changed our initial wireframe slightly. As 
 		\includegraphics[width=\textwidth]{menuwireframe}
 		\caption{Wireframe}
 	\end{subfigure}	
-	~
+	
 	\begin{subfigure}[h]{0.6\textwidth}
 		\includegraphics[width=\textwidth]{menuapp}
-		\caption{Prototype}
+		\caption{Android sketch}
 	\end{subfigure}	
 	}
 	
@@ -261,24 +279,32 @@ The following figure shows how we've changed our initial wireframe slightly. As 
 	
 \end{figure}
 
+\begin{figure}[h]
+\makebox[\textwidth][c]{
+	\includegraphics[width=\textwidth]{poker_table}
+	}
+	\caption{Android sketch of playing a match}
+	
+\end{figure} 
+
+\newpage
 
 
 \subsection{Algorithms}
 
 \entry{Hand Strength}
-The algorithm for hand-strength is very basic and as such is ineffcient, however this is not the main focus of the project. The base of our algorithm is in a TexasEvaluator class, whereby we test each potential result i.e. straight, flush in their own methods. We then sequentially run these methods in order of ranking, so that we can return a result. 
+The algorithm for hand-strength is very basic and as such is inefficient, however this is not the main focus of the project. The base of our algorithm is in a TexasEvaluator class, whereby we test each potential result i.e. straight, flush in their own methods. We then sequentially run these methods in order of ranking, so that we can return a result. \\
 
 
 \entry{Win evaluation}
-Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result and the highest card. 
+Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result (i.e. Three of a Kind) and the highest card. \\
 
 If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
-
 
 \section{Implementation}
 
 \subsection{Project Requirements}
-Our requirements for the project were not particularly specific, however some core ones were defined in our vision and scope, aswell as project proposal. 
+Our requirements for the project were not particularly specific, however some core ones were defined in our vision and scope, as well as project proposal. 
 
 \subsection{Backend}
 \textbf{Functional}
@@ -308,29 +334,70 @@ Our requirements for the project were not particularly specific, however some co
 
 \textbf{Functional}
 \begin{itemize}
-	\item Runs on devices using Android KitKat
+	\item Runs on devices using Android KitKat and above
 	\item Allows for connecting to servers via IP address
+	\item Scalable interface for screens with low resolutions (1280 x 720)
 \end{itemize}
-\textbf{Non-Functional}
 
+\textbf{Non-Functional}
 \begin{itemize}
-	\item Presents a simple, uncluttered interface
+	\item Presents a simple, uncluttered interface for connecting/joining games
+	\item Presents a simple game screen, with not too much clutter for game statistics
+	\item Presents the users current chips for online matches
+	\item Presents the users current chips within the game
 	\item Presents a server browser for online matches
 \end{itemize}
 
 \newpage
 
+\subsection*{Server}
+The server at this moment in time is very basic and barebones - it only operates on String messages passed back between the server and the client thread and has not yet fully implemented the Texas Hold'em gamemode. \\
 
-\subsection{Card class}
-As mentioned previously, we wanted to add base classes for the ability to add other card games later on. As most card games utilize the standard 52-card deck, we created the Card class to hold typical data - the Face of the card (e.g. Queen) and the Suit (e.g. Clubs). \\
+\begin{wrapfigure}{r}{0.5\textwidth}
+\includegraphics[width=0.9\linewidth]{server_workings} 
+\caption{Current and future workings of inner server}
+\label{fig:wrapfig}
+\end{wrapfigure}
 
+It operates upon a thread-pool, where we can have multiple connections on their own thread, allowing for multiple tasks - in this case, connections - to be processed \hyperlink{threadpool}{(Oracle, 2019)}.  \\
+
+
+Figure 2 shows how the inner workings of the server is speculated to work. Each thread within the pool will communicate with a database or other medium of storage, as this allows for each action to be recorded.\\
+
+
+
+So far, we can communicate between the client and each thread for certain actions, however the next step is to coordinate these requests between, as shown in the figure, a centralized database/storage medium, so that we can pass all actions to our backend evaluator. \\
+
+Figure 3 shows our bi-directional communication between the client connection and its parent thread. Note that though these are simply text messages currently this is the foundation for future development, whereby we can execute necessary code on requests.
+
+Appendix entries 7.5 and 7.6 show our methods currently for both our TPokerThread and TPokerClient.
+
+
+\begin{figure}[h]
+	\makebox[\textwidth][c]{
+	\begin{subfigure}[h]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{demo_server}
+		\caption{Server receiving data from clients}
+	\end{subfigure}	
+	
+	\begin{subfigure}[h]{0.6\textwidth}
+		\includegraphics[width=\textwidth]{demo_client}
+		\caption{Client showing received enums and card, sending commands}
+	\end{subfigure}	
+	}
+	
+	\caption{Demonstration of bidirectional server-client communication}
+	
+\end{figure}
+
+\newpage
 
 \subsection{Face}
-For the face class, we opted to use an enum as these are generic datatypes that are both easy to read in code (they do not need to necessarily be initialized) and can be assigned a value similar to normal classes. 
+For the Face, we opted to use an enumerated type (enums) as these are generic datatypes that are both easy to read in code (they do not need to be initialized each time) and can be assigned values similar to normal classes.  \\
 
-This was chosen because it simplifies reading the code, but they can also easily define other values in their constructor. The code below shows this, as we can set a custom display value, e.g. "Three" and a value for the card. Later on, we can use these values to sort hands and make determining straights much easier.
+This was chosen because it simplifies reading the code, but they can also easily define other values in their constructor. Enums can easily be transferred over a network via their value name or id. The code following shows this, as we can set a custom display value, e.g. "Three" and a value for the card. Later on, we can use these values to sort hands and make determining straights and other results much easier. 
 
-\begin{lstlisting}*[language=java]
+\begin{lstlisting}*[language=java,firstnumber=0]
 public enum Face {
 
 	// these can be accessed as Face.TWO, Face.ACE, etc. 
@@ -338,11 +405,7 @@ public enum Face {
     THREE ("Three", 1),
     FOUR  ("Four", 2),
     FIVE  ("Five", 3),
-    SIX   ("Six", 4),
-    SEVEN ("Seven", 5),
-    EIGHT ("Eight", 6),
-    NINE  ("Nine", 7),
-    TEN   ("Ten", 8),
+	...
     JACK  ("Jack", 9),
     QUEEN ("Queen", 10),
     KING  ("King", 11),
@@ -361,7 +424,7 @@ public enum Face {
 \newpage
 \subsection{Evaluating Hands of Texas Hold'em}
 
-I decided it was best to have multiple methods for evaluating a hands rank as other methods of implementing this involved lookup tables or other more convoluted methods, such as representing cards as 52-bit numbers and performing bitwise operations on them. Though lookup tables are very quick to evaluate \cite{lookup}, I felt that for this project having clear code was more suitable as we intend to open-source it, the same applies with bitwise operations. 
+I decided it was best to have multiple methods for evaluating a hands rank as other methods of implementing this involved lookup tables or other more convoluted methods, such as representing cards as 52-bit numbers and performing bitwise operations on them. Though lookup tables are very quick to evaluate \hyperlink{lookup}{(L. Teofilo, 2013)}, I felt that for this project having clear and handwritten code was more suitable as this project is marked upon my own work. It also is much easier to read than bit-wise operations or complex lookup-table generation. \\
 
 The evaluate method itself contains the following code: 
 
@@ -409,23 +472,17 @@ This hand's highest rank would be a straight, as we 10 - 5 in the hand; though t
 
 Take for example we start off with the first card, 10 of Diamonds. We would have to find any card on the table that is either a Jack or a 9. From here, we would then have to branch off and see if there is a card that is a Queen or an Eight, for either direction. This would have to be done for each card on the table, and optimizations would make the code more complex and introduce more areas where bugs or incorrect results can slip in.\\
 
-However, since we have assigned each of the Faces values as seen previously in Section 5.2 we can use Java's Collections library to sort our cards from highest to lowest. This way, we only need to search in one direction, i.e. if the next card is lower than our current one; which is shown in Appendix entry 4.
+However, since we have assigned each of the Faces values as seen previously in Section 5.2 we can use Java's Collections library to sort our cards from highest to lowest. This way, we only need to search in one direction, i.e. if the next card is lower than our current one; which is shown in Appendix 7.4. This will reduce code complexity and also the worst case scenario; we don't have to arbitrarily search the entire deck for an 'adjacent' number.
 
 
 \newpage
 \section{Progress}
 \subsection{Management}
-
 To help me manage what needs to be done in the project and primarily drive development, GitLab issues tracker have been made for various tasks that need to be completed. These are easy to read via the use of labels and offer reminders through school email. In addition to this, branches are created for each issue to manage changes to code.  \\
 
 In the initial design stages, I focused on the vision and scope whereby outlining the ideal product but also the bare essentials for the project. Working under agile principles, I focused on getting a usable algorithm for evaluating poker hands as this gives us early ideas from where to go next or problems that would arise; once we had this to a good state, research for how the server will handle sending these objects or communicating became easier.  \\
 
-Appendix entries 1 and 2 show the old and the new Gantt charts. Upon developing the backend, I realised that no databases and thus database classes were needed in this part. Later on during the end stages of the servers development, databases will be used for online play, and can be removed at this stage. Therefore, server tasks aswell as implementing them into the Android app have been brought forward, as these are critical.  \\
-
-
-
-
-
+Appendix 7.1 and 7.2 show the old and the new Gantt charts. Upon developing the backend, I realised that no databases and thus database classes were needed in this part. Later on during the end stages of the servers development, databases will be used for online play, and can be removed at this stage. Therefore, server tasks aswell as implementing them into the Android application have been brought forward, as these are critical.  \\
 
 \subsection{Contributions and Reflections}
 
@@ -433,9 +490,13 @@ A key goal of all software is that it must be efficient - both in terms of code 
 
 It is therefore that the algorithm currently used is very compartmentalized, and potentially slower than some implementations (such as look-up tables or doing bit-wise operations). For example, it takes between 50 - 100ms for one result to be calculated on a desktop computer. Since most servers will be running on one, it doesn't particularly matter about the performance as much as the other aspects of the program.\\
 
-Reflecting upon how I assumed Test-Driven Development would take much of our time before and during up and that we did not have "too much time to write tests and develop a fully-functional program", this couldn't have been further from the truth. Having instant feedback on whether it passed, what the result was and the ability to debug into it was essential. \\
+\newpage
 
-Although, initially I was under the assumption that each test case was going to have to be made up of newly created objects. Test cases wrote this way were taking too long and becoming a nuisance to write. Instead, I created a factory-esque pattern within the evaluator class itself to resolve, for example, "0D 0D 2D KD AD QD JD" into an actual hand + table cards.  \\
+Reflecting upon how I assumed Test-Driven Development would take much of our time before and during up and that we did not have "too much time to write tests and develop a fully-functional program", this proved to be false. Having instant feedback on whether it passed, what the result was and the ability to debug into it was essential. \\
+
+
+
+Although, initially I was under the assumption that each test case was going to have to be made up of newly created objects. Test cases wrote this way were lengthy and becoming a nuisance to write. Instead, I created a factory-esque pattern within the evaluator class itself to resolve, for example, "0D 0D 2D KD AD QD JD" into a testable hand of cards.  \\
 
 The example below shows how writing test cases becomes much easier through this method, rather than creating a new object for each test case.
 
@@ -463,21 +524,20 @@ assertTrue(new TexasEvaluator("4C 4C 4C 4C AC QS JC").isFlush());
 
 \subsection*{Conclusion}
 
-Currently, I am satisfied with the backend of the project as the main area of concern was accuracy in determining the outcome of a game. The use of unit tests has taught me how to effectively break a problem down into small, testable blocks of code and then re-construct them into an algorithm. \\
+Currently, I am satisfied with the backend of the project as the main area of concern for this area was accuracy in determining the outcome of a game. The use of unit tests has taught me how to effectively break a problem down into small, testable blocks of code and then re-construct them into an algorithm. \\
 
 
-However, I think that one area to work on would be time management and consequently gauging how much time tasks will take; in particular the next step which is the server. This next step is not so easy to debug as it is not as easy as sequencing certain blocks of code together to create a system and most certainly not easy to debug. Therefore, I have pushed these tasks to the front of jobs to be done and allowed myself more time for these.
+However, I think that one area to work on would be time management and consequently gauging how much time tasks will take and overlooking key parts of this project; in particular the next step which is the server. This next step is not so easy to debug as it is not as easy as sequencing certain blocks of code together to create a system and most certainly not easy to debug. Therefore, I have pushed these tasks to the front of jobs to be done and allowed myself more time for these, as seen in the Gantt charts in the Appendix.
 
 \newpage
 
 \section{Appendix}
 
-\textbf{1. Old Gantt Chart} \\
-
+\subsection{Old Gantt Chart}
 \includegraphics[width=\textwidth]{gantt_chart}
 
 \newpage
-\textbf{2. New Gantt Chart}
+\subsection{New Gantt Chart}
 
 Color chart:
 
@@ -490,76 +550,180 @@ Red = deleted\\
 
 
 \newpage
-\textbf{3. Whole system design}
+\subsection{Abstract System Design}
 
 \includegraphics[width=\textwidth]{wholesystem}
 
 
 \newpage 
 
-\textbf{4. Straight method}
+\subsection{Straight method}
 
 All cards are sorted before this and other methods in the evaluator are called.
 
 \begin{lstlisting}
-    public TResult isStraight() {
-        int valStreak = 0;
-        int suitStreak = 0;
-        int origin = 0;
+public TResult isStraight() {
+	int valStreak = 0;
+	int suitStreak = 0;
+	int origin = 0;
 
-        // our previous value going in should be the first in the sorted array
-        // note: cards is a class member containing all cards in the evaluator, 
-        // sorted high to low.
-        int previousVal = cards.get(0).getValue();
-        Suit previousSuit   = cards.get(0).getSuit();
+	// our previous value going in should be the first in the sorted array
+	// note: cards is a class member containing all cards in the evaluator, 
+	// sorted high to low.
+	int previousVal = cards.get(0).getValue();
+	Suit previousSuit   = cards.get(0).getSuit();
 
-        for(int i = 1; i < 7; i++)  {
+	for(int i = 1; i < 7; i++)  {
+		// these are the attributes of card i
+		Card card   = cards.get(i);
+		Suit suit   = card.getSuit();
+		int  value  = card.getValue();
 
-            // these are the attributes of card i
-            Card card   = cards.get(i);
-            Suit suit   = card.getSuit();
-            int  value  = card.getValue();
+		// if we have a previous card of same value, just skip over.
+		if(previousVal == value)
+			continue;
 
-            // if we have a previous card of same value, just skip over.
-            if(previousVal == value)
-                continue;
+		// if the previous card was higher than the current, then add to streak
+		// else, reset counter to 0.
+		if(previousVal == value + 1) {
+			valStreak++;
 
-            // if the previous card was higher than the current, then add to streak
-            // else, reset counter to 0.
-            if(previousVal == value + 1) {
-                valStreak++;
+			if(suit == previousSuit)
+				suitStreak++;
+			else
+				suitStreak = 0;
 
-                if(suit == previousSuit)
-                    suitStreak++;
-                else
-                    suitStreak = 0;
+		} else {
+			valStreak = 0;
+			origin = i;
+		}
 
-            } else {
-                valStreak = 0;
-                origin = i;
-            }
+		// if we've already managed a straight, then return true.
+		// note that this should return the highest STRAIGHT, as we're descending down.
+		if(valStreak == 4) {
+			// this removes the need for ANOTHER function for Strt. Flushes.
+			if(suitStreak == 4)
+				StraightFlushFlag = true;
 
-            // if we've already managed a straight, then return true.
-            // note that this should return the highest STRAIGHT, as we're descending down.
-            if(valStreak == 4) {
-                // this removes the need for ANOTHER function for Strt. Flushes.
-                if(suitStreak == 4)
-                    StraightFlushFlag = true;
+			Face high = cards.get(origin).face;
+			Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
 
-                Face high = cards.get(origin).face;
-                Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
+			return new TResult(high, result);
+		}
 
-                System.out.println("Returning true, high card: " + high + "rank:" + result);
-
-                return new TResult(high, result);
-            }
-
-            previousVal = value;
-            previousSuit = suit;
-        }
-        return null;
-    }
+		previousVal = value;
+		previousSuit = suit;
+	}
+	return null;
+}
 \end{lstlisting}
+\newpage
+
+\subsection{TPokerThread run method}
+\begin{lstlisting}[breaklines=true]
+@Override
+public void run() {
+	try {
+
+		DataInputStream in  = new DataInputStream(new BufferedInputStream(client.getInputStream()));
+		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
+
+// concatenate data (in this case ID), face and suit as a string
+		String sendData = data + " " + face + " " + suit;
+		System.out.println("Sending data: " + sendData);
+
+// write the full data string to our client's input stream.
+		out.writeUTF(sendData);
+		out.flush();
+		
+		String line = "";
+
+// read input from the user. If we receive DISCONNECT, then we close the connection.
+// else we simply print their instruction. These requests can be forwarded to other components in the future.
+		while(!line.equals("DISCONNECT")) {
+			try {
+				line = in.readUTF();
+
+				if(line.equals("CALL")) {
+					System.out.printf("ClientID: %s has called for next round\n", data);
+				} else if (line.equals("FOLD")) {
+					System.out.printf("ClientID: %s has folded\n", data);
+				} else if (line.split("\\s+")[0].equals("RAISE")) {
+					System.out.printf("ClientID: %s has raised by: %s\n", data, line.split("\\s+")[1]);
+				} else {
+					System.out.printf("ClientID: %s, Message: %s\n", data, line);
+				}
+			} catch (IOException e) {
+				System.out.println(e);
+			}
+		}
+
+		// close all IO connections
+		client.close(); out.close(); in.close();
+
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+\end{lstlisting}
+\newpage
+
+\subsection{TPokerClient main method}
+\begin{lstlisting}[breaklines=true]
+public static void main(String[] args) {
+	Socket sock = null;
+
+	DataOutputStream out = null;
+	DataInputStream  in  = null;
+	ObjectInputStream servOut = null;
+
+	try {
+// for now, connect to localhost (127.0.0.1) on port 1337.
+// later, this will be replaced with the servers external IP address
+		sock = new Socket("127.0.0.1", 1337);
+		System.out.println("Connected");
+
+		// in is our input stream, in this case command-line
+		// out is the servers
+		in = new DataInputStream(System.in);
+		out = new DataOutputStream(sock.getOutputStream());
+
+		// this is the connection to our TPokerThread
+		servOut = new ObjectInputStream(sock.getInputStream());
+
+		String line = (String) servOut.readUTF();
+
+		// parse our clientID and initial card details - todo: pass two cards
+		if(line == null || line.isEmpty()) {
+			System.out.println("Line was null or empty");
+		} else {
+			System.out.println("Retrieved data (connectionID, Face, Suit): " + line);
+			// re-build a Card object from Face and Suit enums
+			getCardFromData(line);
+		}
+
+	} catch (IOException i) {
+		System.out.println("Exception Caught");
+		i.printStackTrace();
+	}
+
+	String line = "";
+
+	// this will fail when we have a disconnect message, and close IO
+	while(!line.equals("DISCONNECT")) {
+		try {
+			line = in.readLine();
+			out.writeUTF(line);
+		} catch (IOException e) { e.printStackTrace(); }
+	}
+
+	try {
+		in.close(); out.close(); sock.close();
+	} catch (IOException e) { e.printStackTrace(); }
+
+}
+\end{lstlisting}
+
 
 
 
@@ -570,12 +734,53 @@ All cards are sorted before this and other methods in the evaluator are called.
 \renewcommand\refname{Bibliography}
 \begin{thebibliography}{9}
 
+% https://people.eecs.ku.edu/~saiedian/Teaching/Sp19/811/Papers/Agility/does-agile-work.pdf#s0055
+\bibitem{agile_success}
+\hypertarget{agile_success}{}
+\begin{flushleft}
+	Pedro Serrador, Jeffrey K. Pinto \\
+	\textit{Does Agile work?—A quantitative analysis of agileproject success} \\
+	Source in paragraph: \textit{4. Results} \\
+	Retrieved from \url{https://people.eecs.ku.edu/~saiedian/Teaching/Sp19/811/Papers/Agility/does-agile-work.pdf#s0055}
+\end{flushleft}
+
+
 \bibitem{lookup}
 \begin{flushleft}
+\hypertarget{lookup}{}
 	Luís Filipe Teófilo, Luís Paulo Reis, Henrique Lopes Cardoso \\
 	\textit{Speeding-Up Poker Game Abstraction Computation: Average Rank Strength} \\
 	Source in paragraph: \textit{2. Background} \\
 	Retrieved from \url{https://www.aaai.org/ocs/index.php/WS/AAAIW13/paper/view/7083/6489}
+\end{flushleft}
+
+% https://www.cs.cmu.edu/~sandholm/texas_demo.aamas-06.pdf 2.1 Texas Hold'em
+\bibitem{research_texas}
+\begin{flushleft}
+\hypertarget{research_texas}{}
+	Andrew Gilpin, Tuomas Sandholm \\
+	\textit{A Texas Hold’em poker player based on automated abstraction and real-time equilibrium computation} \\
+	Source in paragraph: \textit{2.1 Texas Hold'em} \\
+	Retrieved from \url{https://www.cs.cmu.edu/~sandholm/texas_demo.aamas-06.pdf}
+\end{flushleft}
+
+
+% https://www.wsop.com/tournaments/updates/?aid=4&grid=1628&tid=17580&dayof=8298&rr=5
+\bibitem{wsop_texas}
+\hypertarget{wsop_texas}{}
+\begin{flushleft}
+	World Series of Poker \\
+	\textit{Champion Wins Main Event No-Limit Hold'em} \\
+	Source in paragraph (uses Texas Hold'em terminology): \textit{Claas Segebrecht Eliminated in 2nd Place} \\
+	Retrieved from \url{https://www.wsop.com/tournaments/updates/?aid=4&grid=1628&tid=17580&dayof=8298&rr=5}
+\end{flushleft}
+
+\bibitem{threadpool}
+\hypertarget{threadpool}{}
+\begin{flushleft}
+	Oracle \\
+	\textit{Thread Pools Documentation} \\
+	Retrieved from \url{https://docs.oracle.com/javase/tutorial/essential/concurrency/pools.html}
 \end{flushleft}
 
 
