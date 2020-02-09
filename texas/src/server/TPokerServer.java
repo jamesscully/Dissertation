@@ -125,106 +125,68 @@ public class TPokerServer implements Runnable {
         System.out.println("TPokerServer: Entered PlayStage");
 
 
-        while(isPlayStage) {
-
-            while(isPreStage) {
-                // this will block the thread until all players have made their move.
-                getTableActions();
-
-                // we'll want to keep this stage going, until no raises have been made
-                if(playerActions.containsValue(TAction.RAISE)) {
-                    sendGlobalMessage(MSG_STAY);
-                    continue;
-                }
-
-                sendGlobalMessage(MSG_NEXT);
-                
-                isPreStage = false;
-                isFlop = true;
-            }
-
-            dealFlop();
-
-            System.out.println("TPokerServer: Flop has been dealt");
-            while(isFlop) {
-                getTableActions();
-
-                if(playerActions.containsValue(TAction.RAISE)) {
-                    sendGlobalMessage(MSG_STAY);
-                    continue;
-                }
-
-                sendGlobalMessage(MSG_NEXT);
-                isFlop = false;
-                isTurn = true;
-            }
-
-            dealRound("TURN");
-
-            System.out.println("TPokerServer: Turn has been dealt");
-            while(isTurn) {
-                getTableActions();
-
-                if(playerActions.containsValue(TAction.RAISE)) {
-                    sendGlobalMessage(MSG_STAY);
-                    continue;
-                }
-
-                sendGlobalMessage(MSG_NEXT);
-                isTurn = false;
-                isRiver = true;
-            }
-
-            dealRound("RIVER");
-
-            System.out.println("TPokerServer: River has been dealt");
-            while(isRiver) {
-                getTableActions();
-
-                if(playerActions.containsValue(TAction.RAISE)) {
-                    sendGlobalMessage(MSG_STAY);
-                    continue;
-                }
-
-                sendGlobalMessage(MSG_NEXT);
-                isRiver = false;
-            }
-
-            System.out.println("TPokerServer: Players should be told their winnings now.");
-            System.out.println("Exiting pre stage");
+        while(round != Round.RESULT) {
+            processRound();
         }
+
+        System.out.println("TPokerServer: Players should be told their winnings now.");
+        System.out.println("Exiting pre stage");
     }
 
     public void processRound() {
-        getTableActions();
 
-        if(playerActions.containsValue(TAction.RAISE)) {
-            sendGlobalMessage(MSG_STAY);
-             // continue;
-        }
+        boolean canMove = false;
 
-        sendGlobalMessage(MSG_NEXT);
+        while(!canMove) {
+            getTableActions();
 
-        round = Round.nextRound(round);
-    }
-
-
-    public void dealRound(String round) {
-        for(Player p : players) {
-            if(p.folded)
+            if (playerActions.containsValue(TAction.RAISE)) {
+                sendGlobalMessage(MSG_STAY);
                 continue;
+            }
 
-            if(round.equals("TURN"))
-                p.thread.FLOP_DONE = true;
+            canMove = true;
 
-            if(round.equals("RIVER"))
-                p.thread.TURN_DONE = true;
+            sendGlobalMessage(MSG_NEXT);
 
-            System.out.println("Dealing round " + round);
+            round = Round.nextRound(round);
 
-            dealCard(p);
+            dealRound();
         }
     }
+
+    public void dealRound() {
+        if(round == Round.FLOP) {
+            dealFlop();
+        }
+
+        if(round == Round.RIVER || round == Round.TURN) {
+            for(Player p : players) {
+
+                if(p.folded)
+                    continue;
+
+                dealCard(p);
+            }
+        }
+    }
+
+//    public void dealRound(String round) {
+//        for(Player p : players) {
+//            if(p.folded)
+//                continue;
+//
+//            if(round.equals("TURN"))
+//                p.thread.FLOP_DONE = true;
+//
+//            if(round.equals("RIVER"))
+//                p.thread.TURN_DONE = true;
+//
+//            System.out.println("Dealing round " + round);
+//
+//            dealCard(p);
+//        }
+//    }
 
     public void sendGlobalMessage(String message) {
         try {
