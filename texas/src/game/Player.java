@@ -43,8 +43,6 @@ public class Player {
             objOut = new ObjectOutputStream(socket.getOutputStream());
             objIn  = new ObjectInputStream (socket.getInputStream());
 
-            System.out.println("Creating out/in streams with IDs\n\t" + objOut + "\n\t" + objIn);
-
             Card c1, c2;
 
             // we'll pull the first two cards here

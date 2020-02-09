@@ -32,7 +32,7 @@ public class TPokerServer implements Runnable {
 
 
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 3;
+    public static final int MAX_PLAYERS = 1;
 
     public static final String MSG_NEXT = "NEXT";
     public static final String MSG_STAY = "STAY";
@@ -112,7 +112,7 @@ public class TPokerServer implements Runnable {
 
     Round round = Round.PREFLOP;
 
-    boolean isPreStage = true, isFlop = false, isTurn = false, isRiver = false;
+    boolean isPreStage = true;
 
     private void playStage() {
 
@@ -137,6 +137,9 @@ public class TPokerServer implements Runnable {
 
         boolean canMove = false;
 
+        if(round == Round.FLOP)
+            isPreStage = false;
+
         while(!canMove) {
             getTableActions();
 
@@ -155,6 +158,8 @@ public class TPokerServer implements Runnable {
         }
     }
 
+
+
     public void dealRound() {
         if(round == Round.FLOP) {
             dealFlop();
@@ -162,31 +167,17 @@ public class TPokerServer implements Runnable {
 
         if(round == Round.RIVER || round == Round.TURN) {
             for(Player p : players) {
-
                 if(p.folded)
                     continue;
 
+                p.thread.FLOP_DONE = round == Round.TURN;
+                p.thread.TURN_DONE = round == Round.RIVER;
+
+                System.out.println("TPokerServer: Dealing round: " + round);
                 dealCard(p);
             }
         }
     }
-
-//    public void dealRound(String round) {
-//        for(Player p : players) {
-//            if(p.folded)
-//                continue;
-//
-//            if(round.equals("TURN"))
-//                p.thread.FLOP_DONE = true;
-//
-//            if(round.equals("RIVER"))
-//                p.thread.TURN_DONE = true;
-//
-//            System.out.println("Dealing round " + round);
-//
-//            dealCard(p);
-//        }
-//    }
 
     public void sendGlobalMessage(String message) {
         try {
@@ -209,9 +200,9 @@ public class TPokerServer implements Runnable {
     }
 
     public void dealFlop() {
-        System.out.println("TPokerServer: Dealing flop");
-
         for(Player p : players) {
+            System.out.print("TPokerServer: Dealing flop ");
+
             if(p.folded)
                 continue;
 
@@ -220,15 +211,16 @@ public class TPokerServer implements Runnable {
             dealCard(p);
             dealCard(p);
             dealCard(p);
+
+            System.out.println();
         }
     }
 
 
     public void dealCard(Player p) {
-
         Card card = deck.pullCard();
 
-        System.out.println("TPokerServer: Dealing Flop Card: " + card);
+        System.out.printf("(%s) ", card);
 
         try {
             p.objOut.writeObject(card);
@@ -256,11 +248,7 @@ public class TPokerServer implements Runnable {
             out = p.objOut;
             in  = p.objIn;
 
-            System.out.println("Using out/in streams with IDs\n\t" + out + "\n\t" + in);
-
             try {
-                System.out.println("TPokerServer: Sending PING request");
-
                 // the PING is just a name to tell the client we need their input.
                 // this prevents race conditions where client B would be ignored if A was chosen b4
                 out.writeUTF("PING");
@@ -274,11 +262,11 @@ public class TPokerServer implements Runnable {
 
             try {
                 while(!validAction) {
-                    System.out.println("TPokerServer: waiting for input (action) ...");
+                    System.out.print("TPokerServer: waiting for input (action) ... ");
 
                     message = in.readUTF();
 
-                    System.out.println("TPokerServer: received input " + message);
+                    System.out.print(message + "... ");
 
                     TAction action = TAction.parseTAction(message);
 
@@ -305,10 +293,10 @@ public class TPokerServer implements Runnable {
                         continue;
                     }
 
-                    System.out.println("TPokerServer: invalid input: " + message);
+                    System.out.println("invalid");
                 }
 
-                System.out.println("TPokerServer: received valid input: " + message);
+                System.out.println("valid");
 
             } catch (EOFException e) {
                 System.err.println("TPokerServer: EOFException Caught");

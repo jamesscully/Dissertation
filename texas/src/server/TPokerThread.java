@@ -38,9 +38,7 @@ public class TPokerThread implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.println("TPokerThread: Sending first card...");
             out.writeObject(first);
-            System.out.println("TPokerThread: Sending second card...");
             out.writeObject(second);
             out.flush();
 
