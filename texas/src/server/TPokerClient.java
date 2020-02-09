@@ -24,11 +24,14 @@ public class TPokerClient {
     // we'll convert this to an array later; this is for 'sketching' purposes.
     static Card first, second, third, fourth, fifth, sixth, seventh;
 
+    boolean PRE_FLOP_DONE = false;
+    boolean FLOP_DONE     = false;
+    boolean TURN_DONE     = false;
+    boolean RIVER_DONE    = false;
+
 
     public static void main(String[] args) {
         Socket sock = null;
-
-
 
         try {
 
@@ -38,6 +41,8 @@ public class TPokerClient {
             // sock.setSoTimeout(SOCKET_TIMEOUT);
 
             System.out.println("TPokerClient: Connecting...");
+
+
 
             // in is our input stream, in this case command-line
             // out is the servers
@@ -55,17 +60,12 @@ public class TPokerClient {
                     String.format("TPokerClient: Retrieved cards: \n %s \n %s", first, second)
             );
 
-
             System.out.println("TPokerClient: Waiting for server to ask us for response.");
-            String ping = in.readUTF();
 
-            if(ping.equals("PING")) {
-                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
-                inputResponse();
-            } else {
-                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
-                System.exit(1);
-            }
+            String move = "";
+
+            // we want to get our input first, then see if we need to stay
+            queryAction();
 
             System.out.println("TPokerClient: Waiting for flop cards");
 
@@ -75,15 +75,7 @@ public class TPokerClient {
 
             System.out.printf("TPokerClient: Retrieved cards from flop: \n %s \n %s \n %s\n", third, fourth, fifth);
 
-            ping = in.readUTF();
-
-            if(ping.equals("PING")) {
-                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
-                inputResponse();
-            } else {
-                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
-                System.exit(1);
-            }
+            queryAction();
 
             // turn
 
@@ -93,35 +85,17 @@ public class TPokerClient {
 
             System.out.printf("TPokerClient: Got turn card \n%s", sixth);
 
-            ping = in.readUTF();
-
-            if(ping.equals("PING")) {
-                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
-                inputResponse();
-            } else {
-                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
-                System.exit(1);
-            }
+            queryAction();
 
             // river
 
             System.out.println("TPokerClient: Waiting for river card");
 
-            sixth = (Card) in.readObject();
+            seventh = (Card) in.readObject();
 
-            System.out.printf("TPokerClient: Got river card \n%s", sixth);
+            System.out.printf("TPokerClient: Got river card \n%s", seventh);
 
-            ping = in.readUTF();
-
-            if(ping.equals("PING")) {
-                System.out.println("What would you like to do? CALL | RAISE X | FOLD");
-                inputResponse();
-            } else {
-                System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
-                System.exit(1);
-            }
-
-
+            queryAction();
 
 
         } catch (ConnectException e) {
@@ -141,7 +115,30 @@ public class TPokerClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * This waits for our input, then if we receive a STAY message (i.e. RAISE) we repeat
+     * @throws IOException
+     */
+    private static void queryAction() throws IOException {
+        do
+            waitForInput();
+        while ((in.readUTF().equals("STAY")));
+    }
+
+
+    private static void waitForInput() throws IOException {
+        String ping;
+        ping = in.readUTF();
+
+        if (ping.equals("PING")) {
+            System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+            inputResponse();
+        } else {
+            System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
+            System.exit(1);
+        }
     }
 
     public static void inputResponse() throws IOException {

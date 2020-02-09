@@ -33,6 +33,8 @@ public class TPokerThread implements Runnable {
     boolean TURN_DONE     =  false;
     boolean RIVER_DONE    = false;
 
+    boolean CONNECTED = true;
+
     @Override
     public void run() {
         try {
@@ -46,10 +48,16 @@ public class TPokerThread implements Runnable {
 
             }
 
-            out.writeObject(third);
-            out.writeObject(fourth);
-            out.writeObject(fifth);
-            out.flush();
+//            out.writeObject(third);
+//            out.writeObject(fourth);
+//            out.writeObject(fifth);
+//            out.flush();
+
+            while(!FLOP_DONE) {
+
+            }
+
+
 
             // close all IO connections
             // client.close(); out.close(); in.close();
