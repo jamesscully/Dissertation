@@ -4,6 +4,7 @@ import cards.Card;
 import cards.Deck;
 import cards.Hand;
 import cards.TexasHand;
+import enums.PlayerInfo;
 import server.TPokerThread;
 
 import java.io.*;
@@ -23,7 +24,6 @@ public class Player {
 
     public ObjectInputStream  objIn;
     public ObjectOutputStream objOut;
-
 
     public TPokerThread thread;
 
@@ -49,7 +49,10 @@ public class Player {
             c1 = Deck.getInstance().pullCard();
             c2 = Deck.getInstance().pullCard();
 
-            thread = new TPokerThread(socket, Integer.toString(_id), c1, c2);
+            thread = new TPokerThread(socket, Integer.toString(_id));
+
+            objOut.writeObject(c1);
+            objOut.writeObject(c2);
 
             // assign the threads in/out here; we can keep track of it.
             thread.in   = objIn;
@@ -59,6 +62,9 @@ public class Player {
             System.err.println("Player: Error occured");
             e.printStackTrace();
         }
+    }
 
+    public PlayerInfo getPlayerInfo() {
+        return new PlayerInfo(id, chips);
     }
 }

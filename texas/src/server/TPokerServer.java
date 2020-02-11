@@ -85,11 +85,6 @@ public class TPokerServer implements Runnable {
                 throw new RuntimeException("Client connection error", e);
             }
 
-            Card drawOne = deck.pullCard();
-            Card drawTwo = deck.pullCard();
-
-            System.out.println("TPokerServer: Passing cards: " + drawOne + " and " + drawTwo);
-
             Player player = new Player(client);
 
             this.pool.execute(
@@ -116,6 +111,7 @@ public class TPokerServer implements Runnable {
 
     private void playStage() {
 
+        // pause thread for 2 seconds; allows for clients to sync
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -124,9 +120,24 @@ public class TPokerServer implements Runnable {
 
         System.out.println("TPokerServer: Entered PlayStage");
 
+        for(Player p : players) {
 
+            // disallow if the player cannot make the minimum bet
+            if(p.chips < MIN_BET) {
+                p.folded = true;
+                continue;
+            }
+
+            // else, subtract the bet + add to pot
+            p.chips -= MIN_BET;
+            POT += MIN_BET;
+        }
+
+        // while we're not in the result stage, perform each round
         while(round != Round.RESULT) {
             processRound();
+
+            System.err.println("TPokerServer: Server Current round = " + round);
         }
 
         System.out.println("TPokerServer: Players should be told their winnings now.");
@@ -144,14 +155,29 @@ public class TPokerServer implements Runnable {
             getTableActions();
 
             if (playerActions.containsValue(TAction.RAISE)) {
+
+                int maxRaise = Integer.MIN_VALUE;
+
+                // find the max raise that anyone has given, this will be used for the current bet
+                for(TAction x : playerActions.values()) {
+                    if(x.value > maxRaise) {
+                        maxRaise = x.value;
+                    }
+                }
+
+                CUR_BET = maxRaise;
+
+                // if we've raised, every player will have to send their new actions
                 sendGlobalMessage(MSG_STAY);
                 continue;
             }
 
             canMove = true;
 
+            // let each player know they can move their state
             sendGlobalMessage(MSG_NEXT);
 
+            // move to next round if everyone has checked/folded (not raised)
             round = Round.nextRound(round);
 
             dealRound();
@@ -183,6 +209,9 @@ public class TPokerServer implements Runnable {
         try {
             for(Player p : players) {
                 p.objOut.writeUTF(message);
+
+                if(message.equals(MSG_NEXT))
+                    p.objOut.writeObject(p.getPlayerInfo());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -203,6 +232,7 @@ public class TPokerServer implements Runnable {
         for(Player p : players) {
             System.out.print("TPokerServer: Dealing flop ");
 
+            // if they've folded, we don't need to deal them cards
             if(p.folded)
                 continue;
 
