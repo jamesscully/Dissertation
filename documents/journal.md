@@ -47,6 +47,11 @@ Changed the Hand class to TexasHand specifically for that gamemode. Moreover, us
 
 - Changed our evaluator to use TResults. This allows for in the future, where we will want to relay the highest card within a result, i.e. Pair (King High)
 
+**Dec/Jan Onwards**
+Implemented server basics; only simple message passing between client-thread.
+
+Now implemented a method of passing input through thread to main server programming; need to work on synchronizing aspects of it.
+
 
 
 #### Frontend changes
@@ -68,3 +73,6 @@ Bug fixes should be in the format of:
 >**Bug fixed at commit:** HASH \
 >**Bug description:** This is an example description \
 >**Discovery notes:** This bug was found with magic
+
+
+

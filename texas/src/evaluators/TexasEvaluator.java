@@ -8,10 +8,7 @@ import enums.Rank;
 import game.TResult;
 import game.TexasTable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class TexasEvaluator {
@@ -60,11 +57,9 @@ public class TexasEvaluator {
     public TResult evaluate() {
 
         // these conditions must be done in sequence, for order of rankings
-
         TResult kindOutput = getKinds();
 
         // this is required so that StraightFlushFlag is set
-
         TResult isStraight = isStraight();
 
         // variable to hold each test

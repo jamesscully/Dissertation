@@ -8,15 +8,25 @@ public class TexasTable {
     Deck deck = Deck.getInstance();
     public TexasHand tableCards;
 
-    public TexasTable(Player... players) {
-        tableCards = deck.pullHand();
+    public TexasTable() {
+        tableCards = new TexasHand();
         tableCards.IS_TABLE = true;
     }
 
-    public TexasTable(TexasHand debugHand) {
-        tableCards = debugHand;
-        tableCards.IS_TABLE = true;
+    public void pullFlop() {
+        tableCards.addCard(deck.pullCard());
+        tableCards.addCard(deck.pullCard());
+        tableCards.addCard(deck.pullCard());
     }
+
+    public void pullTurn() {
+        tableCards.addCard(deck.pullCard());
+    }
+
+    public void pullRiver() {
+        tableCards.addCard(deck.pullCard());
+    }
+
 
 
 

@@ -3,10 +3,11 @@ package cards;
 import enums.Face;
 import enums.Suit;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Card implements Comparable<Card> {
+public class Card implements Comparable<Card>, Serializable {
 
     private final Suit suit;
     public final Face face;
@@ -16,6 +17,14 @@ public class Card implements Comparable<Card> {
         this.face = v;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return suit == card.suit &&
+                face == card.face;
+    }
 
     @Override
     public int hashCode() {
@@ -38,8 +47,13 @@ public class Card implements Comparable<Card> {
         return suit;
     }
 
+    @Override
+    public String toString() {
+        return "" + face.name() + " of " + suit.name;
+    }
+
     /**
-     * Used to fuzz-test functions, i.e. {@link TexasHand#getKinds()} where a null value could be returned
+     * Used to fuzz-test functions, where a null value could be returned
      * @return a randomly generated card
      */
     public static Card getRandomCard() {
@@ -51,11 +65,8 @@ public class Card implements Comparable<Card> {
         return new Card(s, v);
     }
 
-
-
     @Override
     public int compareTo(Card card) {
-
         return getValueInteger().compareTo(card.getValueInteger());
     }
 
