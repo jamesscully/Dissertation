@@ -3,12 +3,15 @@ package evaluators;
 import cards.Card;
 import cards.TexasHand;
 import enums.Face;
-import enums.Suit;
 import enums.Rank;
+import enums.Suit;
 import game.TResult;
 import game.TexasTable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class TexasEvaluator {

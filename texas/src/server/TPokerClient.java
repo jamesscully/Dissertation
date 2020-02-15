@@ -1,9 +1,13 @@
 package server;
 
 import cards.Card;
-import enums.*;
+import enums.PlayerInfo;
+import enums.Round;
+import enums.TAction;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;

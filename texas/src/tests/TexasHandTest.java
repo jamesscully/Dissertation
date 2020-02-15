@@ -1,6 +1,5 @@
 package tests;
 
-import cards.Card;
 import enums.Face;
 import enums.Rank;
 import evaluators.TexasEvaluator;
