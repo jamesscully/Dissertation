@@ -36,7 +36,7 @@ public class TPokerClient {
 
         try {
             System.out.println("TPokerClient: Connecting...");
-            sock = new Socket("127.0.0.1", TPokerServer.PORT);
+            sock = new Socket("35.178.207.104", TPokerServer.PORT);
 
             // in is our input stream, in this case command-line
             // out is the servers
