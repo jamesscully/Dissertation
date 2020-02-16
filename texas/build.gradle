@@ -1,0 +1,103 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.hidetake.ssh' version '2.10.1'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+version = '1.2.1'
+
+repositories {
+    jcenter()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir('tests')
+        }
+    }
+    main {
+        java {
+            srcDir('src')
+        }
+    }
+}
+
+
+task servJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'TPoker Server',
+                'Main-Class': 'com.scully.server.ServerLauncher'
+    }
+
+    baseName = project.name + '-server'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task clientJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'TPoker Client',
+                'Main-Class': 'com.scully.server.TPokerClient'
+    }
+
+    baseName = project.name + '-client'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+remotes {
+    withGroovyBuilder {
+        "create"("webServer") {
+            setProperty("host", "ec2-35-178-207-104.eu-west-2.compute.amazonaws.com")
+            setProperty("user", "ubuntu")
+            setProperty("identity", file('rekop.pem'))
+        }
+    }
+}
+
+FileTree myFileTree = fileTree(dir: 'build/libs/')
+
+task deploy {
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: myFileTree.asList(), into: '/home/ubuntu/'
+            }
+        }
+    }
+}
+
+def jarToCopy = copySpec {
+    from 'build/libs/texas-client-' + version + '.jar'
+}
+
+task moveToEnv {
+    ['env/p1/', 'env/p2/', 'env/p3/', 'env/p4/', 'env/p5/', 'env/p6/', 'env/p7/', 'env/p8/'].each { dest ->
+        copy {
+            with jarToCopy
+            into dest
+        }
+    }
+}
+
+// build/libs/texas-server-1.2.1.jar
+
+
+
+dependencies {
+    // Use JUnit Jupiter API for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+
+    testCompile("junit:junit:4.12")
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+}
+
