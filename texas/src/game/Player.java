@@ -2,8 +2,6 @@ package game;
 
 import cards.Card;
 import cards.Deck;
-import cards.Hand;
-import cards.TexasHand;
 import enums.PlayerInfo;
 import server.TPokerThread;
 
@@ -28,8 +26,6 @@ public class Player {
     public TPokerThread thread;
 
     public boolean folded = false;
-
-    public Hand hand = new TexasHand();
 
     public int chips = 1000;
 

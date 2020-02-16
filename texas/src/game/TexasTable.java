@@ -1,30 +1,48 @@
 package game;
 
+import cards.Card;
 import cards.Deck;
-import cards.TexasHand;
 
 public class TexasTable {
 
     Deck deck = Deck.getInstance();
-    public TexasHand tableCards;
+
+    Card first, second, third;
+    Card turn;
+    Card river;
 
     public TexasTable() {
-        tableCards = new TexasHand();
-        tableCards.IS_TABLE = true;
+
+    }
+
+    public Card[] getCards() {
+        return new Card[] { first, second, third, turn, river };
     }
 
     public void pullFlop() {
-        tableCards.addCard(deck.pullCard());
-        tableCards.addCard(deck.pullCard());
-        tableCards.addCard(deck.pullCard());
+        first = deck.pullCard();
+        second = deck.pullCard();
+        third = deck.pullCard();
+    }
+
+    public Card[] getFlop() {
+        return new Card[] {first, second, third};
     }
 
     public void pullTurn() {
-        tableCards.addCard(deck.pullCard());
+        turn = deck.pullCard();
+    }
+
+    public Card getTurn() {
+        return turn;
     }
 
     public void pullRiver() {
-        tableCards.addCard(deck.pullCard());
+        river = deck.pullCard();
+    }
+
+    public Card getRiver() {
+        return river;
     }
 
 

@@ -188,6 +188,7 @@ public class TPokerServer implements Runnable {
 
     public void dealRound() {
         if(round == Round.FLOP) {
+            table.pullFlop();
             dealFlop();
         }
 
@@ -200,7 +201,17 @@ public class TPokerServer implements Runnable {
                 p.thread.TURN_DONE = round == Round.RIVER;
 
                 System.out.println("TPokerServer: Dealing round: " + round);
-                dealCard(p);
+
+                switch (round) {
+                    case TURN:
+                        table.pullTurn();
+                        dealCard(p, table.getTurn());
+                        break;
+                    case RIVER:
+                        table.pullRiver();
+                        dealCard(p, table.getRiver());
+                        break;
+                }
             }
         }
     }
@@ -238,17 +249,17 @@ public class TPokerServer implements Runnable {
 
             p.thread.PRE_FLOP_DONE = true;
 
-            dealCard(p);
-            dealCard(p);
-            dealCard(p);
+            for(Card c : table.getFlop()) {
+                System.out.println("TPokerServer: Dealing flop card: " + c);
+                dealCard(p, c);
+            }
 
             System.out.println();
         }
     }
 
 
-    public void dealCard(Player p) {
-        Card card = deck.pullCard();
+    public void dealCard(Player p, Card card) {
 
         System.out.printf("(%s) ", card);
 

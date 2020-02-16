@@ -63,31 +63,6 @@ public class Deck {
     }
 
     /**
-     * Creates and returns a Hand
-     * @return Returns a new Hand object
-     */
-    public TexasHand pullHand() {
-        return new TexasHand(
-                pullCard(),
-                pullCard(),
-                pullCard(),
-                pullCard(),
-                pullCard()
-        );
-    }
-
-    /**
-     * Prints the deck as it is currently.
-     */
-    public void printDeck() {
-        int i = 0;
-        for(Card c : deck) {
-            System.out.printf("%2d: %17s\n", i, c);
-            i++;
-        }
-    }
-
-    /**
      * Gets current size of deck (available cards)
      * @return Size of Deck
      */

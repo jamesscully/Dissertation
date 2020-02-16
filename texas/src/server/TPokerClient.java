@@ -41,12 +41,10 @@ public class TPokerClient {
 
             stdIn = new Scanner(System.in);
 
-            System.out.println("TPokerClient: Retrieving first card...");
+            System.out.println("TPokerClient: Waiting for initial hand...");
             first  = (Card) in.readObject();
-            System.out.println("TPokerClient: Got first, retrieving second...");
             second = (Card) in.readObject();
-
-            System.out.printf("TPokerClient: Retrieved cards: \n %s \n %s", first, second);
+            System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
             System.out.println("TPokerClient: Waiting for server to ask us for response.");
 
             while(round != Round.RESULT) {
@@ -99,14 +97,14 @@ public class TPokerClient {
     }
 
     private static void readCards() {
-        System.out.printf("Waiting for %s card(s)", round);
+        System.out.printf("Waiting for %s card(s)\n", round);
         try {
             switch (round) {
                 case FLOP:
                     third  = (Card) in.readObject();
                     fourth = (Card) in.readObject();
                     fifth  = (Card) in.readObject();
-                    System.out.printf("Retrieved %s card(s)\n", third, fourth, fifth);
+                    System.out.printf("Retrieved \n\t%s\n\t%s\n\t%s\ncard(s)\n", third, fourth, fifth);
                     return;
 
                 case TURN:
@@ -131,7 +129,7 @@ public class TPokerClient {
         ping = in.readUTF();
 
         if (ping.equals("PING")) {
-            System.out.println("What would you like to do? CALL | RAISE X | FOLD");
+            System.out.println("\nWhat would you like to do? CALL | RAISE X | FOLD");
             inputResponse();
         } else {
             System.err.println("TPokerClient: Signal for response was not correct. Exiting...");

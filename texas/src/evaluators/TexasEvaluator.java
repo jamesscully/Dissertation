@@ -1,7 +1,6 @@
 package evaluators;
 
 import cards.Card;
-import cards.TexasHand;
 import enums.Face;
 import enums.Suit;
 import enums.Rank;
@@ -13,8 +12,8 @@ import java.util.*;
 
 public class TexasEvaluator {
 
-    TexasHand player = null;
-    TexasHand table  = null;
+    Card[]  player = null;
+    Card[]  table  = null;
 
     TreeMap<Suit, Integer> suitCountMap = new TreeMap<>();
     TreeMap<Face, Integer> cardCountMap = new TreeMap<>();
@@ -24,13 +23,13 @@ public class TexasEvaluator {
 
     boolean StraightFlushFlag = false;
 
-    public TexasEvaluator(TexasHand player, TexasTable table) {
+    public TexasEvaluator(Card[] player, Card[]  table) {
         this.player = player;
+        this.table  = table;
 
-        this.table  = table.tableCards;
 
-        cards.addAll(player.getCards());
-        cards.addAll(this.table.getCards());
+        cards.addAll(Arrays.asList(player));
+        cards.addAll(Arrays.asList(table));
 
         Collections.sort(cards);
 
