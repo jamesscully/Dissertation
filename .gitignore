@@ -16,6 +16,8 @@ texas/.idea/
 texas/.gradle/
 texas/notes
 
+*.jar
+
 .idea/
 
 notes
