@@ -1,7 +1,9 @@
 package com.scully.server;
 
 import com.scully.cards.Card;
-import com.scully.enums.*;
+import com.scully.enums.PlayerInfo;
+import com.scully.enums.Round;
+import com.scully.enums.TAction;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -45,7 +47,7 @@ public class TPokerClient {
             first  = (Card) in.readObject();
             second = (Card) in.readObject();
             System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
-            System.out.println("TPokerClient: Waiting for com.scully.server to ask us for response.");
+            System.out.println("TPokerClient: Waiting for server to ask us for response.");
 
             while(round != Round.RESULT) {
                 queryAction();
@@ -53,9 +55,9 @@ public class TPokerClient {
             }
 
         } catch (ConnectException e) {
-            System.err.println("TPokerClient: Unable to connect to the com.scully.server; is it running?");
+            System.err.println("TPokerClient: Unable to connect to the server; is it running?");
         } catch (SocketTimeoutException e) {
-            System.err.println("TPokerClient: There was an error connecting to the com.scully.server; it may be full.");
+            System.err.println("TPokerClient: There was an error connecting to the server; it may be full.");
         } catch (IOException | ClassNotFoundException i) {
             System.out.println("TPokerClient: Exception Caught");
             i.printStackTrace();
@@ -89,7 +91,7 @@ public class TPokerClient {
             e.printStackTrace();
         }
 
-        // if we've got the message to move, we do so and get our new com.scully.cards
+        // if we've got the message to move, we do so and get our new .cards
         round = Round.nextRound(round);
 
         // read our com.scully.cards for this new round
