@@ -10,3 +10,9 @@
 *.class
 
 texas/out/
+texas/.idea/
+texas/notes
+
+.idea/
+
+notes

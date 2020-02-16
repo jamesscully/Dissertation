@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+repositories {
+    jcenter()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir('tests')
+        }
+    }
+    main {
+        java {
+            srcDir('src')
+        }
+    }
+}
+
+task servJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'TPoker Server',
+                'Main-Class': 'com.scully.server.ServerLauncher'
+    }
+
+    baseName = project.name + '-server'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task clientJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'TPoker Client',
+                'Main-Class': 'com.scully.server.TPokerClient'
+    }
+
+    baseName = project.name + '-client'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+dependencies {
+    // Use JUnit Jupiter API for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+
+    testCompile("junit:junit:4.12")
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+version = '1.2.1'
