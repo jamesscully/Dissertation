@@ -30,7 +30,9 @@ public class TPokerThread implements Runnable {
     public void run() {
 
         while(KEEP_ALIVE) {
-
+            if(Thread.currentThread().isInterrupted()) {
+                return;
+            }
         }
     }
 

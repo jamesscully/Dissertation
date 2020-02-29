@@ -101,7 +101,14 @@ public class TPokerServer implements Runnable {
             } else {
                 playerIdentities.put(player, player.identityFile);
                 player.sendMessage("ACCEPT");
+
+
+
                 player.future = pool.submit(player.thread);
+
+
+
+
                 players.add(player);
             }
         }
