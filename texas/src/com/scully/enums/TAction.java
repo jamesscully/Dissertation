@@ -34,8 +34,11 @@ public enum TAction {
         }
 
         switch (keyWord) {
+            case "C":
             case "CALL": return CALL;
+            case "F":
             case "FOLD": return FOLD;
+            case "Q":
             case "QUIT": return QUIT;
 
             default: return null;

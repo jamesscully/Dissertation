@@ -55,15 +55,7 @@ public class Player {
 
             System.out.println("Player: Retrieved identity file with token: " + identityFile.token);
 
-            Card c1, c2;
-
-            // we'll pull the first two com.scully.cards here
-
-
             thread = new TPokerThread(socket, Integer.toString(_id));
-
-//            objOut.writeObject(c1);
-//            objOut.writeObject(c2);
 
             // assign the threads in/out here; we can keep track of it.
             thread.in   = objIn;

@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -24,14 +25,14 @@ public class TPokerServer implements Runnable {
     protected boolean isPlayStage = false;
 
     protected Thread       ourThread    = null;
-    protected ThreadPoolExecutor pool      = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+    protected ThreadPoolExecutor pool      = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
 
     ArrayList<Player> players = new ArrayList<>();
 
     protected static int  clientID      = 0;
 
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 4;
+    public static final int MAX_PLAYERS = 2;
 
     public static final String MSG_NEXT = "NEXT";
     public static final String MSG_STAY = "STAY";
@@ -43,6 +44,7 @@ public class TPokerServer implements Runnable {
     HashMap<Player, TAction>       playerActions    = new HashMap<>();
     HashMap<Player, TIdentityFile> playerIdentities = new HashMap<>();
 
+    public boolean SHUTDOWN = false;
 
     // add a texas Game object here; we can sync potentially.
 
@@ -63,8 +65,12 @@ public class TPokerServer implements Runnable {
             e.printStackTrace();
         }
 
-        waitForConnections();
-        playStage();
+        while(!SHUTDOWN) {
+            waitForConnections();
+            round = Round.PREFLOP;
+            playStage();
+        }
+        printPoolStats();
 
         System.out.println("TPokerServer: We have died!");
 
@@ -76,9 +82,10 @@ public class TPokerServer implements Runnable {
         while(isJoinStage) {
             Socket client;
             try {
+                printPoolStats();
                 // if we've already got 8 players, we don't want more
                 if(pool.getActiveCount() >= MAX_PLAYERS) {
-                    System.out.println("TPokerServer: All players connected; proceeding with com.scully.game.");
+                    System.out.println("TPokerServer: All players connected; proceeding with game.");
                     isPlayStage = true;
                     isJoinStage = false;
                     continue;
@@ -96,21 +103,38 @@ public class TPokerServer implements Runnable {
             Player player = new Player(client);
 
             if(playerIdentities.containsValue(player.identityFile)) {
-                System.out.println("TPokerServer: found players with same identifiers, skipping");
+                System.out.println("TPokerServer: found players with same identifiers");
+
+                boolean dupe = false;
+
+                for(Map.Entry<Player, TIdentityFile> entry : playerIdentities.entrySet()) {
+                    System.out.println("Comparing identities: " + entry.getValue().token + " and " + player.identityFile.token);
+                    if(entry.getValue().equals(player.identityFile)) {
+                        System.out.println("TPokerServer: Found exact player with identity file");
+
+                        if(entry.getKey().disconnected)
+                            dupe = true;
+                    }
+                }
+
+
+                // if the player has previously connected, then we want to accept them
+                if(dupe) {
+                    System.out.println("TPokerServer: Previously connected player with ID " + player.identityFile + " found, attempting to rejoin");
+                    player.sendMessage("ACCEPT");
+                    break;
+                }
+
+                System.out.println("TPokerServer: Rejecting player");
                 player.sendMessage("REJECT");
-            } else {
-                playerIdentities.put(player, player.identityFile);
-                player.sendMessage("ACCEPT");
-
-
-
-                player.future = pool.submit(player.thread);
-
-
-
-
-                players.add(player);
+                continue;
             }
+
+            playerIdentities.put(player, player.identityFile);
+            player.sendMessage("ACCEPT");
+
+            player.future = pool.submit(player.thread);
+            players.add(player);
         }
     }
 
@@ -155,6 +179,9 @@ public class TPokerServer implements Runnable {
         }
 
         System.out.println("TPokerServer: Players should be told their winnings now. Must restart");
+
+        isJoinStage = true;
+        isPlayStage = false;
     }
 
     public void processRound() {
@@ -380,6 +407,10 @@ public class TPokerServer implements Runnable {
         p.thread.KEEP_ALIVE = false;
         p.future.cancel(true);
         pool.remove(p.thread);
+
+        for(Map.Entry<Player, TIdentityFile> entry : playerIdentities.entrySet()) {
+            System.out.println(entry.getKey().disconnected);
+        }
 
         System.out.println("TPokerServer: after disconnect");
         printPoolStats();

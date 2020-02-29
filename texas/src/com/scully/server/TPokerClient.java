@@ -28,75 +28,71 @@ public class TPokerClient {
 
     static PlayerInfo info = null;
 
+    private static boolean folded = false;
+
     private static boolean QUIT = false;
 
 
     public static void main(String[] args) {
 
-        while(!QUIT) {
+        try {
             Socket sock = null;
-
-            try {
-                String HOST = "127.0.0.1";
-
-                if(args.length > 0) {
-                    HOST = args[0];
-                }
-
-                TIdentityFile identityFile = new TIdentityFile();
-
-                System.out.println("TPokerClient: Connecting...");
-                sock = new Socket(HOST, TPokerServer.PORT);
-
-                // in is our input stream, in this case command-line
-                // out is the servers
-                out = new ObjectOutputStream(sock.getOutputStream());
-                in = new ObjectInputStream (sock.getInputStream());
-
-                out.writeObject(identityFile);
-
-                stdIn = new Scanner(System.in);
-
-
-                String status = "REJECT";
-
-                status = in.readUTF();
-
-                if(status.equals("REJECT")) {
-                    System.err.println("TPokerClient: server rejected this connection");
-                    System.exit(1);
-                } else {
-                    System.out.println("TPokerClient: Server accepted out connection");
-                }
-
-
-
-
-                System.out.println("TPokerClient: Waiting for initial hand...");
-                first  = (Card) in.readObject();
-                second = (Card) in.readObject();
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
-                System.out.println("TPokerClient: Waiting for server to ask us for response.");
-
-                while(round != Round.RESULT) {
-                    queryAction();
-                    System.err.println("TPokerClient: Current round = " + round);
-                }
-
-            } catch (ConnectException e) { System.err.println("TPokerClient: Unable to connect to the server; is it running?"); }
-            catch (SocketTimeoutException e) { System.err.println("TPokerClient: There was an error connecting to the server; it may be full."); }
-            catch (IOException | ClassNotFoundException i) {
-                System.out.println("TPokerClient: Exception Caught");
-                i.printStackTrace();
+            String HOST = "127.0.0.1";
+            if(args.length > 0) {
+                HOST = args[0];
             }
 
-            try {
-                System.out.println("TPokerClient: Closing sockets.");
-                in.close(); out.close(); sock.close();
-                QUIT = true;
-            } catch (IOException e) {
-                e.printStackTrace();
+            TIdentityFile identityFile = new TIdentityFile();
+
+            System.out.println("TPokerClient: Connecting...");
+            sock = new Socket(HOST, TPokerServer.PORT);
+
+            // in is our input stream, in this case command-line
+            // out is the servers
+            out = new ObjectOutputStream(sock.getOutputStream());
+            in = new ObjectInputStream (sock.getInputStream());
+            stdIn = new Scanner(System.in);
+
+            out.writeObject(identityFile);
+        } catch (IOException i) {
+            System.out.println("TPokerClient: Exception Caught");
+            i.printStackTrace();
+        }
+
+        while(!QUIT) {
+            mainLoop();
+        }
+    }
+
+    private static void mainLoop() {
+        try {
+            String status = "REJECT";
+
+            status = in.readUTF();
+
+            if(status.equals("REJECT")) {
+                System.err.println("TPokerClient: server rejected this connection");
+                System.exit(1);
+            } else {
+                System.out.println("TPokerClient: Server accepted our connection");
             }
+
+            System.out.println("TPokerClient: Waiting for initial hand...");
+            first  = (Card) in.readObject();
+            second = (Card) in.readObject();
+            System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+            System.out.println("TPokerClient: Waiting for server to ask us for response.");
+
+            while(round != Round.RESULT) {
+                queryAction();
+                System.err.println("TPokerClient: Current round = " + round);
+            }
+
+        } catch (ConnectException e) { System.err.println("TPokerClient: Unable to connect to the server; is it running?"); System.exit(1);}
+        catch (SocketTimeoutException e) { System.err.println("TPokerClient: There was an error connecting to the server; it may be full."); System.exit(1); }
+        catch (IOException | ClassNotFoundException i) {
+            System.out.println("TPokerClient: Exception Caught");
+            i.printStackTrace();
         }
     }
 
@@ -129,6 +125,11 @@ public class TPokerClient {
 
     private static void readCards() {
         System.out.printf("Waiting for %s card(s)\n", round);
+
+        // if we've folded, we shouldn't be trying to read cards
+        if(folded)
+            return;
+
         try {
             switch (round) {
                 case FLOP:
@@ -154,6 +155,16 @@ public class TPokerClient {
         }
     }
 
+    private static String getMessage() {
+        String msg = "";
+        try {
+            msg = in.readUTF();
+        } catch (IOException e) {
+            System.err.println("TPokerClient: Error connecting to server");
+            System.exit(1);
+        }
+        return msg;
+    }
 
     private static void waitForInput() throws IOException {
         String ping;
@@ -190,6 +201,9 @@ public class TPokerClient {
 
                 if(action == TAction.QUIT)
                     QUIT = true;
+
+                if(action == TAction.FOLD)
+                    folded = true;
 
                 System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
 
