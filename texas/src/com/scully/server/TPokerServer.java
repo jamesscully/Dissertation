@@ -10,6 +10,7 @@ import com.scully.game.TexasTable;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
@@ -30,7 +31,7 @@ public class TPokerServer implements Runnable {
     protected static int  clientID      = 0;
 
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 4;
 
     public static final String MSG_NEXT = "NEXT";
     public static final String MSG_STAY = "STAY";
@@ -100,7 +101,7 @@ public class TPokerServer implements Runnable {
             } else {
                 playerIdentities.put(player, player.identityFile);
                 player.sendMessage("ACCEPT");
-                pool.execute(player.thread);
+                player.future = pool.submit(player.thread);
                 players.add(player);
             }
         }
@@ -232,6 +233,10 @@ public class TPokerServer implements Runnable {
     public void sendGlobalMessage(String message) {
         try {
             for(Player p : players) {
+
+                if(p.disconnected)
+                    continue;
+
                 p.objOut.writeUTF(message);
 
                 if(message.equals(MSG_NEXT))
@@ -263,7 +268,7 @@ public class TPokerServer implements Runnable {
 
 
     public void dealCard(Player p, Card card) {
-        System.out.printf("(%s) ", card);
+        System.out.printf("\t(%s) \n", card);
 
         if(p.folded)
             return;
@@ -279,10 +284,11 @@ public class TPokerServer implements Runnable {
      * This gathers all the actions from players currently sat on the table. We'll call this after every stage i.e. flop, river, turn.
      */
     public void getTableActions() {
+        printPoolStats();
         for(Player p : players) {
 
             // do nothing if they have folded
-            if(p.folded)
+            if(p.folded || p.disconnected)
                 continue;
 
             ObjectOutputStream out;
@@ -296,6 +302,12 @@ public class TPokerServer implements Runnable {
                 // this prevents race conditions where client B would be ignored if A was chosen b4
                 out.writeUTF("PING");
                 out.flush();
+            } catch (SocketException e) {
+                System.err.println("TPokerServer: Socket Broken");
+
+                handleUnexpectedDisconnection(p);
+
+                System.out.println("TPokerServer: unexpected disconnection; skipping");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -303,14 +315,13 @@ public class TPokerServer implements Runnable {
             String message = "";
             boolean validAction = false;
             while(!validAction) {
-                System.out.print("TPokerServer: waiting for input (action) ... ");
+                System.out.println("TPokerServer: Waiting for action input");
                 try {
 
-                    if(p.disconnected)
+                    if(p.disconnected || p.folded)
                         break;
 
                     message = in.readUTF();
-                    System.out.print(message + "... ");
                     TAction action = TAction.parseTAction(message);
                     
                     // parseTAction returns null if not applicable; only want normals.
@@ -340,11 +351,7 @@ public class TPokerServer implements Runnable {
 
                 } catch (EOFException e) {
                     System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpected");
-                    p.disconnected = true;
-                    p.folded = true;
-
-                    pool.remove(p.thread);
-
+                    handleUnexpectedDisconnection(p);
                     System.out.println("TPokerServer: unexpected disconnection; skipping");
                 } catch (IOException e) {
                     System.out.println("TPokerServer: PlayStage receive message error");
@@ -352,6 +359,43 @@ public class TPokerServer implements Runnable {
                 }
             }
         }
+    }
+
+    public void handleUnexpectedDisconnection(Player p) {
+        // we want to ignore this player from now on
+        p.disconnected = true;
+        p.folded = true;
+
+        System.out.println("TPokerServer: Before disconnect");
+        printPoolStats();
+
+        // remove their thread from the pool; this frees up space for reconnection
+        p.thread.KEEP_ALIVE = false;
+        p.future.cancel(true);
+        pool.remove(p.thread);
+
+        System.out.println("TPokerServer: after disconnect");
+        printPoolStats();
+    }
+
+    public void printPoolStats() {
+        int active = pool.getActiveCount();
+        long complete = pool.getCompletedTaskCount();
+        long count = pool.getTaskCount();
+        int size = pool.getPoolSize();
+
+        System.out.printf(
+            "\n--------------\n" +
+                "TPokerServer Pool Stats:\n" +
+                "Active: %d\n" +
+                "Complete: %d\n" +
+                "Count: %d\n" +
+                "Size: %d" +
+                "\n--------------\n" ,
+            active, complete, count, size
+        );
+
+
     }
 
 }

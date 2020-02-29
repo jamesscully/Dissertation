@@ -22,17 +22,16 @@ public class TPokerThread implements Runnable {
     boolean TURN_DONE     =  false;
     boolean RIVER_DONE    = false;
 
+    public boolean KEEP_ALIVE = true;
+
     boolean CONNECTED = true;
 
     @Override
     public void run() {
 
-        while(!PRE_FLOP_DONE) {
-            
-        }
-
-        while(!FLOP_DONE) {
+        while(KEEP_ALIVE) {
 
         }
     }
+
 }

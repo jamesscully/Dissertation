@@ -8,6 +8,7 @@ import com.scully.server.TPokerThread;
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.Future;
 
 public class Player {
 
@@ -35,6 +36,8 @@ public class Player {
 
     // determines if they have crashed or lost connection
     public boolean error = false;
+
+    public Future future;
 
     public int chips = 1000;
 
