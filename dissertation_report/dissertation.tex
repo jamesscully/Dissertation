@@ -263,7 +263,7 @@ In more varying programs, such as the likes of computer games, where the user is
 
 \subsubsection{Client}
 
-The client program does not contain much processing, it is left up to the server to decide whether their input is valid. This primarily comes from initial development of the backend, where it was simple text messages send between the client and the server. Since the implementation in the Android application is simple button presses, the user input cannot be invalid since all decisions are set in concrete. \\
+The client program does not contain much processing, it is left up to the server to decide whether their input is valid. This primarily comes from initial development of the backend, where it was simple text messages send between the client and the server. Since the implementation in the Android application is simple button presses, the user input cannot be invalid since all decisions are pre-defined. \\
 
 
 \subsubsection{Communication / Diagram}
@@ -273,15 +273,15 @@ The client program does not contain much processing, it is left up to the server
 
 
 
-%\subsection{Server}
-%
-%Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance. This is because if the host is to lose connection permanently or temporarily, the rest would be unable to play.
-%
-%This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. \\
-%
-%The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player until necessary. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to deal hands out. \\
-%
-%Therefore, the only messages required by the client to send are their actions, such as how much they are betting, whether they fold or raise. We are still investigating into how we can transform this to allow for disconnection tolerance.
+\subsection{Server}
+
+Initially, an idea as defined in our Vision and Scope document was to use a UPnP / Peer to Peer approach, however this is infeasible as a key requirement of this project is disconnection-tolerance. This is because if the host is to lose connection permanently or temporarily, the rest would be unable to play.
+
+This is where we've opted for a client-server approach; as this allows atleast for one solid host, separate from the clients whom are likely to suffer connection issues. \\
+
+The servers design is such that on the start of the game, the server knows exactly what cards are going to be placed on the actual table, i.e. the initial flop (3 cards), turn and river albeit these will not be released to the player until necessary. It is responsible to send what cards each player has, and will utilize the previously mentioned Deck object to deal hands out. \\
+
+Therefore, the only messages required by the client to send are their actions, such as how much they are betting, whether they fold or raise. We are still investigating into how we can transform this to allow for disconnection tolerance.
 
 %\begin{center}
 %\includegraphics[scale=0.65]{server_diag}

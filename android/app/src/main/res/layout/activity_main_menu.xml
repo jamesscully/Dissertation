@@ -43,7 +43,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_play"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50pt"
             android:layout_height="match_parent"
@@ -52,7 +52,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_stats"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50pt"
             android:layout_height="match_parent"
@@ -61,7 +61,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_profile"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50pt"
             android:layout_height="match_parent"
@@ -70,7 +70,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btn_exit"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50pt"
             android:layout_height="match_parent"
@@ -87,7 +87,7 @@
         android:padding="16dp">
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btn_play_online"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -101,7 +101,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_play_ip"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

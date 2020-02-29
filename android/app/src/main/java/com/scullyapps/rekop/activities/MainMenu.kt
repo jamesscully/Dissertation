@@ -4,9 +4,12 @@ import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.core.app.NavUtils
 import android.view.MenuItem
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main_menu.*
 
 /**
@@ -55,7 +58,51 @@ class MainMenu : AppCompatActivity() {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
+
+        setupButtons()
     }
+
+
+    fun setupButtons() {
+        btn_play_ip.setOnClickListener {
+            createConnDialog()
+        }
+    }
+
+
+    fun createConnDialog() {
+
+        val dialog = AlertDialog.Builder(this)
+
+        dialog.setTitle("Enter IP address")
+
+        val ipInput = EditText(this)
+
+        dialog.setView(ipInput)
+        
+        dialog.setPositiveButton("Connect") { _, _ ->
+            Log.d("MainMenu", "")
+        }
+
+        dialog.show()
+    }
+
+
+    fun connectFromIp(ip : String) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
