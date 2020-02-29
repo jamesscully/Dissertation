@@ -29,9 +29,8 @@ public class TPokerServer implements Runnable {
 
     protected static int  clientID      = 0;
 
-
     public static final int PORT = 1337;
-    public static final int MAX_PLAYERS = 1;
+    public static final int MAX_PLAYERS = 2;
 
     public static final String MSG_NEXT = "NEXT";
     public static final String MSG_STAY = "STAY";
@@ -40,13 +39,15 @@ public class TPokerServer implements Runnable {
 
     TexasTable table = new TexasTable();
 
-    HashMap<Player, TAction> playerActions = new HashMap<>();
+    HashMap<Player, TAction>       playerActions    = new HashMap<>();
+    HashMap<Player, TIdentityFile> playerIdentities = new HashMap<>();
 
 
     // add a texas Game object here; we can sync potentially.
 
     @Override
     public void run() {
+        System.out.println("TPokerServer: Server started");
 
         synchronized (this) {
             this.ourThread = Thread.currentThread();
@@ -61,43 +62,50 @@ public class TPokerServer implements Runnable {
             e.printStackTrace();
         }
 
-        while(isJoinStage) {
-            Socket client = null;
 
-            try {
-                // if we've already got 8 players, we don't want more
-                if(pool.getActiveCount() >= MAX_PLAYERS) {
-                    System.out.println("TPokerServer: All players connected; proceeding with com.scully.game.");
-                    isPlayStage = true;
-                    break;
-                }
-
-                client = this.serverSocket.accept();
-
-                System.out.println("TPokerServer: Connection accepted, id = " + clientID++);
-
-            } catch (IOException e) {
-                if(!isJoinStage) {
-                    System.out.println("TPokerServer: Server has stopped");
-                    break;
-                }
-                throw new RuntimeException("Client connection error", e);
-            }
-
-            Player player = new Player(client);
-
-            this.pool.execute(
-                    player.thread
-            );
-
-            players.add(player);
-        }
-
+        waitForConnections();
         playStage();
 
         System.out.println("TPokerServer: We have died!");
 
         pool.shutdown();
+    }
+
+    private void waitForConnections() {
+        System.out.println("TPokerServer: Waiting for connections");
+        while(isJoinStage) {
+            Socket client;
+            try {
+                // if we've already got 8 players, we don't want more
+                if(pool.getActiveCount() >= MAX_PLAYERS) {
+                    System.out.println("TPokerServer: All players connected; proceeding with com.scully.game.");
+                    isPlayStage = true;
+                    isJoinStage = false;
+                    continue;
+                }
+                client = this.serverSocket.accept();
+
+                System.out.println("TPokerServer: Connection accepted, id = " + clientID++);
+
+            } catch (IOException e) {
+                if(!isJoinStage)
+                    System.out.println("TPokerServer: Server has stopped");
+                throw new RuntimeException("Client connection error", e);
+            }
+
+            Player player = new Player(client);
+
+            if(playerIdentities.containsValue(player.identityFile)) {
+                System.out.println("TPokerServer: found players with same identifiers, skipping");
+                player.sendMessage("REJECT");
+            } else {
+                playerIdentities.put(player, player.identityFile);
+                player.sendMessage("ACCEPT");
+                pool.execute(player.thread);
+                players.add(player);
+            }
+
+        }
     }
 
     private int POT = 500;
@@ -132,15 +140,15 @@ public class TPokerServer implements Runnable {
             POT += MIN_BET;
         }
 
+        dealRound();
+
         // while we're not in the result stage, perform each round
         while(round != Round.RESULT) {
             processRound();
-
             System.err.println("TPokerServer: Server Current round = " + round);
         }
 
-        System.out.println("TPokerServer: Players should be told their winnings now.");
-        System.out.println("Exiting pre stage");
+        System.out.println("TPokerServer: Players should be told their winnings now. Must restart");
     }
 
     public void processRound() {
@@ -154,7 +162,6 @@ public class TPokerServer implements Runnable {
             getTableActions();
 
             if (playerActions.containsValue(TAction.RAISE)) {
-
                 int maxRaise = Integer.MIN_VALUE;
 
                 // find the max raise that anyone has given, this will be used for the current bet
@@ -163,9 +170,7 @@ public class TPokerServer implements Runnable {
                         maxRaise = x.value;
                     }
                 }
-
                 CUR_BET = maxRaise;
-
                 // if we've raised, every player will have to send their new actions
                 sendGlobalMessage(MSG_STAY);
                 continue;
@@ -183,9 +188,20 @@ public class TPokerServer implements Runnable {
         }
     }
 
-
-
     public void dealRound() {
+        if(round == Round.PREFLOP) {
+            for(Player p : players) {
+
+                Card c1 = deck.pullCard();
+                Card c2 = deck.pullCard();
+
+                System.out.println("Dealing cards + " + c1 + " " + c2);
+
+                dealCard(p, c1);
+                dealCard(p, c2);
+            }
+        }
+
         if(round == Round.FLOP) {
             table.pullFlop();
             dealFlop();
@@ -228,16 +244,6 @@ public class TPokerServer implements Runnable {
         }
     }
 
-    public void sendGlobalObject(Object object) {
-        try {
-            for(Player p : players) {
-                p.objOut.writeObject(object);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void dealFlop() {
         for(Player p : players) {
             System.out.print("TPokerServer: Dealing flop ");
@@ -259,8 +265,10 @@ public class TPokerServer implements Runnable {
 
 
     public void dealCard(Player p, Card card) {
-
         System.out.printf("(%s) ", card);
+
+        if(p.folded)
+            return;
 
         try {
             p.objOut.writeObject(card);
@@ -268,8 +276,6 @@ public class TPokerServer implements Runnable {
             System.err.println("TPokerServer: Error dealing card");
         }
     }
-
-
 
     /**
      * This gathers all the actions from players currently sat on the table. We'll call this after every stage i.e. flop, river, turn.
@@ -285,8 +291,7 @@ public class TPokerServer implements Runnable {
             ObjectInputStream   in;
 
             // alias the in/out streams for the player
-            out = p.objOut;
-            in  = p.objIn;
+            out = p.objOut; in  = p.objIn;
 
             try {
                 // the PING is just a name to tell the client we need their input.
@@ -299,52 +304,55 @@ public class TPokerServer implements Runnable {
 
             String message = "";
             boolean validAction = false;
-
-            try {
-                while(!validAction) {
-                    System.out.print("TPokerServer: waiting for input (action) ... ");
-
+            while(!validAction) {
+                System.out.print("TPokerServer: waiting for input (action) ... ");
+                try {
                     message = in.readUTF();
-
                     System.out.print(message + "... ");
-
                     TAction action = TAction.parseTAction(message);
-
+                    
                     // parseTAction returns null if not applicable; only want normals.
-                    if(action != null) {
-
-                        // put the action + player into a hashmap,
-                        playerActions.put(p, action);
-                        // this will break us out of the whileloop for the player
-                        validAction = true;
-
-
-                        // if they have folded, mark them so we don't include them later
-                        if(action == TAction.FOLD) {
-                            p.folded = true;
-                        }
-
-                        if(action == TAction.CALL) {
-                            if(isPreStage) {
-                                p.chips -= CUR_BET;
-                            }
-                        }
-
+                    if (action == null) {
                         continue;
                     }
+                    // put the action + player into a hashmap,
+                    playerActions.put(p, action);
+                    // this will break us out of the whileloop for the player
+                    validAction = true;
 
-                    System.out.println("invalid");
+                    switch (action) {
+                        case CALL:
+                            if(isPreStage)
+                                p.chips -= CUR_BET;
+                            break;
+
+                        case FOLD:
+                            p.folded = true;
+                            break;
+
+                        case QUIT:
+                            p.close();
+                            players.remove(p);
+                            break;
+                    }
+
+                } catch (EOFException e) {
+                    System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpected");
+                    p.disconnected = true;
+                    p.folded = true;
+                    players.remove(p);
+
+                    pool.remove(p.thread);
+
+
+                    System.out.println("TPokerServer: unexpected disconnection; skipping");
+                    continue;
+
+                } catch (IOException e) {
+                    System.out.println("TPokerServer: PlayStage receive message error");
+                    e.printStackTrace();
                 }
-
                 System.out.println("valid");
-
-            } catch (EOFException e) {
-                System.err.println("TPokerServer: EOFException Caught");
-                e.printStackTrace();
-                System.exit(1);
-            } catch (IOException e) {
-                System.out.println("TPokerServer: PlayStage receive message error");
-                e.printStackTrace();
             }
         }
     }

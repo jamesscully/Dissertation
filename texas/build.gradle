@@ -68,7 +68,8 @@ task deploy {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-                put from: myFileTree.asList(), into: '/home/ubuntu/'
+//                put from: myFileTree.asList(), into: '/home/ubuntu/'
+//                execute '~/restart_server.sh'
             }
         }
     }

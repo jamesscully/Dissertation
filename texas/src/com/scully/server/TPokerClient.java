@@ -28,46 +28,75 @@ public class TPokerClient {
 
     static PlayerInfo info = null;
 
+    private static boolean QUIT = false;
+
 
     public static void main(String[] args) {
-        Socket sock = null;
 
-        try {
-            System.out.println("TPokerClient: Connecting...");
-            sock = new Socket("127.0.0.1", TPokerServer.PORT);
+        while(!QUIT) {
+            Socket sock = null;
 
-            // in is our input stream, in this case command-line
-            // out is the servers
-            out = new ObjectOutputStream(sock.getOutputStream());
-             in = new ObjectInputStream (sock.getInputStream());
+            try {
+                String HOST = "127.0.0.1";
 
-            stdIn = new Scanner(System.in);
+                if(args.length > 0) {
+                    HOST = args[0];
+                }
 
-            System.out.println("TPokerClient: Waiting for initial hand...");
-            first  = (Card) in.readObject();
-            second = (Card) in.readObject();
-            System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
-            System.out.println("TPokerClient: Waiting for server to ask us for response.");
+                TIdentityFile identityFile = new TIdentityFile();
 
-            while(round != Round.RESULT) {
-                queryAction();
-                System.err.println("TPokerClient: Current round = " + round);
+                System.out.println("TPokerClient: Connecting...");
+                sock = new Socket(HOST, TPokerServer.PORT);
+
+                // in is our input stream, in this case command-line
+                // out is the servers
+                out = new ObjectOutputStream(sock.getOutputStream());
+                in = new ObjectInputStream (sock.getInputStream());
+
+                out.writeObject(identityFile);
+
+                stdIn = new Scanner(System.in);
+
+
+                String status = "REJECT";
+
+                status = in.readUTF();
+
+                if(status.equals("REJECT")) {
+                    System.err.println("TPokerClient: server rejected this connection");
+                    System.exit(1);
+                } else {
+                    System.out.println("TPokerClient: Server accepted out connection");
+                }
+
+
+
+
+                System.out.println("TPokerClient: Waiting for initial hand...");
+                first  = (Card) in.readObject();
+                second = (Card) in.readObject();
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+                System.out.println("TPokerClient: Waiting for server to ask us for response.");
+
+                while(round != Round.RESULT) {
+                    queryAction();
+                    System.err.println("TPokerClient: Current round = " + round);
+                }
+
+            } catch (ConnectException e) { System.err.println("TPokerClient: Unable to connect to the server; is it running?"); }
+            catch (SocketTimeoutException e) { System.err.println("TPokerClient: There was an error connecting to the server; it may be full."); }
+            catch (IOException | ClassNotFoundException i) {
+                System.out.println("TPokerClient: Exception Caught");
+                i.printStackTrace();
             }
 
-        } catch (ConnectException e) {
-            System.err.println("TPokerClient: Unable to connect to the server; is it running?");
-        } catch (SocketTimeoutException e) {
-            System.err.println("TPokerClient: There was an error connecting to the server; it may be full.");
-        } catch (IOException | ClassNotFoundException i) {
-            System.out.println("TPokerClient: Exception Caught");
-            i.printStackTrace();
-        }
-
-        try {
-            System.out.println("TPokerClient: Closing sockets.");
-            in.close(); out.close(); sock.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                System.out.println("TPokerClient: Closing sockets.");
+                in.close(); out.close(); sock.close();
+                QUIT = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -148,14 +177,19 @@ public class TPokerClient {
             try {
                 line = stdIn.nextLine();
 
+                TAction action = TAction.parseTAction(line);
+
                 // if the line isn't valid, then we'll repeat
-                if(TAction.parseTAction(line) == null)
+                if(action == null)
                     continue;
 
                 System.out.println("TPokerClient: TPokerClient: Writing data: " + line);
 
                 out.writeUTF(line);
                 out.flush();
+
+                if(action == TAction.QUIT)
+                    QUIT = true;
 
                 System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
 
