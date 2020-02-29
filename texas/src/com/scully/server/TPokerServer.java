@@ -62,7 +62,6 @@ public class TPokerServer implements Runnable {
             e.printStackTrace();
         }
 
-
         waitForConnections();
         playStage();
 
@@ -104,7 +103,6 @@ public class TPokerServer implements Runnable {
                 pool.execute(player.thread);
                 players.add(player);
             }
-
         }
     }
 
@@ -307,6 +305,10 @@ public class TPokerServer implements Runnable {
             while(!validAction) {
                 System.out.print("TPokerServer: waiting for input (action) ... ");
                 try {
+
+                    if(p.disconnected)
+                        break;
+
                     message = in.readUTF();
                     System.out.print(message + "... ");
                     TAction action = TAction.parseTAction(message);
@@ -340,19 +342,14 @@ public class TPokerServer implements Runnable {
                     System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpected");
                     p.disconnected = true;
                     p.folded = true;
-                    players.remove(p);
 
                     pool.remove(p.thread);
 
-
                     System.out.println("TPokerServer: unexpected disconnection; skipping");
-                    continue;
-
                 } catch (IOException e) {
                     System.out.println("TPokerServer: PlayStage receive message error");
                     e.printStackTrace();
                 }
-                System.out.println("valid");
             }
         }
     }
