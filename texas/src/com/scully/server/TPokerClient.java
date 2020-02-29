@@ -68,7 +68,7 @@ public class TPokerClient {
         try {
             String status = "REJECT";
 
-            status = in.readUTF();
+            status = getMessage();
 
             if(status.equals("REJECT")) {
                 System.err.println("TPokerClient: server rejected this connection");
@@ -104,7 +104,7 @@ public class TPokerClient {
         // while we don't have a 'stay' command from com.scully.server, keep asking for input
         do
             waitForInput();
-        while ((in.readUTF().equals("STAY")));
+        while ((getMessage().equals("STAY")));
 
         try {
             info = (PlayerInfo) in.readObject();
@@ -160,7 +160,7 @@ public class TPokerClient {
         try {
             msg = in.readUTF();
         } catch (IOException e) {
-            System.err.println("TPokerClient: Error connecting to server");
+            System.err.println("TPokerClient: Error reading message from server");
             System.exit(1);
         }
         return msg;
@@ -168,7 +168,7 @@ public class TPokerClient {
 
     private static void waitForInput() throws IOException {
         String ping;
-        ping = in.readUTF();
+        ping = getMessage();
 
         if (ping.equals("PING")) {
             System.out.println("\nWhat would you like to do? CALL | RAISE X | FOLD");
