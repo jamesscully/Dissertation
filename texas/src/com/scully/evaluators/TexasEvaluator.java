@@ -2,8 +2,8 @@ package com.scully.evaluators;
 
 import com.scully.cards.Card;
 import com.scully.enums.Face;
-import com.scully.enums.Suit;
 import com.scully.enums.Rank;
+import com.scully.enums.Suit;
 import com.scully.game.TResult;
 
 import java.util.*;

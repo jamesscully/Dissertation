@@ -3,7 +3,8 @@ package com.scully.enums;
 public enum TAction {
     CALL,
     RAISE,
-    FOLD;
+    FOLD,
+    QUIT;
 
     public int value = -1;
 
@@ -12,26 +13,36 @@ public enum TAction {
         TAction ret = null;
 
         s = s.trim();
+        s = s.toUpperCase();
 
         String[] sArr = s.split("\\s+");
         String keyWord = sArr[0];
 
         if(keyWord.equals("RAISE")) {
-            if(sArr[1] != null) {
-                ret = TAction.RAISE;
+            if(sArr.length != 2)
+                return null;
+
+            ret = TAction.RAISE;
+
+            try {
                 ret.value = Integer.parseInt(sArr[1]);
-                return ret;
+            } catch (NumberFormatException e) {
+                System.err.println("TAction: error parsing - " + sArr[1]);
+                return null;
             }
-            // we can't have a RAISE without a counter-offer!
-            return null;
+            return ret;
         }
 
-        if(keyWord.equals("CALL"))
-            ret = TAction.CALL;
-        if(keyWord.equals("FOLD"))
-            ret = TAction.FOLD;
+        switch (keyWord) {
+            case "C":
+            case "CALL": return CALL;
+            case "F":
+            case "FOLD": return FOLD;
+            case "Q":
+            case "QUIT": return QUIT;
 
-        return ret;
+            default: return null;
+        }
     }
 
 
