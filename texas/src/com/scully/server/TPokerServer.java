@@ -66,6 +66,7 @@ public class TPokerServer implements Runnable {
         }
 
         while(!SHUTDOWN) {
+            deck.
             waitForConnections();
             round = Round.PREFLOP;
             playStage();
@@ -106,14 +107,16 @@ public class TPokerServer implements Runnable {
             if(playerIdentities.containsValue(player.identityFile)) {
                 System.out.println("TPokerServer: found players with same identifiers");
 
-
                 for(Map.Entry<Player, TIdentityFile> entry : playerIdentities.entrySet()) {
-                    System.out.println("Comparing identities: " + entry.getValue().token + " and " + player.identityFile.token);
-                    if(entry.getValue().equals(player.identityFile)) {
-                        System.out.println("TPokerServer: Found exact player with identity file");
+                    Player        mP       = entry.getKey();
+                    TIdentityFile idenFile = entry.getValue();
 
-                        if(entry.getKey().disconnected)
-                            dupe = true;
+                    System.out.println("Comparing identities: " + idenFile.token + " and " + player.identityFile.token);
+
+                    if(idenFile.equals(player.identityFile) && mP.disconnected) {
+                        System.out.println("TPokerServer: Found exact player with identity file");
+                        dupe = true;
+                        break;
                     }
                 }
 
@@ -272,10 +275,13 @@ public class TPokerServer implements Runnable {
                 if(p.disconnected)
                     continue;
 
+                System.out.println("TPokerServer: Sending global message - " + message);
                 p.objOut.writeUTF(message);
 
-                if(message.equals(MSG_NEXT))
+                if(message.equals(MSG_NEXT)) {
+                    System.out.println("TPokerServer: Sending global NEXT message - " + message);
                     p.objOut.writeObject(p.getPlayerInfo());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -335,6 +341,7 @@ public class TPokerServer implements Runnable {
             try {
                 // the PING is just a name to tell the client we need their input.
                 // this prevents race conditions where client B would be ignored if A was chosen b4
+                System.out.println("TPokerServer: Writing PING request");
                 out.writeUTF("PING");
                 out.flush();
             } catch (SocketException e) {

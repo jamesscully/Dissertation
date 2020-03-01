@@ -72,8 +72,16 @@ public class TPokerClient {
         }
 
         while(!QUIT) {
+            reset();
             mainLoop();
         }
+    }
+
+    // we'll want to scrub our info
+    private static void reset() {
+        first = null; second = null; third = null; fourth = null; fifth = null; sixth = null; seventh = null;
+        folded = false; QUIT = false; info = null;
+        round = Round.PREFLOP;
     }
 
     private static void mainLoop() {
