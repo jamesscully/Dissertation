@@ -14,9 +14,7 @@ public class Deck {
      */
     private static ArrayList<Card> deck = new ArrayList<>();
 
-    private Deck() {
-
-    }
+    private Deck() {}
 
     public static Deck getInstance() {
         if(instance == null) {

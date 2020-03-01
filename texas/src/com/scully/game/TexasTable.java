@@ -44,8 +44,4 @@ public class TexasTable {
     public Card getRiver() {
         return river;
     }
-
-
-
-
 }
