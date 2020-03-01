@@ -54,18 +54,7 @@ public class TPokerClient {
             stdIn = new Scanner(System.in);
 
             out.writeObject(identityFile);
-        } catch (IOException i) {
-            System.out.println("TPokerClient: Exception Caught");
-            i.printStackTrace();
-        }
 
-        while(!QUIT) {
-            mainLoop();
-        }
-    }
-
-    private static void mainLoop() {
-        try {
             String status = "REJECT";
 
             status = getMessage();
@@ -77,44 +66,40 @@ public class TPokerClient {
                 System.out.println("TPokerClient: Server accepted our connection");
             }
 
-            System.out.println("TPokerClient: Waiting for initial hand...");
-            first  = (Card) in.readObject();
-            second = (Card) in.readObject();
-            System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
-            System.out.println("TPokerClient: Waiting for server to ask us for response.");
-
-            while(round != Round.RESULT) {
-                queryAction();
-                System.err.println("TPokerClient: Current round = " + round);
-            }
-
-        } catch (ConnectException e) { System.err.println("TPokerClient: Unable to connect to the server; is it running?"); System.exit(1);}
-        catch (SocketTimeoutException e) { System.err.println("TPokerClient: There was an error connecting to the server; it may be full."); System.exit(1); }
-        catch (IOException | ClassNotFoundException i) {
+        } catch (IOException i) {
             System.out.println("TPokerClient: Exception Caught");
             i.printStackTrace();
         }
+
+        while(!QUIT) {
+            mainLoop();
+        }
     }
 
-    /**
-     * This waits for our input, then if we receive a STAY message (i.e. RAISE) we repeat
-     * @throws IOException
-     */
-    private static void queryAction() throws IOException {
+    private static void mainLoop() {
+        System.out.println("TPokerClient: Waiting for initial hand...");
+        first  = (Card) getObject();
+        second = (Card) getObject();
+        System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+        System.out.println("TPokerClient: Waiting for server to ask us for response.");
+
+        while(round != Round.RESULT) {
+            queryAction();
+            System.err.println("TPokerClient: Current round = " + round);
+        }
+    }
+
+    private static void queryAction() {
         // while we don't have a 'stay' command from com.scully.server, keep asking for input
         do
             waitForInput();
         while ((getMessage().equals("STAY")));
 
-        try {
-            info = (PlayerInfo) in.readObject();
+        info = (PlayerInfo) getObject();
 
-            System.out.println("TPokerClient: Read player info");
-            System.out.println("\tID   : " + info.id);
-            System.out.println("\tChips: " + info.chips);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        System.out.println("TPokerClient: Read player info");
+        System.out.println("\tID   : " + info.id);
+        System.out.println("\tChips: " + info.chips);
 
         // if we've got the message to move, we do so and get our new .cards
         round = Round.nextRound(round);
@@ -130,28 +115,23 @@ public class TPokerClient {
         if(folded)
             return;
 
-        try {
-            switch (round) {
-                case FLOP:
-                    third  = (Card) in.readObject();
-                    fourth = (Card) in.readObject();
-                    fifth  = (Card) in.readObject();
-                    System.out.printf("Retrieved \n\t%s\n\t%s\n\t%s\ncard(s)\n", third, fourth, fifth);
-                    return;
+        switch (round) {
+            case FLOP:
+                third  = (Card) getObject();
+                fourth = (Card) getObject();
+                fifth  = (Card) getObject();
+                System.out.printf("Retrieved \n\t%s\n\t%s\n\t%s\ncard(s)\n", third, fourth, fifth);
+                return;
 
-                case TURN:
-                    sixth = (Card) in.readObject();
-                    System.out.printf("Retrieved %s card\n", sixth);
-                    break;
+            case TURN:
+                sixth = (Card) getObject();
+                System.out.printf("Retrieved %s card\n", sixth);
+                break;
 
-                case RIVER:
-                    seventh = (Card) in.readObject();
-                    System.out.printf("Retrieved %s card\n", seventh);
-                    break;
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("TPokerClient: Error occured in readCards()");
-            e.printStackTrace();
+            case RIVER:
+                seventh = (Card) getObject();
+                System.out.printf("Retrieved %s card\n", seventh);
+                break;
         }
     }
 
@@ -161,12 +141,25 @@ public class TPokerClient {
             msg = in.readUTF();
         } catch (IOException e) {
             System.err.println("TPokerClient: Error reading message from server");
+            e.printStackTrace();
             System.exit(1);
         }
         return msg;
     }
 
-    private static void waitForInput() throws IOException {
+    private static Object getObject() {
+        Object o = null;
+        try {
+            o = in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("TPokerClient: Error reading object from server");;
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return o;
+    }
+
+    private static void waitForInput() {
         String ping;
         ping = getMessage();
 
@@ -201,7 +194,6 @@ public class TPokerClient {
 
                 if(action == TAction.QUIT)
                     QUIT = true;
-
                 if(action == TAction.FOLD)
                     folded = true;
 

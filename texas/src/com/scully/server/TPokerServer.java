@@ -101,11 +101,11 @@ public class TPokerServer implements Runnable {
             }
 
             Player player = new Player(client);
+            boolean dupe = false;
 
             if(playerIdentities.containsValue(player.identityFile)) {
                 System.out.println("TPokerServer: found players with same identifiers");
 
-                boolean dupe = false;
 
                 for(Map.Entry<Player, TIdentityFile> entry : playerIdentities.entrySet()) {
                     System.out.println("Comparing identities: " + entry.getValue().token + " and " + player.identityFile.token);
@@ -117,21 +117,24 @@ public class TPokerServer implements Runnable {
                     }
                 }
 
-
                 // if the player has previously connected, then we want to accept them
                 if(dupe) {
-                    System.out.println("TPokerServer: Previously connected player with ID " + player.identityFile + " found, attempting to rejoin");
+                    System.out.println("TPokerServer: Previously connected player with ID " + player.identityFile.token + " found, attempting to rejoin");
                     player.sendMessage("ACCEPT");
-                    break;
+                } else {
+                    System.out.println("TPokerServer: Rejecting player");
+                    player.sendMessage("REJECT");
+                    continue;
                 }
-
-                System.out.println("TPokerServer: Rejecting player");
-                player.sendMessage("REJECT");
-                continue;
             }
 
-            playerIdentities.put(player, player.identityFile);
-            player.sendMessage("ACCEPT");
+            // if we're not taking an old connection, then we need to update the hashmap and accept
+            if(!dupe) {
+                System.out.println("TPokerServer: Not a duplicate, adding to hashmap");
+                playerIdentities.put(player, player.identityFile);
+                player.sendMessage("ACCEPT");
+            }
+
 
             player.future = pool.submit(player.thread);
             players.add(player);
@@ -158,7 +161,6 @@ public class TPokerServer implements Runnable {
         System.out.println("TPokerServer: Entered PlayStage");
 
         for(Player p : players) {
-
             // disallow if the player cannot make the minimum bet
             if(p.chips < MIN_BET) {
                 p.folded = true;
@@ -185,7 +187,6 @@ public class TPokerServer implements Runnable {
     }
 
     public void processRound() {
-
         boolean canMove = false;
 
         if(round == Round.FLOP)
