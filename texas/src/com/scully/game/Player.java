@@ -107,9 +107,16 @@ public class Player {
         return ret;
     }
 
-    public void close() throws IOException {
-        objIn.close();
-        objOut.close();
+    public void close() {
+        try {
+            objIn.close();
+            objOut.close();
+        } catch (IOException e) {
+            System.err.println("Player: Error closing in/out sockets");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
     }
 
     public PlayerInfo getPlayerInfo() {

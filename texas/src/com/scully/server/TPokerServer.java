@@ -66,7 +66,6 @@ public class TPokerServer implements Runnable {
         }
 
         while(!SHUTDOWN) {
-            deck.
             waitForConnections();
             round = Round.PREFLOP;
             playStage();
@@ -153,14 +152,6 @@ public class TPokerServer implements Runnable {
     boolean isPreStage = true;
 
     private void playStage() {
-
-        // pause thread for 2 seconds; allows for clients to sync
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         System.out.println("TPokerServer: Entered PlayStage");
 
         for(Player p : players) {
@@ -302,8 +293,6 @@ public class TPokerServer implements Runnable {
                 System.out.println("TPokerServer: Dealing flop card: " + c);
                 dealCard(p, c);
             }
-
-            System.out.println();
         }
     }
 
@@ -346,10 +335,7 @@ public class TPokerServer implements Runnable {
                 out.flush();
             } catch (SocketException e) {
                 System.err.println("TPokerServer: Socket Broken");
-
                 handleUnexpectedDisconnection(p);
-
-                System.out.println("TPokerServer: unexpected disconnection; skipping");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -370,6 +356,7 @@ public class TPokerServer implements Runnable {
                     if (action == null) {
                         continue;
                     }
+
                     // put the action + player into a hashmap,
                     playerActions.put(p, action);
                     // this will break us out of the whileloop for the player
@@ -394,7 +381,6 @@ public class TPokerServer implements Runnable {
                 } catch (EOFException e) {
                     System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpected");
                     handleUnexpectedDisconnection(p);
-                    System.out.println("TPokerServer: unexpected disconnection; skipping");
                 } catch (IOException e) {
                     System.out.println("TPokerServer: PlayStage receive message error");
                     e.printStackTrace();
@@ -416,32 +402,18 @@ public class TPokerServer implements Runnable {
         p.future.cancel(true);
         pool.remove(p.thread);
 
-        for(Map.Entry<Player, TIdentityFile> entry : playerIdentities.entrySet()) {
-            System.out.println(entry.getKey().disconnected);
-        }
-
-        System.out.println("TPokerServer: after disconnect");
         printPoolStats();
     }
 
     public void printPoolStats() {
-        int active = pool.getActiveCount();
+        int    active = pool.getActiveCount();
         long complete = pool.getCompletedTaskCount();
-        long count = pool.getTaskCount();
-        int size = pool.getPoolSize();
+        long    count = pool.getTaskCount();
+        int      size = pool.getPoolSize();
 
         System.out.printf(
-            "\n--------------\n" +
-                "TPokerServer Pool Stats:\n" +
-                "Active: %d\n" +
-                "Complete: %d\n" +
-                "Count: %d\n" +
-                "Size: %d" +
-                "\n--------------\n" ,
-            active, complete, count, size
+            "TPokerServer Pool Stats: Active: %d Complete: %d Count: %d Size: %d", active, complete, count, size
         );
-
-
     }
 
 }
