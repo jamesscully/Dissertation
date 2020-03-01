@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#simple oneliner to clean, build jars and deploy
+./gradlew clean && ./gradlew servJar && ./gradlew clientJar && ./gradlew deploy

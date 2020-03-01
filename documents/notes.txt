@@ -1,5 +1,5 @@
 ---------------------------
-Added on 02/15/20 06:08:53 PM GMT
-another test
+Added on 02/16/20 07:26:27 AM GMT
+Removing TexasHand; too much code complexity. More than likely will pass Table to the client and hide as need be
 
 ---------------------------
