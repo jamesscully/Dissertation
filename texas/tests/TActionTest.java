@@ -1,8 +1,4 @@
-import com.scully.enums.Face;
-import com.scully.enums.Rank;
 import com.scully.enums.TAction;
-import com.scully.evaluators.TexasEvaluator;
-import com.scully.game.TResult;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

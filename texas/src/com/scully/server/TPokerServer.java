@@ -7,7 +7,10 @@ import com.scully.enums.TAction;
 import com.scully.game.Player;
 import com.scully.game.TexasTable;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -217,8 +220,14 @@ public class TPokerServer implements Runnable {
     }
 
     public void dealRound() {
+
+        System.out.println("TPokerServer: Dealing round: " + round);
+
         if(round == Round.PREFLOP) {
             for(Player p : players) {
+
+                if(p.folded)
+                    continue;
 
                 Card c1 = deck.pullCard();
                 Card c2 = deck.pullCard();
@@ -232,30 +241,21 @@ public class TPokerServer implements Runnable {
 
         if(round == Round.FLOP) {
             table.pullFlop();
-            dealFlop();
+
+            for(Card c : table.getFlop()) {
+                System.out.println("TPokerServer: Dealing flop card: " + c);
+                dealGlobalCard(c);
+            }
         }
 
-        if(round == Round.RIVER || round == Round.TURN) {
-            for(Player p : players) {
-                if(p.folded)
-                    continue;
+        if(round == Round.RIVER) {
+            table.pullRiver();
+            dealGlobalCard(table.getRiver());
+        }
 
-                p.thread.FLOP_DONE = round == Round.TURN;
-                p.thread.TURN_DONE = round == Round.RIVER;
-
-                System.out.println("TPokerServer: Dealing round: " + round);
-
-                switch (round) {
-                    case TURN:
-                        table.pullTurn();
-                        dealCard(p, table.getTurn());
-                        break;
-                    case RIVER:
-                        table.pullRiver();
-                        dealCard(p, table.getRiver());
-                        break;
-                }
-            }
+        if(round == Round.TURN) {
+            table.pullTurn();
+            dealGlobalCard(table.getTurn());
         }
     }
 
@@ -279,23 +279,13 @@ public class TPokerServer implements Runnable {
         }
     }
 
-    public void dealFlop() {
+    public void dealGlobalCard(Card card) {
         for(Player p : players) {
-            System.out.print("TPokerServer: Dealing flop ");
-
-            // if they've folded, we don't need to deal them com.scully.cards
             if(p.folded)
                 continue;
-
-            p.thread.PRE_FLOP_DONE = true;
-
-            for(Card c : table.getFlop()) {
-                System.out.println("TPokerServer: Dealing flop card: " + c);
-                dealCard(p, c);
-            }
+            dealCard(p, card);
         }
     }
-
 
     public void dealCard(Player p, Card card) {
         System.out.printf("\t(%s) \n", card);
@@ -344,46 +334,48 @@ public class TPokerServer implements Runnable {
             boolean validAction = false;
             while(!validAction) {
                 System.out.println("TPokerServer: Waiting for action input");
-                try {
 
-                    if(p.disconnected || p.folded)
+                if(p.disconnected || p.folded)
+                    break;
+
+                TAction action = null;
+
+                try {
+                    message = in.readUTF();
+                    action = TAction.parseTAction(message);
+                } catch (EOFException e) {
+                        System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpectedly");
+                        handleUnexpectedDisconnection(p);
+                } catch (IOException e) {
+                        System.err.println("TPokerServer: PlayStage receive message error");
+                        e.printStackTrace();
+                }
+
+                // parseTAction returns null if not applicable; only want normals.
+                if (action == null) {
+                    continue;
+                }
+
+                // put the action + player into a hashmap,
+                playerActions.put(p, action);
+                // this will break us out of the whileloop for the player
+                validAction = true;
+
+                switch (action) {
+                    case CALL:
+                        if(isPreStage)
+                            p.chips -= CUR_BET;
                         break;
 
-                    message = in.readUTF();
-                    TAction action = TAction.parseTAction(message);
-                    
-                    // parseTAction returns null if not applicable; only want normals.
-                    if (action == null) {
-                        continue;
-                    }
+                    case FOLD:
+                        p.folded = true;
+                        break;
 
-                    // put the action + player into a hashmap,
-                    playerActions.put(p, action);
-                    // this will break us out of the whileloop for the player
-                    validAction = true;
-
-                    switch (action) {
-                        case CALL:
-                            if(isPreStage)
-                                p.chips -= CUR_BET;
-                            break;
-
-                        case FOLD:
-                            p.folded = true;
-                            break;
-
-                        case QUIT:
-                            p.close();
-                            players.remove(p);
-                            break;
-                    }
-
-                } catch (EOFException e) {
-                    System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpected");
-                    handleUnexpectedDisconnection(p);
-                } catch (IOException e) {
-                    System.out.println("TPokerServer: PlayStage receive message error");
-                    e.printStackTrace();
+                    case QUIT:
+                        handleUnexpectedDisconnection(p);
+//                        p.close();
+//                        players.remove(p);
+                        break;
                 }
             }
         }

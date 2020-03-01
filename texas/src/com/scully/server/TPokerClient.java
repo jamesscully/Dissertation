@@ -5,10 +5,10 @@ import com.scully.enums.PlayerInfo;
 import com.scully.enums.Round;
 import com.scully.enums.TAction;
 
-import java.io.*;
-import java.net.ConnectException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class TPokerClient {
@@ -60,7 +60,7 @@ public class TPokerClient {
             status = getMessage();
 
             if(status.equals("REJECT")) {
-                System.err.println("TPokerClient: server rejected this connection");
+                System.err.println("TPokerClient: Server rejected this connection");
                 System.exit(1);
             } else {
                 System.out.println("TPokerClient: Server accepted our connection");
@@ -85,10 +85,8 @@ public class TPokerClient {
     }
 
     private static void mainLoop() {
-        System.out.println("TPokerClient: Waiting for initial hand...");
-        first  = (Card) getObject();
-        second = (Card) getObject();
-        System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+        readCards();
+
         System.out.println("TPokerClient: Waiting for server to ask us for response.");
 
         while(round != Round.RESULT) {
@@ -117,30 +115,35 @@ public class TPokerClient {
     }
 
     private static void readCards() {
-        System.out.printf("Waiting for %s card(s)\n", round);
+        System.out.printf("TPokerClient: Waiting for %s card(s)\n", round);
 
         // if we've folded, we shouldn't be trying to read cards
         if(folded)
             return;
 
         switch (round) {
+            case PREFLOP:
+                first = (Card) getObject();
+                second = (Card) getObject();
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+                break;
+
             case FLOP:
                 third  = (Card) getObject();
                 fourth = (Card) getObject();
                 fifth  = (Card) getObject();
-                System.out.printf("Retrieved \n\t%s\n\t%s\n\t%s\ncard(s)\n", third, fourth, fifth);
-                return;
+                break;
 
             case TURN:
                 sixth = (Card) getObject();
-                System.out.printf("Retrieved %s card\n", sixth);
                 break;
 
             case RIVER:
                 seventh = (Card) getObject();
-                System.out.printf("Retrieved %s card\n", seventh);
                 break;
         }
+
+        printCurrentHand();
     }
 
     private static String getMessage() {
@@ -182,36 +185,43 @@ public class TPokerClient {
 
     public static void inputResponse() {
         boolean valid = false;
-
         String line = "";
 
         while(!valid) {
+            line = stdIn.nextLine();
+
+            TAction action = TAction.parseTAction(line);
+
+            // if the line isn't valid, then we'll repeat
+            if(action == null)
+                continue;
+
             try {
-                line = stdIn.nextLine();
-
-                TAction action = TAction.parseTAction(line);
-
-                // if the line isn't valid, then we'll repeat
-                if(action == null)
-                    continue;
-
-                System.out.println("TPokerClient: TPokerClient: Writing data: " + line);
-
                 out.writeUTF(line);
                 out.flush();
-
-                if(action == TAction.QUIT)
-                    QUIT = true;
-                if(action == TAction.FOLD)
-                    folded = true;
-
-                System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
-
-                valid = true;
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            if(action == TAction.QUIT)
+                System.exit(1);
+            if(action == TAction.FOLD)
+                folded = true;
+
+            System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
+            valid = true;
         }
+    }
+
+    public static void printCurrentHand() {
+        Card[] arr = {first, second, third, fourth, fifth, sixth, seventh};
+        System.out.printf("Current cards in play:\n\t[%s %s] ", first.toShortString(), second.toShortString());
+        for(int i = 2; i < arr.length; i++) {
+            if(arr[i] == null)
+                continue;
+
+            System.out.print(arr[i].toShortString() + " ");
+        }
+        System.out.print("\n");
     }
 }

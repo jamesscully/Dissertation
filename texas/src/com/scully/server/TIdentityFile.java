@@ -1,12 +1,9 @@
 package com.scully.server;
 
-import sun.security.rsa.RSASignature;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Scanner;
 
 public class TIdentityFile implements Serializable {
     public String token = "NULL";

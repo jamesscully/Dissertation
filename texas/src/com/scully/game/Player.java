@@ -1,13 +1,13 @@
 package com.scully.game;
 
-import com.scully.cards.Card;
-import com.scully.cards.Deck;
 import com.scully.enums.PlayerInfo;
 import com.scully.server.TIdentityFile;
 import com.scully.server.TPokerThread;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.concurrent.Future;
 
 public class Player {

@@ -52,6 +52,16 @@ public class Card implements Comparable<Card>, Serializable {
         return "" + face.name() + " of " + suit.name;
     }
 
+    public String toShortString() {
+
+        String val = Integer.toString(face.getValue());
+
+        String f = (face.getValue() <= 10) ? val : face.name().substring(0, 1);
+
+
+        return f + suit.name().substring(0,1);
+    }
+
     /**
      * Used to fuzz-test functions, where a null value could be returned
      * @return a randomly generated card

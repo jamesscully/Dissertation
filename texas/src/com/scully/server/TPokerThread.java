@@ -1,6 +1,7 @@
 package com.scully.server;
 
-import java.io.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class TPokerThread implements Runnable {
