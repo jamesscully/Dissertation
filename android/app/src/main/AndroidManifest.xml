@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TexasHoldemActivity"
+            android:name=".activities.TexasHoldemActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_texas_holdem"
             android:parentActivityName=".MainMenu"
