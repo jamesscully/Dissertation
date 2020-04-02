@@ -339,7 +339,7 @@ If two players contest the highest result, but have the same highest card, then 
 \subsection{Project Requirements}
 Our requirements for the project were not particularly specific, however some core ones were defined in our vision and scope, as well as project proposal. 
 
-\subsection{Backend}
+\subsubsection{Backend}
 \textbf{Functional}
 \begin{itemize}
 	\item Programmed in Java (or Kotlin)
@@ -351,7 +351,7 @@ Our requirements for the project were not particularly specific, however some co
 %	
 %\end{itemize}
 
-\subsection{Server}
+\subsubsection{Server}
 \textbf{Functional}
 \begin{itemize}
 	\item Runs on Linux and Windows
@@ -363,7 +363,7 @@ Our requirements for the project were not particularly specific, however some co
 %
 %\end{itemize}
 
-\subsection{Application}
+\subsubsection{Application}
 
 \textbf{Functional}
 \begin{itemize}
@@ -383,7 +383,75 @@ Our requirements for the project were not particularly specific, however some co
 
 \newpage
 
-\subsection*{Server}
+
+
+\subsection{Client}
+\subsubsection{Overview}
+Our initial idea for the client was to develop it as solely as an Android application. However, as we'll discuss, this made testing very difficult to do. 
+
+\begin{itemize}
+
+\end{itemize}
+
+\subsubsection{Design}
+The client is written in Java for compatibility with the Android ecosystem, and also the server itself. However, it was designed such that it is not a mobile application itself but rather an interface for the application to use. This was because during development, it made unit testing the client much easier as it was ran locally on the machine. Beyond this, the author's home network was restricted, meaning that running the client and server on the same machine meant they could connect, and multiple instances of the client could be run. 
+
+In order to develop disconnection tolerance, we required that the server had some method of identifying what clients had connected and an anonymous token was generally the best way to go about this. During design, we investigated multiple avenues for this, including the server taking note of the connecting clients MAC addresses and storing them. 
+
+This wasn't suitable however, as the Java method of getting MAC addresses is difficult and not easily comparable. Another was to use the username of the client connecting, but this would lead to conflicts if another person with the same name was to join - the originally disconnected player wouldn't be allowed back in. 
+
+Instead, we decided to opt for an identity file approach, whereby upon installing the application the user has a generated key file that when connecting to servers, send a unique identifier. This way, conflicts do not occur (very unlikely, with a 32-character identifier being generated).
+
+
+
+
+
+
+
+\subsubsection{Development}
+
+
+
+
+
+
+\subsection{Server}
+\subsubsection{Overview}
+As the target of disconnection tolerance implies, the server was a crucial part of the project. It also however took a lot of effort to coordinate with the client, as any changes made to the client would need to be synchronized with the server, and so development of both had to be done somewhat in parallel. 
+
+We had multiple challenges to overcome when developing the server, including:
+
+\begin{itemize}
+	\item Allowing multiple clients to connect
+	\item Gracefully deal with disconnections
+	\item Allow only those who'd previously lost connection back
+	\item Find a suitable method for hosting the server
+\end{itemize}
+
+\subsubsection{Design}
+For the server, we needed a way for each connection to exist independent of each other, meaning that if one was to disconnect, the others would not experience issues because of this. Because a single-threaded server meant that only one client could be served at a time, we settled on a thread-pool approach. This meant that in the case a connection was to disconnect, we can remove the thread from the pool and move to the next, viable client. 
+
+%!% add figure to support
+
+When a player disconnects either on purpose or unexpectedly, 
+
+
+
+
+
+
+
+
+
+\subsubsection{Development}
+
+
+
+
+
+
+
+
 The server at this moment in time is very basic and barebones - it only operates on String messages passed back between the server and the client thread and has not yet fully implemented the Texas Hold'em gamemode. \\
 
 \begin{wrapfigure}{r}{0.5\textwidth}
