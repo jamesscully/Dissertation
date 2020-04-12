@@ -1,32 +1,43 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Motivation}{}% 2
 \BOOKMARK [1][-]{section.3}{Methodology}{}% 3
-\BOOKMARK [1][-]{section.4}{Design}{}% 4
-\BOOKMARK [2][-]{subsection.4.1}{Overview}{section.4}% 5
-\BOOKMARK [2][-]{subsection.4.2}{Backend}{section.4}% 6
-\BOOKMARK [2][-]{subsection.4.3}{Networking}{section.4}% 7
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Introduction}{subsection.4.3}% 8
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Thread-pool}{subsection.4.3}% 9
-\BOOKMARK [3][-]{subsubsection.4.3.3}{Client}{subsection.4.3}% 10
-\BOOKMARK [3][-]{subsubsection.4.3.4}{Communication / Diagram}{subsection.4.3}% 11
-\BOOKMARK [2][-]{subsection.4.4}{User Interface / Android application}{section.4}% 12
-\BOOKMARK [2][-]{subsection.4.5}{Algorithms}{section.4}% 13
-\BOOKMARK [1][-]{section.5}{Implementation}{}% 14
-\BOOKMARK [2][-]{subsection.5.1}{Project Requirements}{section.5}% 15
-\BOOKMARK [2][-]{subsection.5.2}{Backend}{section.5}% 16
-\BOOKMARK [2][-]{subsection.5.3}{Server}{section.5}% 17
-\BOOKMARK [2][-]{subsection.5.4}{Application}{section.5}% 18
-\BOOKMARK [2][-]{subsection.5.5}{Face}{section.5}% 19
-\BOOKMARK [2][-]{subsection.5.6}{Evaluating Hands of Texas Hold'em}{section.5}% 20
-\BOOKMARK [2][-]{subsection.5.7}{Determining a Straight}{section.5}% 21
-\BOOKMARK [1][-]{section.6}{Progress}{}% 22
-\BOOKMARK [2][-]{subsection.6.1}{Management}{section.6}% 23
-\BOOKMARK [2][-]{subsection.6.2}{Contributions and Reflections}{section.6}% 24
-\BOOKMARK [1][-]{section.7}{Appendix}{}% 25
-\BOOKMARK [2][-]{subsection.7.1}{Old Gantt Chart}{section.7}% 26
-\BOOKMARK [2][-]{subsection.7.2}{New Gantt Chart}{section.7}% 27
-\BOOKMARK [2][-]{subsection.7.3}{Abstract System Design}{section.7}% 28
-\BOOKMARK [2][-]{subsection.7.4}{Straight method}{section.7}% 29
-\BOOKMARK [2][-]{subsection.7.5}{TPokerThread run method}{section.7}% 30
-\BOOKMARK [2][-]{subsection.7.6}{TPokerClient main method}{section.7}% 31
-\BOOKMARK [1][-]{section.8}{Bibliography}{}% 32
+\BOOKMARK [2][-]{subsection.3.1}{Test-Driven Development}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Agile \(FINISH!\)}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Design}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Overview}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.2}{Backend}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.3}{Networking}{section.4}% 9
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Introduction}{subsection.4.3}% 10
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Server}{subsection.4.3}% 11
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Client}{subsection.4.3}% 12
+\BOOKMARK [3][-]{subsubsection.4.3.4}{Communication / Diagram}{subsection.4.3}% 13
+\BOOKMARK [2][-]{subsection.4.4}{User Interface / Android application}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.5}{Algorithms}{section.4}% 15
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 16
+\BOOKMARK [2][-]{subsection.5.1}{Project Requirements}{section.5}% 17
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Backend}{subsection.5.1}% 18
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Server}{subsection.5.1}% 19
+\BOOKMARK [3][-]{subsubsection.5.1.3}{Application}{subsection.5.1}% 20
+\BOOKMARK [2][-]{subsection.5.2}{Client}{section.5}% 21
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Overview}{subsection.5.2}% 22
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Development}{subsection.5.2}% 23
+\BOOKMARK [2][-]{subsection.5.3}{Server}{section.5}% 24
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Overview}{subsection.5.3}% 25
+\BOOKMARK [3][-]{subsubsection.5.3.2}{Development}{subsection.5.3}% 26
+\BOOKMARK [3][-]{subsubsection.5.3.3}{Challenges}{subsection.5.3}% 27
+\BOOKMARK [2][-]{subsection.5.4}{Data Classes}{section.5}% 28
+\BOOKMARK [3][-]{subsubsection.5.4.1}{Overview}{subsection.5.4}% 29
+\BOOKMARK [3][-]{subsubsection.5.4.2}{Face / Suit}{subsection.5.4}% 30
+\BOOKMARK [2][-]{subsection.5.5}{Evaluating Hands of Texas Hold'em}{section.5}% 31
+\BOOKMARK [2][-]{subsection.5.6}{Determining a Straight}{section.5}% 32
+\BOOKMARK [1][-]{section.6}{Progress}{}% 33
+\BOOKMARK [2][-]{subsection.6.1}{Management}{section.6}% 34
+\BOOKMARK [2][-]{subsection.6.2}{Contributions and Reflections}{section.6}% 35
+\BOOKMARK [1][-]{section.7}{Appendix}{}% 36
+\BOOKMARK [2][-]{subsection.7.1}{Old Gantt Chart}{section.7}% 37
+\BOOKMARK [2][-]{subsection.7.2}{New Gantt Chart}{section.7}% 38
+\BOOKMARK [2][-]{subsection.7.3}{Abstract System Design}{section.7}% 39
+\BOOKMARK [2][-]{subsection.7.4}{Straight method}{section.7}% 40
+\BOOKMARK [2][-]{subsection.7.5}{TPokerThread run method}{section.7}% 41
+\BOOKMARK [2][-]{subsection.7.6}{TPokerClient main method}{section.7}% 42
+\BOOKMARK [1][-]{section.8}{Bibliography}{}% 43

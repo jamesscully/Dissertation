@@ -23,16 +23,14 @@ public class TexasHandTest {
 
     @Test
     public void evaluate() {
-
-
         assertEquals(new TResult(Face.ACE, Rank.THREE_OF_KIND),
                      new TexasEvaluator("AD AD AD 2S 5S JC 0S").evaluate());
 
         assertEquals(new TResult(Face.ACE, Rank.STRAIGHT),
-                new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
+                     new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
 
         assertEquals(new TResult(Face.EIGHT, Rank.STRAIGHT),
-                new TexasEvaluator("AD KS 8H 7S 6D 5C 4S").evaluate());
+                     new TexasEvaluator("AD KS 8H 7S 6D 5C 4S").evaluate());
 
         assertEquals(new TResult(Face.ACE, Rank.STRAIGHT),
                      new TexasEvaluator("AD KS QH JS 0D JC 3S").evaluate());
@@ -49,7 +47,6 @@ public class TexasHandTest {
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
-
     }
 
     @Test
