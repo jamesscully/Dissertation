@@ -23,8 +23,8 @@ public class TPokerServer implements Runnable {
     protected boolean isJoinStage = false;
     protected boolean isPlayStage = false;
 
-    protected Thread       ourThread    = null;
-    protected ThreadPoolExecutor pool      = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+    protected Thread        ourThread = null;
+    protected ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
 
     ArrayList<Player> players = new ArrayList<>();
 
@@ -43,7 +43,6 @@ public class TPokerServer implements Runnable {
 
     HashMap<Player, TAction> playerActions = new HashMap<>();
 
-
     // add a texas Game object here; we can sync potentially.
 
     @Override
@@ -61,6 +60,7 @@ public class TPokerServer implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         while(isJoinStage) {
             Socket client = null;
@@ -271,7 +271,6 @@ public class TPokerServer implements Runnable {
     }
 
 
-
     /**
      * This gathers all the actions from players currently sat on the table. We'll call this after every stage i.e. flop, river, turn.
      */
@@ -318,8 +317,6 @@ public class TPokerServer implements Runnable {
                         playerActions.put(p, action);
                         // this will break us out of the whileloop for the player
                         validAction = true;
-
-
                         // if they have folded, mark them so we don't include them later
                         if(action == TAction.FOLD) {
                             p.folded = true;
