@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="texas" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.klib"/>
+    <include name="*.swc"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.11" value="${jdk.home.11}/bin"/>
+  <path id="jdk.classpath.11">
+    <fileset dir="${jdk.home.11}">
+      <include name="../java-11-openjdk!/java.base"/>
+      <include name="../java-11-openjdk!/java.compiler"/>
+      <include name="../java-11-openjdk!/java.datatransfer"/>
+      <include name="../java-11-openjdk!/java.desktop"/>
+      <include name="../java-11-openjdk!/java.instrument"/>
+      <include name="../java-11-openjdk!/java.logging"/>
+      <include name="../java-11-openjdk!/java.management"/>
+      <include name="../java-11-openjdk!/java.management.rmi"/>
+      <include name="../java-11-openjdk!/java.naming"/>
+      <include name="../java-11-openjdk!/java.net.http"/>
+      <include name="../java-11-openjdk!/java.prefs"/>
+      <include name="../java-11-openjdk!/java.rmi"/>
+      <include name="../java-11-openjdk!/java.scripting"/>
+      <include name="../java-11-openjdk!/java.se"/>
+      <include name="../java-11-openjdk!/java.security.jgss"/>
+      <include name="../java-11-openjdk!/java.security.sasl"/>
+      <include name="../java-11-openjdk!/java.smartcardio"/>
+      <include name="../java-11-openjdk!/java.sql"/>
+      <include name="../java-11-openjdk!/java.sql.rowset"/>
+      <include name="../java-11-openjdk!/java.transaction.xa"/>
+      <include name="../java-11-openjdk!/java.xml"/>
+      <include name="../java-11-openjdk!/java.xml.crypto"/>
+      <include name="../java-11-openjdk!/jdk.accessibility"/>
+      <include name="../java-11-openjdk!/jdk.aot"/>
+      <include name="../java-11-openjdk!/jdk.attach"/>
+      <include name="../java-11-openjdk!/jdk.charsets"/>
+      <include name="../java-11-openjdk!/jdk.compiler"/>
+      <include name="../java-11-openjdk!/jdk.crypto.cryptoki"/>
+      <include name="../java-11-openjdk!/jdk.crypto.ec"/>
+      <include name="../java-11-openjdk!/jdk.dynalink"/>
+      <include name="../java-11-openjdk!/jdk.editpad"/>
+      <include name="../java-11-openjdk!/jdk.hotspot.agent"/>
+      <include name="../java-11-openjdk!/jdk.httpserver"/>
+      <include name="../java-11-openjdk!/jdk.internal.ed"/>
+      <include name="../java-11-openjdk!/jdk.internal.jvmstat"/>
+      <include name="../java-11-openjdk!/jdk.internal.le"/>
+      <include name="../java-11-openjdk!/jdk.internal.opt"/>
+      <include name="../java-11-openjdk!/jdk.internal.vm.ci"/>
+      <include name="../java-11-openjdk!/jdk.internal.vm.compiler"/>
+      <include name="../java-11-openjdk!/jdk.internal.vm.compiler.management"/>
+      <include name="../java-11-openjdk!/jdk.jartool"/>
+      <include name="../java-11-openjdk!/jdk.javadoc"/>
+      <include name="../java-11-openjdk!/jdk.jcmd"/>
+      <include name="../java-11-openjdk!/jdk.jconsole"/>
+      <include name="../java-11-openjdk!/jdk.jdeps"/>
+      <include name="../java-11-openjdk!/jdk.jdi"/>
+      <include name="../java-11-openjdk!/jdk.jdwp.agent"/>
+      <include name="../java-11-openjdk!/jdk.jfr"/>
+      <include name="../java-11-openjdk!/jdk.jlink"/>
+      <include name="../java-11-openjdk!/jdk.jshell"/>
+      <include name="../java-11-openjdk!/jdk.jsobject"/>
+      <include name="../java-11-openjdk!/jdk.jstatd"/>
+      <include name="../java-11-openjdk!/jdk.localedata"/>
+      <include name="../java-11-openjdk!/jdk.management"/>
+      <include name="../java-11-openjdk!/jdk.management.agent"/>
+      <include name="../java-11-openjdk!/jdk.management.jfr"/>
+      <include name="../java-11-openjdk!/jdk.naming.dns"/>
+      <include name="../java-11-openjdk!/jdk.naming.rmi"/>
+      <include name="../java-11-openjdk!/jdk.net"/>
+      <include name="../java-11-openjdk!/jdk.pack"/>
+      <include name="../java-11-openjdk!/jdk.rmic"/>
+      <include name="../java-11-openjdk!/jdk.scripting.nashorn"/>
+      <include name="../java-11-openjdk!/jdk.scripting.nashorn.shell"/>
+      <include name="../java-11-openjdk!/jdk.sctp"/>
+      <include name="../java-11-openjdk!/jdk.security.auth"/>
+      <include name="../java-11-openjdk!/jdk.security.jgss"/>
+      <include name="../java-11-openjdk!/jdk.unsupported"/>
+      <include name="../java-11-openjdk!/jdk.unsupported.desktop"/>
+      <include name="../java-11-openjdk!/jdk.xml.dom"/>
+      <include name="../java-11-openjdk!/jdk.zipfs"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.11}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.11}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.11"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.kotlinjavaruntime.classpath">
+    <pathelement location="${basedir}/../../../../../home/yames/Dissertation/texas/lib/kotlin-reflect.jar"/>
+    <pathelement location="${basedir}/../../../../../home/yames/Dissertation/texas/lib/kotlin-stdlib-jdk7.jar"/>
+    <pathelement location="${basedir}/../../../../../home/yames/Dissertation/texas/lib/kotlin-stdlib-jdk8.jar"/>
+    <pathelement location="${basedir}/../../../../../home/yames/Dissertation/texas/lib/kotlin-stdlib.jar"/>
+    <pathelement location="${basedir}/../../../../../home/yames/Dissertation/texas/lib/kotlin-test.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module Texas Hold'em -->
+  
+  <dirname property="module.texas_hold&#39;em.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.texas_hold&#39;em" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.texas_hold&#39;em" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.texas_hold&#39;em" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.texas_hold&#39;em" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="texas_hold&#39;em.output.dir" value="${module.texas_hold&#39;em.basedir}/../../../../../home/yames/Dissertation/texas/out/production/Texas Hold&#39;em"/>
+  <property name="texas_hold&#39;em.testoutput.dir" value="${module.texas_hold&#39;em.basedir}/../../../../../home/yames/Dissertation/texas/out/test/Texas Hold&#39;em"/>
+  
+  <path id="texas_hold&#39;em.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="texas_hold&#39;em.module.production.classpath">
+    <path refid="${module.jdk.classpath.texas_hold&#39;em}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="texas_hold&#39;em.runtime.production.module.classpath">
+    <pathelement location="${texas_hold&#39;em.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="texas_hold&#39;em.module.classpath">
+    <path refid="${module.jdk.classpath.texas_hold&#39;em}"/>
+    <pathelement location="${texas_hold&#39;em.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-engine/5.4.2/junit-jupiter-engine-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-params/5.4.2/junit-jupiter-params-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter/5.4.2/junit-jupiter-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-engine/1.4.2/junit-platform-engine-1.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  <path id="texas_hold&#39;em.runtime.module.classpath">
+    <pathelement location="${texas_hold&#39;em.testoutput.dir}"/>
+    <pathelement location="${texas_hold&#39;em.output.dir}"/>
+    <pathelement location="${path.variable.maven_repository}/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-engine/5.4.2/junit-jupiter-engine-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter-params/5.4.2/junit-jupiter-params-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/jupiter/junit-jupiter/5.4.2/junit-jupiter-5.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/junit/platform/junit-platform-engine/1.4.2/junit-platform-engine-1.4.2.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar"/>
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.texas_hold&#39;em">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.texas_hold&#39;em">
+    <patternset refid="excluded.from.module.texas_hold&#39;em"/>
+  </patternset>
+  
+  <path id="texas_hold&#39;em.module.sourcepath">
+    <dirset dir="${module.texas_hold&#39;em.basedir}/../../../../../home/yames/Dissertation/texas">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.texas_hold&#39;em" depends="compile.module.texas_hold&#39;em.production,compile.module.texas_hold&#39;em.tests" description="Compile module Texas Hold&#39;em"/>
+  
+  <target name="compile.module.texas_hold&#39;em.production" description="Compile module Texas Hold&#39;em; production classes">
+    <mkdir dir="${texas_hold&#39;em.output.dir}"/>
+    <javac destdir="${texas_hold&#39;em.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.texas_hold&#39;em}/javac">
+      <compilerarg line="${compiler.args.texas_hold&#39;em}"/>
+      <bootclasspath refid="texas_hold&#39;em.module.bootclasspath"/>
+      <classpath refid="texas_hold&#39;em.module.production.classpath"/>
+      <src refid="texas_hold&#39;em.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.texas_hold&#39;em"/>
+    </javac>
+    
+    <copy todir="${texas_hold&#39;em.output.dir}">
+      <fileset dir="${module.texas_hold&#39;em.basedir}/../../../../../home/yames/Dissertation/texas/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.texas_hold&#39;em.tests" depends="compile.module.texas_hold&#39;em.production" description="compile module Texas Hold&#39;em; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.texas_hold&#39;em" description="cleanup module">
+    <delete dir="${texas_hold&#39;em.output.dir}"/>
+    <delete dir="${texas_hold&#39;em.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.texas_hold&#39;em" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.texas_hold&#39;em" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

@@ -1,26 +1,11 @@
-Q. will this app have to be developed on Android?
-Q. what sort of answer does 'need/importance' mean in this context? i.e. a poker app.
 
-Ethics:
+Q. by node - does this mean a client-server connection or peer 2 peer? i.e. client-server
 
-1. Does the study involve human participants?
-No
+q. Does disconnection tolerant mean that the players turns are paused?
 
-2. Does the study involve personal data ... as to invade the privacy of the individuals concerned?
-No; the app connects to a server - no identifiable data is collected.
+q. should the interim report focus heavily on how the server is going (non-existant)
 
-3. Does the study involve the use of animals or biological materials?
-No
+q. is there any pointers on motivation? should I make it up since there is no gap in the market
 
-
-Q. Would having human surveys require ethics? Would they allow for a higher range of marks?
-
-Q. Is there a set amount of times per month / schedule that is needed for us to meet?
-
-Q. by node - does this mean a client-server connection or peer 2 peer?
-
-Q. history of scores; by amount of wins?
-
-Q. what type of poker; I assume texas hold'em?
-
+q. should i include met timeline events in gantt chart 
 

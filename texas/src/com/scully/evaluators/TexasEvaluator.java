@@ -6,7 +6,10 @@ import com.scully.enums.Rank;
 import com.scully.enums.Suit;
 import com.scully.game.TResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class TexasEvaluator {
