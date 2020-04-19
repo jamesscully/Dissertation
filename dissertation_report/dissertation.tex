@@ -211,9 +211,6 @@ Test-Driven Development (TDD) drove the development of the poker evaluation algo
 
 For example, the isStraight function at one point had a small case where a straight only needed 4 cards to be ascending/descending. \\
 
-
-
-
 \textit{\textbf{Note:} Below show five cards, usually we use 7 (2 from player + 5 from table)} \\
 \setlength{\fboxrule}{0pt}
 \noindent\fbox{%
@@ -234,22 +231,30 @@ Two 8's - not a straight hand
 \end{minipage}
 }
 
-% (?) 'given that a str8 is uncommon' http://www.math.hawaii.edu/~ramsey/Probability/PokerHands.html
-Had we not taken a test-heavy approach, given that a straight itself is quite uncommon, this could have been undetected for quite some time. \\
+Had we not taken a test-heavy approach, given that a straight itself is quite uncommon \cite{str_uncommon}, at around 0.392465\% this could have been undetected for quite some time. \\
 
-However, a benefit of this that was only realised afterwards was that writing unit-testable code made the actual code-base much more modular. % this has lead to it being called more of a design process than test https://link.springer.com/article/10.1007/s10664-008-9062-z 
-This has lead to the actual evaluator in turn becoming much higher quality code, as there is much less overlap between each function when determining the outcome of a hand.  Appendix 8.8 shows this, as we can see that we only have functions to call rather than intertwining them.
+However, a benefit of this that was only realised afterwards was that writing unit-testable code made the actual code-base much more modular. This has lead to the actual evaluator in turn becoming much higher quality code, as there is much less overlap between each function when determining the outcome of a hand.  Appendix 8.8 shows this, as we can see that we only have functions to call rather than intertwining them. 
 
-
-
-This allowed us to rapidly create test cases, but more importantly easily generate cases which could break the method itself via edge cases or worst case scenarios. For example, one issue that was resolved was the method would register duplicate cards as being a straight, i.e. only 4 sequential cards would be needed. Furthermore, as the overall evaluation function changed, we could run tests to ensure that all edge cases were tested as changes were made.\\
-
+Kent Beck, an early proponent of TDD methodology and creator of JUnit, clarifies this by 
 
 
 \subsection{Agile (FINISH!)}
-Agile has also been the driving development cycle - primarily creating a very basic yet functional version of the software and accepting of changing requirements. For example, the back-end was created first so that the game mode itself was in an acceptable state. From here, it made it easier to visualize how the server would handle sending, receiving and processing the player's cards. \\
 
-Though this helps develop a certain sector and thus the entire project succeed, as observed by the link of Agile/iterative incentive to success in \hyperlink{agile_success}{(P Serrador, 2015)}, it can lead to over-development of one area and cause tunnel-vision, as was the case with not developing both the poker back-end and the server software at-least somewhat concurrently. For a time-constrained project like this, it is best to find a middle-ground. 
+Agile is a relatively new methodology that can be described as very iterative, with a low design overhead. Its principles hold a focus on the self-sustenance of developers, rapid and continuous delivery of working software and continuous communication between each team member, as declared by it's manifesto \cite{agile_manifesto}. It has been reported that the more the methodology is applied to a project, the more likely a project is to be considered successful. \hyperlink{agile_success}{(P Serrador, 2015)}, 
+
+Whilst this was a one man project, the principles and ideas behind the Agile methodology have not been forgotten. This is primarily because of how well the rapid development cycle coincides with TDD; we were able to get instantaneous feedback and improve upon it. This especially occured in the backend of the project, whereby we could push better quality code and constantly improve with a concrete set of tests.
+
+We were accepting to new requirements as it was realised that the initial idea of a grandiose mobile application may be a bit too much to handle within the given timeframe; we instead decided to move towards developing the core idea of the project: exploring creating a delay tolerant network.
+
+When it came to developing the server and client connection, we realised that making an incredibly detailed design on a concept that was not particularly familiar with the author would more than likely end up in time wasted. Therefore, we decided to iteratively work on getting certain milestones completed: basic connection, starting with small ping messages. Next, we would work on implementing sending a single card between the client/server, then we would work on getting a hand over. 
+
+Whilst we were sure to run into some errors this way, the usage of TDD methods enabled us to get past this; namely using a logger to show what the client/server was performing or looking for.
+
+
+
+% Agile has also been the driving development cycle - primarily creating a very basic yet functional version of the software and accepting of changing requirements. For example, the back-end was created first so that the game mode itself was in an acceptable state. From here, it made it easier to visualize how the server would handle sending, receiving and processing the player's cards. \\
+
+%Though this helps develop a certain sector and thus the entire project succeed, as observed by the link of Agile/iterative incentive to success in \hyperlink{agile_success}{(P Serrador, 2015)}, it can lead to over-development of one area and cause tunnel-vision, as was the case with not developing both the poker back-end and the server software at-least somewhat concurrently. For a time-constrained project like this, it is best to find a middle-ground. 
 
 
 %(?)
@@ -993,58 +998,52 @@ public void run() {
 
 \subsection{TPokerClient main method}
 \begin{lstlisting}[breaklines=true]
-public static void main(String[] args) {
-	Socket sock = null;
+    public static void main(String[] args) {
 
-	DataOutputStream out = null;
-	DataInputStream  in  = null;
-	ObjectInputStream servOut = null;
+        try {
+            Socket sock = null;
+            // by default, use localhost
+            String HOST = "127.0.0.1";
+            
+            // if we've started with an argument, use it as the host
+            if(args.length > 0) {
+                HOST = args[0];
+            }
 
-	try {
-// for now, connect to localhost (127.0.0.1) on port 1337.
-// later, this will be replaced with the servers external IP address
-		sock = new Socket("127.0.0.1", 1337);
-		System.out.println("Connected");
+            TIdentityFile identityFile = new TIdentityFile();
 
-		// in is our input stream, in this case command-line
-		// out is the servers
-		in = new DataInputStream(System.in);
-		out = new DataOutputStream(sock.getOutputStream());
+            System.out.println("TPokerClient: Connecting...");
+            sock = new Socket(HOST, TPokerServer.PORT);
 
-		// this is the connection to our TPokerThread
-		servOut = new ObjectInputStream(sock.getInputStream());
+            // in is our input stream, in this case command-line
+            // out is the servers
+            out = new ObjectOutputStream(sock.getOutputStream());
+            in = new ObjectInputStream (sock.getInputStream());
+            stdIn = new Scanner(System.in);
 
-		String line = (String) servOut.readUTF();
+            out.writeObject(identityFile);
 
-		// parse our clientID and initial card details - todo: pass two cards
-		if(line == null || line.isEmpty()) {
-			System.out.println("Line was null or empty");
-		} else {
-			System.out.println("Retrieved data (connectionID, Face, Suit): " + line);
-			// re-build a Card object from Face and Suit enums
-			getCardFromData(line);
-		}
+            String status = "REJECT";
 
-	} catch (IOException i) {
-		System.out.println("Exception Caught");
-		i.printStackTrace();
-	}
+            status = getMessage();
 
-	String line = "";
+            if(status.equals("REJECT")) {
+                System.err.println("TPokerClient: Server rejected this connection");
+                System.exit(1);
+            } else {
+                System.out.println("TPokerClient: Server accepted our connection");
+            }
 
-	// this will fail when we have a disconnect message, and close IO
-	while(!line.equals("DISCONNECT")) {
-		try {
-			line = in.readLine();
-			out.writeUTF(line);
-		} catch (IOException e) { e.printStackTrace(); }
-	}
+        } catch (IOException i) {
+            System.out.println("TPokerClient: Exception Caught");
+            i.printStackTrace();
+        }
 
-	try {
-		in.close(); out.close(); sock.close();
-	} catch (IOException e) { e.printStackTrace(); }
-
-}
+        while(!QUIT) {
+            reset();
+            mainLoop();
+        }
+    }
 \end{lstlisting}
 
 \subsection{Server-client sequence diagram}
@@ -1095,10 +1094,8 @@ public static void main(String[] args) {
 
 \newpage
 \section{Bibliography}
-
-\renewcommand\refname{Bibliography}
+\renewcommand\refname{}
 \begin{thebibliography}{9}
-
 % https://people.eecs.ku.edu/~saiedian/Teaching/Sp19/811/Papers/Agility/does-agile-work.pdf#s0055
 \bibitem{agile_success}
 \hypertarget{agile_success}{}
@@ -1165,6 +1162,33 @@ public static void main(String[] args) {
 	\textit{Programming with Threads, 1996} \\
 	Retrieved from \url{http://www.cs.ioc.ee/yik/lib/2/Kleiman1pre.html}
 \end{flushleft}
+
+% http://www.math.hawaii.edu/~ramsey/Probability/PokerHands.html
+\bibitem{str_uncommon}
+\hypertarget{str_uncommon}{}
+\begin{flushleft}
+	Tom Ramsey, University of Hawaii \\
+	\textit{5-Card Poker Hands} \\
+	Retrieved from \url{http://www.math.hawaii.edu/~ramsey/Probability/PokerHands.html}
+\end{flushleft}
+
+% Test-driven Development: By Example
+\bibitem{tdd_clean}
+\begin{flushleft}
+	Kent Beck \\
+	\textit{Test-driven Development: By Example, pg. ix - x} \\
+	Mirror located at \url{https://books.google.co.uk/books?id=CUlsAQAAQBAJ&lpg=PR7&ots=QBj-044PSZ&lr&pg=PR9#v=onepage&q}
+\end{flushleft}
+
+% https://agilemanifesto.org/principles.html
+\bibitem{agile_principles}
+\begin{flushleft}
+	Agile Manifesto (17 authors) \\
+	Retrieved from \url{https://agilemanifesto.org/principles.html}
+\end{flushleft}
+
+
+
 
 \end{thebibliography}
 
