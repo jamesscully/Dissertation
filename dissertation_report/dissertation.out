@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Motivation}{}% 2
+\BOOKMARK [1][-]{section.3}{Methodology}{}% 3
+\BOOKMARK [1][-]{section.4}{Design}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Overview}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Backend}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Networking}{section.4}% 7
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Introduction}{subsection.4.3}% 8
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Thread-pool}{subsection.4.3}% 9
+\BOOKMARK [3][-]{subsubsection.4.3.3}{Client}{subsection.4.3}% 10
+\BOOKMARK [3][-]{subsubsection.4.3.4}{Communication / Diagram}{subsection.4.3}% 11
+\BOOKMARK [2][-]{subsection.4.4}{User Interface / Android application}{section.4}% 12
