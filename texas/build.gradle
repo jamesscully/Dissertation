@@ -68,8 +68,8 @@ task deploy {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-//                put from: myFileTree.asList(), into: '/home/ubuntu/'
-//                execute '~/restart_server.sh'
+                put from: myFileTree.asList(), into: '/home/ubuntu/'
+                execute '~/restart_server.sh'
             }
         }
     }
@@ -100,5 +100,6 @@ dependencies {
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    implementation 'junit:junit:4.12'
 }
 

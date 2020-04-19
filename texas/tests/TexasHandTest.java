@@ -2,6 +2,7 @@ package tests;
 
 import com.scully.enums.Face;
 import com.scully.enums.Rank;
+import com.scully.enums.TAction;
 import com.scully.evaluators.TexasEvaluator;
 import com.scully.game.TResult;
 import org.junit.jupiter.api.AfterAll;
@@ -42,21 +43,28 @@ public class TexasHandTest {
                      new TexasEvaluator("KD QD JD 0D 9D JC 3S").evaluate());
 
 //        assertEquals(new TexasEvaluator("").evaluate(),  );
-//        assertEquals(new TexasEvaluator("").evaluate(),  );
-//        assertEquals(new TexasEvaluator("").evaluate(),  );
-//        assertEquals(new TexasEvaluator("").evaluate(),  );
-//        assertEquals(new TexasEvaluator("").evaluate(),  );
-//        assertEquals(new TexasEvaluator("").evaluate(),  );
     }
 
     @Test
     public void getHighestCard() {
-
+        assertEquals(new TResult(Face.ACE, Rank.HIGH_CARD), new TexasEvaluator("AH JC KH 2H 3C 5D 8D").evaluate());
+        assertEquals(new TResult(Face.KING, Rank.HIGH_CARD), new TexasEvaluator("4H JC KH 2H 3C 5D 8D").evaluate());
+        assertEquals(new TResult(Face.TEN, Rank.HIGH_CARD), new TexasEvaluator("6H 9C 0H 2H 3C 8D 5D").evaluate());
+        assertEquals(new TResult(Face.JACK, Rank.HIGH_CARD), new TexasEvaluator("2H JC 3H 4H 5C 8D 0D").evaluate());
     }
 
     @Test
     public void isFlush() {
+        assertNotNull(new TexasEvaluator("AD AD AD AD AD JC JC").isFlush());
+        assertNotNull(new TexasEvaluator("AH AH AD AH AD JH JH").isFlush());
+        assertNotNull(new TexasEvaluator("AD AD AD AD AD JC JC").isFlush());
+        assertNotNull(new TexasEvaluator("AD AD AD AD AD JC JC").isFlush());
 
+
+        assertNull(new TexasEvaluator("AD AD AC AD AD JC JC").isFlush());
+        assertNull(new TexasEvaluator("AH AC AD AH AD QH JH").isFlush());
+        assertNull(new TexasEvaluator("JD AS 0D AD KD JC JC").isFlush());
+        assertNull(new TexasEvaluator("5D Ac 0D AD 9D JC JC").isFlush());
     }
 
     @Test

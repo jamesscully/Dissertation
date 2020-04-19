@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Implementation-Title: TPoker Client
+Main-Class: com.scully.server.TPokerClient
+

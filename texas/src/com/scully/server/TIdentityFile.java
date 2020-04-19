@@ -21,11 +21,7 @@ public class TIdentityFile implements Serializable {
             if(!idenFile.exists()) {
                 createIdenFile();
             }
-
             readIdenFile();
-
-
-
         } catch (URISyntaxException e) {
             e.printStackTrace();
             System.err.println("TIdentityFile: Error getting parent folder");

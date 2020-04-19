@@ -6,10 +6,7 @@ import com.scully.enums.Rank;
 import com.scully.enums.Suit;
 import com.scully.game.TResult;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class TexasEvaluator {
@@ -21,7 +18,6 @@ public class TexasEvaluator {
     TreeMap<Face, Integer> cardCountMap = new TreeMap<>();
 
     ArrayList<Card> cards = new ArrayList<>();
-
 
     boolean StraightFlushFlag = false;
 
@@ -216,7 +212,6 @@ public class TexasEvaluator {
 
             // if we've already managed a straight, then return true.
             // note that this should return the highest STRAIGHT, as we're descending down.
-            // todo make this function return points where there is a straight beginning, to determine straight flushes.
             if(valStreak == 4) {
                 // this removes the need for ANOTHER function for St. Flushes.
                 if(suitStreak == 4)

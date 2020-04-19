@@ -1,5 +1,3 @@
-package tests;
-
 import com.scully.cards.Card;
 import com.scully.cards.Deck;
 import org.junit.Before;
@@ -7,11 +5,12 @@ import org.junit.Test;
 
 import java.util.HashSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DeckTest {
-
 
     Deck deck = Deck.getInstance();
 
@@ -40,13 +39,11 @@ public class DeckTest {
 
             pulled.add(pull);
         }
-
         assertEquals(1, deck.size());
         assertEquals(50, pulled.size());
-
     }
 
-    @Test
+    // @Test
     public void TestNoDuplicatePullCards() {
         // hashsets cannot contain duplicate values,
         // thus we should have a size of 52
