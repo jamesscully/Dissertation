@@ -6,11 +6,25 @@ import java.util.Objects;
 import java.util.Random;
 
 public class TIdentityFile implements Serializable {
+
+    /**
+     * The identity of the player in a string
+     */
     public String token = "NULL";
 
+    /**
+     * Directory where the identity file is stored
+     */
     File rootDir;
+
+    /**
+     * File of the identity
+     */
     File idenFile;
 
+    /**
+     * Filename in the directory
+     */
     public static final String IDEN_FILE_NAME = "iden";
 
     public TIdentityFile() {
@@ -28,6 +42,9 @@ public class TIdentityFile implements Serializable {
         }
     }
 
+    /**
+     * Read the identity file - if it exists
+     */
     public void readIdenFile() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(idenFile));
@@ -38,6 +55,9 @@ public class TIdentityFile implements Serializable {
         }
     }
 
+    /**
+     * Creates the identity file
+     */
     public void createIdenFile() {
 
         Random random = new Random();

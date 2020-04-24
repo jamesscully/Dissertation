@@ -53,12 +53,8 @@ public class Card implements Comparable<Card>, Serializable {
     }
 
     public String toShortString() {
-
         String val = Integer.toString(face.getValue());
-
         String f = (face.getValue() <= 10) ? val : face.name().substring(0, 1);
-
-
         return f + suit.name().substring(0,1);
     }
 
@@ -80,8 +76,12 @@ public class Card implements Comparable<Card>, Serializable {
         return getValueInteger().compareTo(card.getValueInteger());
     }
 
+    /**
+     * Factory method, parses cards from (0-9) or (J-A) + suit.
+     * @param s String to parse
+     * @return
+     */
     public static Card strToCard(String s) {
-
         s = s.toUpperCase();
 
         Face face = null;

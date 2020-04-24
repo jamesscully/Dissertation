@@ -14,17 +14,26 @@ public class TexasEvaluator {
     Card[]  player = null;
     Card[]  table  = null;
 
+    /**
+     * Suits and their count in the current evaluator
+     */
     TreeMap<Suit, Integer> suitCountMap = new TreeMap<>();
-    TreeMap<Face, Integer> cardCountMap = new TreeMap<>();
+
+    /**
+     *  Faces and how many of them in the current evaluator
+     */
+    TreeMap<Face, Integer> faceCountMap = new TreeMap<>();
 
     ArrayList<Card> cards = new ArrayList<>();
 
+    /**
+     * Indicates if there is a straight flush
+     */
     boolean StraightFlushFlag = false;
 
     public TexasEvaluator(Card[] player, Card[]  table) {
         this.player = player;
         this.table  = table;
-
 
         cards.addAll(Arrays.asList(player));
         cards.addAll(Arrays.asList(table));
@@ -50,7 +59,10 @@ public class TexasEvaluator {
     }
 
 
-
+    /**
+     * Main evaluation function for the evaluator
+     * @return Returns the highest card + rank of a hand
+     */
     public TResult evaluate() {
 
         // these conditions must be done in sequence, for order of rankings
@@ -168,7 +180,7 @@ public class TexasEvaluator {
 
     /**
      * This determines whether the hand is in numerical order.
-     * It also relies on the {@link TexasHand} array, as this should not change the card positions.
+     * It also relies on the TexasHand array, as this should not change the card positions.
      * @return Whether the hand is classed as a straight
      */
     public TResult isStraight() {
@@ -255,7 +267,7 @@ public class TexasEvaluator {
         int pairs = 0;
 
         // we'll order the map in descending order, that way we can see our highest-power face pairs first.
-        for(Map.Entry<Face, Integer> e : cardCountMap.descendingMap().entrySet()) {
+        for(Map.Entry<Face, Integer> e : faceCountMap.descendingMap().entrySet()) {
             if(e.getValue() == 4) {
                 pairsMap.put(e.getKey(), Rank.FOUR_OF_KIND);
                 return new TResult(e.getKey(), Rank.FOUR_OF_KIND);
@@ -295,16 +307,19 @@ public class TexasEvaluator {
         return result;
     }
 
+    /**
+     * Generates the TreeMaps SuitCount and FaceCount for algorithm
+     */
     private void genMaps() {
         for(Card c : cards) {
             Integer sCount = suitCountMap.get(c.getSuit());
-            Integer fCount = cardCountMap.get(c.getFace());
+            Integer fCount = faceCountMap.get(c.getFace());
 
             // for both:
             // if we have no value in the map, set to one,
             // else, increment value for key
             suitCountMap.put(c.getSuit(), sCount == null ? 1 : sCount + 1);
-            cardCountMap.put(c.getFace(), fCount == null ? 1 : fCount + 1);
+            faceCountMap.put(c.getFace(), fCount == null ? 1 : fCount + 1);
         }
     }
 }

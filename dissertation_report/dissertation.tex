@@ -18,13 +18,11 @@
 \definecolor{textgreen}{rgb}{0,0.43,0}
 
 \usepackage{enumitem}
-\setlist{nosep}
-
 \usepackage{listings}
 \usepackage[export]{adjustbox}
 \usepackage{wrapfig}
 
-
+\setlist{nosep}
 
 \lstset{language=Java, 
 lineskip=-.1cm,
@@ -179,11 +177,13 @@ showstringspaces=false}
 % Page 1: 
 %%%
 
+% \hyperlink{research_texas}{(A Gilpin, 2006)}
+% \hyperlink{wsop_texas}{(WSOP, 2019)}
+
 \section{Introduction}
+Poker is a type of card game that is played and watched in tournaments by many around the world. Because of it's wide popularity, it has spawned multiple types, the most popular one being Texas Hold'em, which is the main type used in both research \cite{research_texas} and is the main variant used in the World Series of Poker \cite{wsop_texas}. Other types include the similar yet lesser-known Omaha hold'em and Five-card draw; a simpler type of poker, which does not utilize the typical table seen in both hold'ems. \\
 
-Poker is a type of card game that is played and watched in tournaments by many around the world. Because of it's wide popularity, it has spawned multiple types, the most popular one being Texas Hold'em, which is the main type used in both research \hyperlink{research_texas}{(A Gilpin, 2006)} and is the main variant used in the World Series of Poker \hyperlink{wsop_texas}{(WSOP, 2019)}. Other types include the similar yet lesser-known Omaha hold'em and Five-card draw; a simpler type of poker, which does not utilize the typical table seen in both hold'ems. \\
-
-A common problem encountered with most networks is that the client or user of a service can have a weak or 'spotty' internet connection, whereby they may lose connectivity occasionally or in certain bursts. This is especially prevalent with mobile connections, where rural or otherwise distanced areas can have trouble holding a steady connection. In these cases, it is vital that both the client is able to use the network or join as normal and that the server does not grind to a halt waiting on this person or break due to it, known as a \textit{delay-tolerant network} (DTN).
+A common problem encountered with most networks is that the client or user of a service can have a weak or 'spotty' internet connection, whereby they may lose connectivity occasionally or in certain bursts. This is especially prevalent with mobile connections, where rural or otherwise distanced areas can have trouble holding a steady connection. In these cases, it is vital that both the client is able to use the network or join as normal and that the server does not grind to a halt waiting on this person or break due to it, known as a \textit{delay-tolerant network} (DTN). \\
 
 Delay-tolerant networks have been especially important in the modern world since the advent of mobile devices and their surge in popularity. This is due to the fact that they do not have a regular stable internet connection like most desktop computers do and have the problem of losing signal due to physical movement or placement of the device. If a network cannot handle delay or dropouts from a mobile client gracefully this can have devastating impacts on data integrity or the overall function of the service. \\
 
@@ -200,7 +200,13 @@ The service must be able to realise that a device is either experiencing delay/d
 
 \section{Motivation}
 
-Rekop poker aims to provide an open-sourced framework for the popular variant of poker, Texas Hold'em. Many existing games of poker often include microtransactions and no ability to customize the gamemode, host their own servers or modify the source code to implement other gamemodes or wanted features. Moreover, the game of poker can be used as a great vessel - especially considering mobile networks - to learn more about delay-tolerant networks, as this is becoming the most important feature of any given service on the internet as mobile devices rise in popularity. 
+%!
+
+%!
+
+Rekop poker aims to provide an open-sourced framework for the popular variant of poker, Texas Hold'em. Many existing games of poker often include micro transactions and no ability to customize the gamemode, host their own servers or modify the source code to implement other gamemodes or wanted features. Moreover, the game of poker can be used as a great vessel - especially considering mobile networks - to learn more about delay-tolerant networks, as this is becoming the most important feature of any given service on the internet as mobile devices rise in popularity. 
+
+
 
 \newpage
 \section{Methodology}
@@ -237,18 +243,18 @@ However, a benefit of this that was only realised afterwards was that writing un
 
 Kent Beck, an early proponent of TDD methodology and creator of JUnit, clarifies this by 
 
+\newpage
+\subsection{Agile}
 
-\subsection{Agile (FINISH!)}
+Agile is a relatively new methodology that can be described as very iterative, with a low design overhead. Its principles hold a focus on the self-sustenance of developers, rapid and continuous delivery of working software and continuous communication between each team member, as declared by it's manifesto \cite{agile_principles}. It has been reported that the more the methodology is applied to a project, the more likely a project is to be considered successful. \cite{agile_success} \\ %\hyperlink{agile_success}{(P Serrador, 2015)}.  \\
 
-Agile is a relatively new methodology that can be described as very iterative, with a low design overhead. Its principles hold a focus on the self-sustenance of developers, rapid and continuous delivery of working software and continuous communication between each team member, as declared by it's manifesto \cite{agile_manifesto}. It has been reported that the more the methodology is applied to a project, the more likely a project is to be considered successful. \hyperlink{agile_success}{(P Serrador, 2015)}, 
+Whilst this was a one man project, the principles and ideas behind the Agile methodology have not been forgotten. This is primarily because of how well the rapid development cycle coincides with TDD; we were able to get instantaneous feedback and improve upon it. This especially occured in the backend of the project, whereby we could push better quality code and constantly improve with a concrete set of tests. \\
 
-Whilst this was a one man project, the principles and ideas behind the Agile methodology have not been forgotten. This is primarily because of how well the rapid development cycle coincides with TDD; we were able to get instantaneous feedback and improve upon it. This especially occured in the backend of the project, whereby we could push better quality code and constantly improve with a concrete set of tests.
+We were accepting to new requirements as it was realised that the initial idea of a grandiose mobile application may be a bit too much to handle within the given timeframe; we instead decided to move towards developing the core idea of the project: exploring creating a delay tolerant network. \\
 
-We were accepting to new requirements as it was realised that the initial idea of a grandiose mobile application may be a bit too much to handle within the given timeframe; we instead decided to move towards developing the core idea of the project: exploring creating a delay tolerant network.
+When it came to developing the server and client connection, we realised that making an incredibly detailed design on a concept that was not particularly familiar with the author would more than likely end up in time wasted. Therefore, we decided to iteratively work on getting certain milestones completed: basic connection, starting with small ping messages. Next, we would work on implementing sending a single card between the client/server, then we would work on getting a hand of cards over.  \\
 
-When it came to developing the server and client connection, we realised that making an incredibly detailed design on a concept that was not particularly familiar with the author would more than likely end up in time wasted. Therefore, we decided to iteratively work on getting certain milestones completed: basic connection, starting with small ping messages. Next, we would work on implementing sending a single card between the client/server, then we would work on getting a hand over. 
-
-Whilst we were sure to run into some errors this way, the usage of TDD methods enabled us to get past this; namely using a logger to show what the client/server was performing or looking for.
+% Whilst we were sure to run into some errors this way, the usage of TDD methods enabled us to get past this; namely using a logger to show what the client/server was performing or looking for.
 
 
 
@@ -266,7 +272,7 @@ Whilst we were sure to run into some errors this way, the usage of TDD methods e
 
 The project itself is broken down into two components, the back-end, which is the processing of poker hands and the representation of poker data classes, and the other component being the server, which is responsible for handling incoming connections and disconnections gracefully.  \\
 
-In order to handle re-connections and disconnections gracefully, it was decided to make the server handle most of the work, only sending small chunks to the clients. Appendix 7.7 shows this, with the client only receiving prompts to give their actions to the server, and receiving data on what is currently on the table / the outcome of the match. 
+In order to handle re-connections and disconnections gracefully, it was decided to make the server handle most of the work, only sending small chunks to the clients. Appendix 8.6 shows this, with the client only receiving prompts to give their actions to the server, and receiving data on what is currently on the table / the outcome of the match. 
 
 The previously mentioned chunks are easily sent over the network as they are enumerated, meaning that they can easily be recreated on the client side with less code needed, and in the case of a delay, there is only one 'packet' to receive or send back. This was inspired by similar approaches to synchronizing clients in video games such as the original DOOM \hyperlink{doom_network}{(id Software, 1996)}, albeit not continuous incremental changes; this means anyone joining back would be able to see all updates, not just new ones. 
 
@@ -286,20 +292,17 @@ The networking is based upon client-server architecture using a Thread-pool writ
 In this case, delay tolerance means that a player who disconnects from the poker match will be able to reconnect at the end of the game. A new, unique player will not take their slot however, and we decided to allow the game to continue as normal, because otherwise the match could be on hold indefinitely waiting for the player to reconnect.
 
 \subsubsection{Server}
+For the server, we needed a way for each connection to exist independent of each other, meaning that if one was to disconnect, the others would not experience issues because of it. There were multiple options that we could have taken to design the server, including a single-threaded approach, a thread pool and a multi-process approach. \\
 
-\paragraph*{Threading} 
+To clarify, a thread is a single line of execution - that is, a sequence of instructions separate to others - that is processed on a CPU at one time. As noted by Kleiman \cite{client_server}, the rise of client-server programming and multiple processors on a CPU drove the use of threads. A process is essentially a separate program entity, meaning that instead of the program creating a separate line of execution for a client, it would ask the operating system to create and run a new process to handle the client. This also means that it would need to create new memory for this new client, thus a new addressing space and the inability to use variables seamlessly between processes. \\
 
-For the server, we needed a way for each connection to exist independent of each other, meaning that if one was to disconnect, the others would not experience issues because of it. There were multiple options that we could have taken to design the server, including a single-threaded approach, a thread pool and a multi-process approach. 
+With networking, it is typical that each connection is given its own thread. This is because networking code involves the retrieving and sending of data, the former blocks execution of code because generally instructions ahead rely on the said data. This means that a single-threaded approach, while would work, would not adequately show delay tolerance as we would only have one client; the purpose is to show that this network can cope with dropouts. \\
 
-To clarify, a thread is a single line of execution - that is, a sequence of instructions separate to others - that is processed on a CPU at one time. As noted by Kleiman \cite{client_server}, the rise of client-server programming and multiple processors on a CPU drove the use of threads. A process is essentially a separate program entity, meaning that instead of the program creating a separate line of execution for a client, it would ask the operating system to create and run a new process to handle the client. This also means that it would need to create new memory for this new client, thus a new addressing space and the inability to use variables seamlessly between processes. 
-
-With networking, it is typical that each connection is given its own thread. This is because networking code involves the retrieving and sending of data, the former blocks execution of code because generally instructions ahead rely on the said data. This means that a single-threaded approach, while would work, would not adequately show delay tolerance as we would only have one client; the purpose is to show that this network can cope with dropouts.
-
-In regard to the multi-process approach, it would become cumbersome to create a new process for each connection that comes in. This is because synchronizing processes is a much more difficult task than synchronizing between threads - a process contains threads rather than vice versa. This would mean that we would need some external file or 'management' system that each process can read from. 
+In regard to the multi-process approach, it would become cumbersome to create a new process for each connection that comes in. This is because synchronizing processes is a much more difficult task than synchronizing between threads - a process contains threads rather than vice versa. This would mean that we would need some external file or 'management' system that each process can read from. \\
 
 % show process -> thread
 
-This is how we arrived at a thread-pool approach, where we had a process containing a main thread, which accepts connections and pushes them into a worker pool. In initial tests, we found it very difficult to not implement a thread pool, as it was realised without it there would be difficulty in achieving delay-tolerance; single threaded approaches or ones which executed each thread were prone to breaking if connection was lost. 
+This is how we arrived at a thread-pool approach, where we had a process containing a main thread, which accepts connections and pushes them into a worker pool. In initial tests, we found it very difficult to not implement a thread pool, as it was realised without it there would be difficulty in achieving delay-tolerance; single threaded approaches or ones which executed each thread were prone to breaking if connection was lost.  \\
 % !!!
 
 
@@ -313,29 +316,26 @@ This is how we arrived at a thread-pool approach, where we had a process contain
 
 \subsubsection{Client}
 
-The client is written in Java for compatibility with the server counterpart, as they will transfer Java objects. However, it was designed such that it is not a mobile application itself but rather an interface for the application to use. This was because during development, it made unit testing the client much easier as it was ran locally on the machine. Beyond this, the author's home network was restricted, meaning that running the client and server on the same machine meant they could connect, and multiple instances of the client could be run. 
+The client is written in Java for compatibility with the server counterpart, as they will transfer Java objects. However, it was designed such that it is not a mobile application itself but rather an interface for the application to use. This was because during development, it made unit testing the client much easier as it was ran locally on the machine. Beyond this, the author's home network was restricted, meaning that running the client and server on the same machine meant they could connect, and multiple instances of the client could be run. \\
 
-The clients on their first launch create an identity file that is unique to them, through the generation of a random number. This identity file is used when connecting to the server as a way of determining if the player has joined before and gives the opportunity to block or prevent certain players from joining. However, it primarily is used to allow players whom have had a dropout and may have disconnected from the game to join back. In any case, certain identification of a connecting client can be used in many ways; verification, management of users, etc.
+The clients on their first launch create an identity file that is unique to them, through the generation of a random number. This identity file is used when connecting to the server as a way of determining if the player has joined before and gives the opportunity to block or prevent certain players from joining. However, it primarily is used to allow players whom have had a dropout and may have disconnected from the game to join back. In any case, certain identification of a connecting client can be used in many ways; verification, management of users, etc. \\
 
 
 
 \subsubsection{Communication / Diagram} %(?)
-In order to achieve a delay-tolerant network, the architecture of communication is a major factor in it being successful. What is meant by communication is that the order of sending and receiving messages from players is structured in such a way that if one was to disconnect, the server/network would not:
+In order to achieve a delay-tolerant network, the architecture of communication is a major factor in it being successful. What is meant by communication is that the order of sending and receiving messages from players is structured in such a way that if one was to disconnect, the server/network would not stop the game indefinitely if a player disconnected either purposefully or accidentally and the server would not unexpectedly crash when a network socket is broken. \\
 
-- wait on a player whom cannot respond
-- crash due to a broken socket / processing invalid data
+In order to communicate with each client effectively, we needed to abstract the way that we handle connections. As previously mentioned, the architecture is important as an unexpected disconnection can cause a wide range of errors depending on the state of the current program. \\ %(?) 
 
-In order to communicate with each client effectively, we needed to abstract the way that we handle connections. As previously mentioned, the architecture is important as an unexpected disconnection can cause a wide range of errors depending on the state of the current program. %(?)
+This became evident during development when we kept object I/O streams within the TPokerThread class. Accessing these streams generated undefined behaviour when the player had lost connection. Whilst we have a thread pool to keep connections alive, we needed a method of flagging that a user has folded but not disconnected or vice versa, and a way to communicate certain procedures to them. In this case, an aptly-named class \textit{Player} was created. \\
 
-This became evident during development when we kept object I/O streams within the TPokerThread class. Accessing these streams generated undefined behaviour. Whilst we have a thread pool to keep connections alive, we needed a method of flagging that a user has folded but not disconnected or vice versa, and a way to communicate certain procedures to them. In this case, an aptly-named class \textit{Player} was created. 
+The Player class is handled and only used by the server, as it is the counter-part to the TPokerClient, which runs on a separate computer or device. It provides the server with necessary information such as where to write objects to or read them from, the ID of the player in order of creation and the players identity file, which acts as an authorization key, and the TPokerThread that it represents in the thread-pool. \\
 
 %can talk about synchronizing creation of both client and server obj steams
 
-The Player class is handled and only used by the server, as it is the counter-part to the TPokerClient, which runs on a separate computer or device. It provides the server with necessary information such as where to write objects to or read them from, the ID of the player in order of creation and the players identity file, which acts as an authorization key, and the TPokerThread that it represents in the thread-pool. 
-
 
 \newpage
-\subsection{User Interface / Android application}
+\subsection{User Interface}
 
 The most critical part and the binding element of this project is the actual mobile application itself. The user interface is to be kept simple, with the main menu being a simple strip of buttons that can be added to for extra gamemodes or features. There is a navigation bar that will allow the user to switch between playing, statistics, profile and to exit. 
 The interface is required to be simple, as this allows for intuitive and good user experience with the application. \\
@@ -371,15 +371,63 @@ The following figure shows how we've changed our initial wireframe slightly. As 
 
 
 \subsection{Algorithms}
+\subsubsection{Evaluating Hand Strength}
+Evaluating a hand's strength is rather difficult and can be approached many ways. In our case, we opted to use a more human readable format by writing many helper functions that delegate certain checks for each type of hand, i.e. isStraight, isRoyalFlush, etc. This has the benefit of being readable and somewhat more unit testable; the only problem is that the speed of the algorithm can be quite slow, compared to other methods such as lookup tables have existed for some time. \cite{lookup} \\ % \hyperlink{lookup}{(L. Teofilo, 2013)}.
 
-\entry{Hand Strength}
-The algorithm for hand-strength is very basic and as such is inefficient, however this is not the main focus of the project. The base of our algorithm is in a TexasEvaluator class, whereby we test each potential result i.e. straight, flush in their own methods. We then sequentially run these methods in order of ranking, so that we can return a result. \\
+Whilst we knew using a computational approach like this would be slower, we attempted to bring down the speed of the algorithm by processing commonly accessed attributes ahead of time.\\
+
+\setlength{\fboxrule}{0pt}
+\noindent\fbox{%
+
+\begin{minipage}[t]{\linewidth}
+\begin{center}
+\nineclubs \kingclubs \ \ \ \ \fiveclubs \sixclubs \sevenhearts \kingclubs \ninediamonds
+\end{center}
+\begin{center}
+Two cards from the player, five from the flop, turn and river
+\end{center}
+\end{minipage}}%
+
+\vspace{8pt}
+From this array of unordered cards, we can use a TreeMap to store their faces (values) and suits which: 
+\begin{enumerate}
+	\item Does not accept duplicate entries
+	\item Orders its entries by key automatically
+	\item Provides an easy method of counting its entries
+\end{enumerate}
+
+\vspace{8pt}
+
+This means that our cards are already sorted from most powerful to lowest in terms of value as they are entered into the TreeMap. This means we can easily check if a flush exists by accessing the first value of the map - which will be accessed in a time of O(1) - and checking if it has a value of 5 or more. Similarly, if we need to check if any three/four-of-a-kind or pairs exists, we can iterate through the map and we will have the most powerful hand if one exists. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.6]{treemaps} \\
+\caption{Diagram showing the ordering of key-values in TreeMaps}
+\end{center}
+
+\end{figure}
+
+\newpage
+%\subsubsection{Evaluating Win Condition}
+%Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result (i.e. Three of a Kind) and the highest card. \\
+%
+%If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
+%
+%\subsubsection{Determining a Straight}
+%Determining whether a hand is a straight would be difficult had we not assigned values to the Face values of our cards. Take the following table, whereby the first two cards are the players, the other 5 are on the table. \\
+%
+%\begin{center}
+%\tendiamonds \twoclubs \ \ \ \ \ \ \  \eightclubs \ninehearts \sixdiamonds \fiveclubs \sevenspades
+%\end{center}
+%
+%This hand's highest rank would be a straight, as we 10 - 5 in the hand; though they are not displayed as in order. \\
+%
+%Take for example we start off with the first card, 10 of Diamonds. We would have to find any card on the table that is either a Jack or a 9. From here, we would then have to branch off and see if there is a card that is a Queen or an Eight, for either direction. This would have to be done for each card on the table, and optimizations would make the code more complex and introduce more areas where bugs or incorrect results can slip in.\\
+%
+%However, since we have assigned each of the Faces values as seen previously,  we can use Java's Collections library to sort our cards from highest to lowest. This way, we only need to search in one direction, i.e. if the next card is lower than our current one; which is shown in Appendix 7.4. This will reduce code complexity and also the worst case scenario; we don't have to arbitrarily search the entire deck for an 'adjacent' number.
 
 
-\entry{Win evaluation}
-Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result (i.e. Three of a Kind) and the highest card. \\
-
-If two players contest the highest result, but have the same highest card, then the pot is split as is the normal result in poker. 
 
 \newpage
 \section{Implementation}
@@ -396,7 +444,8 @@ Our requirements for the project were not particularly specific, however some co
 \end{itemize}
 %\textbf{Non-Functional}
 %\begin{itemize}
-%	
+%	\item Unit-testable	
+%	\item Small, portable 
 %\end{itemize}
 
 \subsubsection{Server}
@@ -439,19 +488,20 @@ Our requirements for the project were not particularly specific, however some co
 
 During development, we had to make multiple changes to the initial design of the client. Initially, we planned to make it solely an Android application, as this would provide a good opportunity to showcase drop outs. However, developing it as only an Android application made testing much more difficult. It was for this reason we opted to make it a terminal-based application that could be hooked into an application later on. \\
 
-Because we made this choice, the ability to instantly get a client/server connection running on the development machine was trivial, as a modern computer is able to do this very quickly compared to having to compile an Android application and run it either on an emulator or even slower on a physical device, let alone having to develop a build system to compile both the server and an Android application.
+Because we made this choice, the ability to instantly get a client/server connection running on the development machine was trivial, as a modern computer is able to do this very quickly compared to having to compile an Android application and run it either on an emulator or even slower on a physical device, let alone having to develop a build system to compile both the server and an Android application. \\
 
-Furthermore, we realised that the client would need some form of identification, because we didn't want players whom hadn't been in the game to join back; this would annoy users of the system if they were to experience a dropout and could not join. Therefore, we opted to make a file that exists locally to identify the user and is created upon first launching the program. 
+Furthermore, we realised that the client would need some form of identification, because we didn't want players whom hadn't been in the game to join back; this would annoy users of the system if they were to experience a dropout and could not join. Therefore, we opted to make a file that exists locally to identify the user and is created upon first launching the program. \\
 
-We arrived at this choice because the other approaches were not the most reliable or optimal. For example, we could have used the IP address of the user to identify them but using an IP address is extremely unreliable as they are very susceptible to change - especially after a dropout from the clients internet provider. We could have also used a media-access control (MAC) address to identify them - which is tied to the devices network interface card (NIC) - but this is quite difficult to retrieve from a Java perspective, some devices may or may not return one reliably.
+We arrived at this choice because the other approaches were not the most reliable or optimal. For example, we could have used the IP address of the user to identify them but using an IP address is extremely unreliable as they are very susceptible to change - especially after a dropout from the clients internet provider. We could have also used a media-access control (MAC) address to identify them - which is tied to the devices network interface card (NIC) - but this is quite difficult to retrieve from a Java perspective, some devices may or may not return one reliably. \\
 
 Therefore, we decided that the most reliable option would be to use an approach that can be used on any device - be it a web browser, a mobile device or a desktop, and that would be using a file to identify the user. While many devices may not support some network functions, it is almost guaranteed that a file can be created and read anywhere Java is used. 
 
+\newpage
 \subsection{Server}
 \subsubsection{Overview}
-As the target of delay tolerance implies, the server was a crucial part of the project. It also however took a lot of effort to coordinate with the client, as any changes made to the client would need to be synchronized with the server, and so development of both had to be done somewhat in parallel. 
+As the target of delay tolerance implies, the server was a crucial part of the project. It also however took a lot of effort to coordinate with the client, as any changes made to the client would need to be synchronized with the server, and so development of both had to be done somewhat in parallel. \\
 
-We had multiple challenges to overcome when developing the server, including:
+We had multiple challenges to overcome when developing the server, including: \\
 
 \begin{itemize}
 	\item Allowing multiple clients to connect
@@ -462,14 +512,15 @@ We had multiple challenges to overcome when developing the server, including:
 
 
 \subsubsection{Development}
-The server is written in Java as this means we can use compatible, standard Java networking libraries to communicate with the client counterpart. Furthermore, this makes it simple to port to new platforms to host on, particularly any operating system with a Java Virtual Machine.
+The server is written in Java as this means we can use compatible, standard Java networking libraries to communicate with the client counterpart. Furthermore, this makes it simple to port to new platforms to host on, particularly any operating system with a Java Virtual Machine. \\
 
 This platform interoperability particularly came in useful when we needed to test external devices being able to connect and thus the delay tolerance of the network, as local hosted servers are typically hard to simulate delay or dropouts. We ran into the problem of restrictive network policies at student accomodation not allowing us to host the server so that we could attempt to connect from the internet, and as such we had to find another place to host the server to test delay and unexpected dropouts. \\
 
-As we were able to simply compile the server and its dependencies into a JAR file, we decided to host an Amazon Web Services EC2 instance - a Amazon-hosted Linux/Windows server - to test connections that originated over the internet. From here, we could simply push the file onto the server, configure the firewall to open a specified port, and test. 
+As we were able to simply compile the server and its dependencies into a JAR file, we decided to host an Amazon Web Services (AWS) EC2 instance - a small, Amazon-hosted Linux server - to test connections that originated over the internet. From here, we could simply push the file onto the server, configure the firewall to open a specified port, and test. \\
 
-The server itself uses a thread pool to keep connections to clients alive, whereby each connection has its own thread and thus sequence of execution as previously discussed. A thread pool simply provides a way for each thread to get its time to execute  \hyperlink{threadpool}{(Oracle, 2019)}. 
+The server itself uses a thread pool to keep connections to clients alive, whereby each connection has its own thread and thus sequence of execution as previously discussed. A thread pool simply provides a way for each thread to get its time to execute \cite{threadpool}. \\ % \hyperlink{threadpool}{(Oracle, 2019)}. \\
 
+\newpage
 Furthermore, an array exists containing Player objects, which not only act as a "wrapper" for each of the connection threads but also provide connectivity data, such as if the player has unexpectedly disconnected or intentionally quit, aswell as game data such as how many chips they have and what action they last took, solving the synchronization problem we initially had. 
 
 \begin{figure}[h]
@@ -492,7 +543,7 @@ Furthermore, an array exists containing Player objects, which not only act as a 
 
 If we had proceeded with the initial synchronization method seen in Fig. 3(a) data integrity would also be kept, but there would still be the problem of sending messages to each thread/connection and communicating with them. Instead, the player class acts as an abstraction layer between the server and the client programs. \\
 
-Furthermore, as discussed in the client section, when a player rejoins they have an identification token. If a player that has previously been in the game joins back, we can simply refresh the player object with the in/out streams and socket, then add back to the thread pool.
+Furthermore, as discussed in the client section, when a player rejoins they have an identification token. If a player that has previously been in the game joins back, we can simply refresh the player object with new object input/output streams and a socket, then add the new player thread to the thread pool.
 
 
 % (!)
@@ -516,7 +567,7 @@ Furthermore, as discussed in the client section, when a player rejoins they have
 
 
 
-Appendix entries 7.5 and 7.6 show our methods currently for both our TPokerThread and TPokerClient.
+Appendix entries 8.5 and 8.6 show our methods currently for both our TPokerThread and TPokerClient.
 
 %\begin{figure}[r]
 %	\makebox[\textwidth][c]{
@@ -542,11 +593,11 @@ Appendix entries 7.5 and 7.6 show our methods currently for both our TPokerThrea
 
 %(?) JSON/XML
 \subsubsection{Overview}
-The data classes used in the project include cards comprised of faces and values, ranks including different outcomes of hands and more. When considering how we were going to design them, we needed to look at how they would be sent between the client and server, including using a object representation format such as JSON, XML or by using serializable classes between the client and server.
+The data classes used in the project include cards comprised of faces and values, ranks including different outcomes of hands and more. When considering how we were going to design them, we needed to look at how they would be sent between the client and server, including using a object representation format such as JSON, XML or a built-in method.
 
+We decided on using the built-in Serializable interface and the Object(Input/Output)Streams, as this did not require the need to built a serializer and deserializer for each object that we wanted to move over the network. Instead, we could build classes from enumerated and primitive (i.e. integers, strings) and then Java would serialize them for us. This does however have the impact that the server and client programs must have data classes built from the same source, otherwise there will be a version mismatch.
 
 % show dataoutputstream/inputstream
-We decided to build up these objects from enumerated types because these are easily sent over a network if both the client and server use Java and the classes on both sides are built from the same source, using an ObjectStream. % !! arg to not use json
 
 \subsubsection{Face / Suit}
 For the Face and Suit part of the Card class (Queen, King, Ace, etc) it was best to use an enumerated type. This is because we can easily initialize \& create them, both initially on creation of pulling a new Card, but they are inherently much easier to transfer over a network due to the default and final values associated with them. \\
@@ -583,9 +634,9 @@ Because the Card class - which will be transferred over the network most frequen
 \newpage
 
 \subsection{Build System}
-During our development we initially planned to just use the built-in IntellJ IDE build. However, we realised that the project requirements required that we open-sourced the code so that people could build upon it and make their own projects. 
+During our development we initially planned to just use the built-in IntelliJ IDE build function. However, we realised that the project requirements required that we open-sourced the code so that people could build upon it and make their own projects. \\
 
-Therefore, we needed a build system that was reliable and would work on any system compatible with Java and the build system, as an IDE build configuration can be dependent on ones computer and preferences. This is where we decided to use Gradle as a build system, because it is cross-platform and it is somewhat a solid foundation for building projects; it's the preferred build system of popular frameworks such as Android. %(?) https://developer.android.com/studio/releases/gradle-plugin
+Therefore, we needed a build system that was reliable and would work on any system compatible with Java and the build system, as an IDE build configuration can be dependent on ones computer and preferences. This is where we decided to use Gradle as a build system, because it is cross-platform and it is somewhat a solid foundation for building projects; it's the preferred build system of popular frameworks such as Android.\cite{android_gradle} \\
 
 The Gradle build system provided solutions and time-saving measures that we did not anticipate during the beginning. As we previously discussed in implementing the client, we needed an identity file for each client so that we could identify them. During development, we used a JAR of the client which would create its own file in whatever folder it was located, and so we used a file structure which contained players 1 - 8. \\
 
@@ -594,20 +645,14 @@ The Gradle build system provided solutions and time-saving measures that we did 
 Gradle allowed us to JAR the client, and automatically deploy the JAR file into each of the environment folders. 
 
 \begin{lstlisting}
-// define the JAR's location
-def jarToCopy = copySpec {
-    from 'build/libs/texas-client-' + version + '.jar'
-}
+// define the JAR's location 
+def jarToCopy = copySpec { from 'build/libs/texas-client-' + version + '.jar' }
 
+// for each player (p0 - 8) folder, copy the JAR above to the players folder
 task moveToEnv {
-	// for each player (p0 - 8) folder, copy the JAR to the players folder
     ['env/p1/', 'env/p2/', 'env/p3/', 'env/p4/', 
      'env/p5/', 'env/p6/', 'env/p7/', 'env/p8/'].each { dest ->
-        copy {
-            with jarToCopy
-            // this is a for-each loop: dest is 'env/pX/', where X=1-8
-            into dest
-        }
+        copy { with jarToCopy into dest }
     }
 }
 \end{lstlisting}
@@ -617,11 +662,9 @@ We realised that the server would need to be in a JAR format so that we were abl
 \begin{lstlisting}
 task servJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'TPoker Server',
-                'Main-Class': 'com.scully.server.ServerLauncher'
-                // 'Main-Class': 'com.scully.server.TPokerClient' for packing the client
+        attributes 	'Implementation-Title': 'TPoker Server',
+					'Main-Class': 'com.scully.server.ServerLauncher'
     }
-
     baseName = project.name + '-server'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
@@ -634,7 +677,6 @@ As we will discuss later in the evaluation section, we required that the server 
 \begin{lstlisting} 
 remotes {
     withGroovyBuilder {
-    		// create our webserver connection
         "create"("webServer") {
             setProperty("host", "ec2-35-178-207-104.eu-west-2.compute.amazonaws.com")
             setProperty("user", "ubuntu")
@@ -643,26 +685,24 @@ remotes {
     }
 }
 
-// this is all the files we want to move, aka where the compiled JAR files are
-FileTree myFileTree = fileTree(dir: 'build/libs/')
+FileTree myFileTree = fileTree(dir: 'build/libs/') // JAR files location
 
 // example exec: $ ./gradlew deploy
 task deploy {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-           	   // put these into the home folder of the server
-                put from: myFileTree.asList(), into: '/home/ubuntu/'
-                // restart the texas-server ON the server 
-                // this gives us the servers stdout too
-                execute '~/restart_server.sh'
+					// move JAR files to server
+                	put from: myFileTree.asList(), into: '/home/ubuntu/' 
+                	// restart remote server; grab server output
+                	execute '~/restart_server.sh' 
             }
         }
     }
 }
 \end{lstlisting}
 
-This further saved time, because the workflow typically went:
+This further saved time, because the workflow typically went as follows: \\
 
 \begin{enumerate}
 	\item Develop a change to server/client
@@ -670,119 +710,55 @@ This further saved time, because the workflow typically went:
 	\item Gradle will Jar the Client and Server
 	\item Gradle will push the new server JAR to the remote server
 	\item Gradle will execute a script on the AWS server to restart the server
-	\item Gradle will grab the terminal output of the server
+	\item Gradle will grab the terminal output of the server \\
 \end{enumerate}
 
 Note that these can all be executed in sequence, so that we could press build gradle or a Bash script, and it would run the tests, build the necessary components, push them to the remote server, get that servers output (so we can see connections and what the server is doing) and then connect. 
 
 This was possibly the most insightful part of the project, as the power of time-consuming or complicated setup can make development and testing a breeze; on a custom Arch Linux install, we were able to launch multiple terminals spawning multiple clients, as shown below. \\
 
+\begin{figure}
+\begin{lstlisting}[language=bash,frame=single]
 
-\begin{lstlisting}[language=bash]
-ROOT_DIR=$HOME/Dissertation/texas/env
-TERM_SWITCHES="-e"
-JAVA_EXEC="java -jar"
-CLIENT_JAR_NAME="texas-client-1.2.1.jar"
-SERVER_HOST="ec2-35-178-207-104.eu-west-2.compute.amazonaws.com"
+ROOT_DIR=$HOME/Dissertation/texas/env # root directory to search in
+T_SWITCHES="-e" # switches for terminal, -e = execute command
+JAVA_EXEC="java -jar" # command to run
+CLIENT_JAR_NAME="texas-client-1.2.1.jar" # file to launch with above
+HOST="ec2-35-178-207-104.eu-west-2.compute.amazonaws.com" # server address
 
-# for p1-p8 in ROOT_DIR (env/), 
-for PLAYER_DIR in $(ls $ROOT_DIR)
+# for p1-p8 in ROOT_DIR (env/), -
+for PLYR_DIR in $(ls $ROOT_DIR)
 do
-	# TERMINAL = default terminal used, -e = execute command on launch
+	# $TERMINAL = default terminal used
 	# example cmd: alacritty -e java -jar env/p0/texas-client-1.2.1.jar 192.168.0.1
-	$TERMINAL $TERM_SWITCHES $JAVA_EXEC $ROOT_DIR/$PLAYER_DIR/$CLIENT_JAR_NAME $SERVER_HOST
+	$TERMINAL $T_SWITCHES $JAVA_EXEC $ROOT_DIR/$PLYR_DIR/$CLIENT_JAR_NAME $HOST
 done
 
-# setting exec perms (one-time necessary) + run script
+# on commandline: setting exec perms (one-time necessary) + run script
 $ chmod +x script.sh
 $ ./script.sh
 \end{lstlisting}
-
-\newpage
-\subsection{Evaluating Hands of Texas Hold'em}
-
-I decided it was best to have multiple methods for evaluating a hands rank as other methods of implementing this involved lookup tables or other more convoluted methods, such as representing cards as 52-bit numbers and performing bitwise operations on them. Though lookup tables are very quick to evaluate \hyperlink{lookup}{(L. Teofilo, 2013)}, I felt that for this project having clear and handwritten code was more suitable as this project is marked upon my own work. It also is much easier to read than bit-wise operations or complex lookup-table generation. \\
-
-The evaluate method itself contains the following code: 
-
-\begin{lstlisting}*[language=java]
-    public TResult evaluate() {
-        // these conditions must be done in sequence, for order of rankings
-        TResult kindOutput = getKinds();
-        // this is required so that StraightFlushFlag is set
-        TResult isStraight = isStraight();
-        // variable to hold each test
-        TResult result = null;
-        // assignment in if statement is to remove calling method twice
-        if( (result = isRoyalFlush()) != null)
-            return result;
-        if(StraightFlushFlag)
-            return isStraight;
-        // because kindOutput may be null, we need to ignore it to get past to straight
-        try {
-            if(kindOutput.rank == Rank.FOUR_OF_KIND)
-                return kindOutput;
-            if(kindOutput.rank == Rank.FULL_HOUSE)
-                return kindOutput;
-        } catch (NullPointerException ignored) { }
-        if( (result = isFlush()) != null)
-            return result;
-        if(isStraight != null)
-            return isStraight;
-        if(kindOutput != null)
-            return kindOutput;
-        // the highest card will always be first as we use a sorted collection
-        return new TResult(cards.get(0).face, Rank.HIGH_CARD);
-    }
-\end{lstlisting}
-
-
-\newpage
-\subsection{Determining a Straight}
-Determining whether a hand is a straight would be difficult had we not assigned values to the Face values of our cards. Take the following table, whereby the first two cards are the players, the other 5 are on the table. \\
-
-\begin{center}
-\tendiamonds \twoclubs \ \ \ \ \ \ \  \eightclubs \ninehearts \sixdiamonds \fiveclubs \sevenspades
-\end{center}
-
-This hand's highest rank would be a straight, as we 10 - 5 in the hand; though they are not displayed as in order. \\
-
-Take for example we start off with the first card, 10 of Diamonds. We would have to find any card on the table that is either a Jack or a 9. From here, we would then have to branch off and see if there is a card that is a Queen or an Eight, for either direction. This would have to be done for each card on the table, and optimizations would make the code more complex and introduce more areas where bugs or incorrect results can slip in.\\
-
-However, since we have assigned each of the Faces values as seen previously in Section 5.2 we can use Java's Collections library to sort our cards from highest to lowest. This way, we only need to search in one direction, i.e. if the next card is lower than our current one; which is shown in Appendix 7.4. This will reduce code complexity and also the worst case scenario; we don't have to arbitrarily search the entire deck for an 'adjacent' number.
+\caption{The Bash script used to launch multiple instances of the client to a server for testing}
+\end{figure}
 
 
 \newpage
 \section{Evaluation}
 \subsection{Unit Testing}
-Unit testing was crucial in the development of the backend, as writing and designing algorithms for this ahead of time is quite difficult due to the amount of edge cases that can crop up when there are many outcomes of a poker hand. \\
+Unit testing was crucial in the development of the back end, as writing and designing algorithms for this ahead of time is quite difficult due to the amount of edge cases that can crop up when there are many outcomes of a poker hand. \\
 
 It also showed how testing can not just be used to verify that a program is working properly, but to drive its development forward. This constant feedback of cases that needed to be tested helped spot bugs and allowed each part of the evaluator to work together flawlessly. Because most edge cases had been ironed out in isFlush and isStraight functions, implementing whether or not a hand was a straight flush was a somewhat simple procedure. 
 
 Furthermore tests that would have been somewhat cumbersome to perform were suddenly much easier to; the Deck that we use to pull cards contains, as normal, 52 cards in an array. We needed to test that no two cards came out the same, and that pulling 52 cards resulted in an error being thrown. 
 
 
-\subsection{Testing over a network !!}
-
-
-
 \subsection{Testing network code !!}
-Testing network code is much more different than testing typical single-threaded, local code. Due to the blocking nature of network calls - that is, they halt execution until data has been received - when we hosted the server and client on the same computer, it became difficult even with a debugger to root down the cause of the issues as we didn't always know what the client or server was waiting for. For this, 
+Testing network code is much more different than testing typical single-threaded, local code. Due to the blocking nature of network calls - that is, they halt execution until data has been received - when we hosted the server and client on the same computer, it became difficult even with a debugger to root down the cause of the issues as we didn't always know what the client or server was waiting for. 
+%(?) complex to setup;possible etc.
 
+Whilst it is possible to unit-test network code, it can be tedious and complex to set-up, and not all errors can easily be detected. We opted to use a logging system, whereby we constantly printed what was being sent on both sides of the network to the console to see if there was delay, a block of execution or simply crashed. We found this to be the most effective way, as debuggers were often awkward to use when working with multiple threads and when a bug was unpredictable.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Furthermore when we tested the server remotely via AWS, we did not have the opportunity for a debugger and thus all debugging had to be done through the use of the console.
 
 
 \section{Summary and Reflections}
@@ -798,9 +774,10 @@ Appendix 7.1 and 7.2 show the old and the new Gantt charts. Upon developing the 
 \subsubsection*{Build system}
 Whilst not directly related to the project at hand, I believe that the build system was a massive help and achievement in its own right in driving development forward; it has shown that it is often overlooked in terms of its power and ability to save time. \\
 
-It would be estimated that for each change, to manually move the server JAR file to the remote server would take a minute or two, and then to get multiple clients connected would take another. For each small change, this can add up to a lot of time wasted during setup; the addition of Gradle scripts made it almost instantaneous as to the setup and allowed us to rapidly test the network.
+It would be estimated that for each change, to manually move the server JAR file to the remote server would take a minute or two and then to get multiple clients connected would take another. For each small change, this can add up to a lot of time wasted during setup; the addition of Gradle scripts made it almost instantaneous as to the setup and allowed us to rapidly test the network.
 
-\subsubsection*{Amazon Web Services}
+\subsubsection{Data classes}
+An area that could have been improved would have been the data classes. Whilst the built-in option of packing and unpacking data, if we needed to make a small change to a data class even so much so as a tiny change in calculating something, we would have to recompile and deploy the server / client executables again. If we had taken the time to write our own packing/unpacking classes for the classes, we could have removed this limitation and sped up development further. 
 
 \subsubsection*{Conclusion}
 
@@ -861,11 +838,11 @@ I also think that more work could have been done on the network side to make it 
 
 \section{Appendix}
 
-\subsection{Old Gantt Chart}
-\includegraphics[width=\textwidth]{gantt_chart}
+%\subsection{Old Gantt Chart}
+%\includegraphics[width=\textwidth]{gantt_chart}
 
-\newpage
-\subsection{New Gantt Chart}
+%\newpage
+\subsection{Gantt Chart}
 
 Color chart:
 
@@ -1187,7 +1164,13 @@ public void run() {
 	Retrieved from \url{https://agilemanifesto.org/principles.html}
 \end{flushleft}
 
-
+% https://developer.android.com/studio/releases/gradle-plugin
+\bibitem{android_gradle}
+\begin{flushleft}
+	Google \\
+	\textit{Android Developers: Default build system} \\
+	Retrieved from \url{https://developer.android.com/studio/releases/gradle-plugin}
+\end{flushleft}
 
 
 \end{thebibliography}

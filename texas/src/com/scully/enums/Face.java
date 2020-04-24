@@ -1,5 +1,8 @@
 package com.scully.enums;
 
+/**
+ * Represents the 'face' of the card, e.g. queen, king, two
+ */
 public enum Face {
 
     TWO   ("Two", 2),
@@ -16,7 +19,14 @@ public enum Face {
     KING  ("King", 13),
     ACE   ("Ace", 14);
 
+    /**
+     * Integer value of the face
+     */
     private final int val;
+
+    /**
+     * Name of the face
+     */
     private final String str;
 
     Face(String display, int value) {
@@ -24,6 +34,7 @@ public enum Face {
         this.val = value;
     }
 
+    /** @return The integer value of the face */
     public int getValue() {
         return val;
     }

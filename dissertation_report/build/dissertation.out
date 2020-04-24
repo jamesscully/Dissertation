@@ -2,7 +2,7 @@
 \BOOKMARK [1][-]{section.2}{Motivation}{}% 2
 \BOOKMARK [1][-]{section.3}{Methodology}{}% 3
 \BOOKMARK [2][-]{subsection.3.1}{Test-Driven Development}{section.3}% 4
-\BOOKMARK [2][-]{subsection.3.2}{Agile \(FINISH!\)}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Agile}{section.3}% 5
 \BOOKMARK [1][-]{section.4}{Design}{}% 6
 \BOOKMARK [2][-]{subsection.4.1}{Overview}{section.4}% 7
 \BOOKMARK [2][-]{subsection.4.2}{Backend}{section.4}% 8
@@ -11,38 +11,36 @@
 \BOOKMARK [3][-]{subsubsection.4.3.2}{Server}{subsection.4.3}% 11
 \BOOKMARK [3][-]{subsubsection.4.3.3}{Client}{subsection.4.3}% 12
 \BOOKMARK [3][-]{subsubsection.4.3.4}{Communication / Diagram}{subsection.4.3}% 13
-\BOOKMARK [2][-]{subsection.4.4}{User Interface / Android application}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.4}{User Interface}{section.4}% 14
 \BOOKMARK [2][-]{subsection.4.5}{Algorithms}{section.4}% 15
-\BOOKMARK [1][-]{section.5}{Implementation}{}% 16
-\BOOKMARK [2][-]{subsection.5.1}{Project Requirements}{section.5}% 17
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Backend}{subsection.5.1}% 18
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Server}{subsection.5.1}% 19
-\BOOKMARK [3][-]{subsubsection.5.1.3}{Application}{subsection.5.1}% 20
-\BOOKMARK [2][-]{subsection.5.2}{Client}{section.5}% 21
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Development}{subsection.5.2}% 22
-\BOOKMARK [2][-]{subsection.5.3}{Server}{section.5}% 23
-\BOOKMARK [3][-]{subsubsection.5.3.1}{Overview}{subsection.5.3}% 24
-\BOOKMARK [3][-]{subsubsection.5.3.2}{Development}{subsection.5.3}% 25
-\BOOKMARK [2][-]{subsection.5.4}{Data Classes}{section.5}% 26
-\BOOKMARK [3][-]{subsubsection.5.4.1}{Overview}{subsection.5.4}% 27
-\BOOKMARK [3][-]{subsubsection.5.4.2}{Face / Suit}{subsection.5.4}% 28
-\BOOKMARK [2][-]{subsection.5.5}{Build System}{section.5}% 29
-\BOOKMARK [2][-]{subsection.5.6}{Evaluating Hands of Texas Hold'em}{section.5}% 30
-\BOOKMARK [2][-]{subsection.5.7}{Determining a Straight}{section.5}% 31
-\BOOKMARK [1][-]{section.6}{Evaluation}{}% 32
-\BOOKMARK [2][-]{subsection.6.1}{Unit Testing}{section.6}% 33
-\BOOKMARK [2][-]{subsection.6.2}{Testing over a network !!}{section.6}% 34
-\BOOKMARK [2][-]{subsection.6.3}{Testing network code !!}{section.6}% 35
-\BOOKMARK [1][-]{section.7}{Summary and Reflections}{}% 36
-\BOOKMARK [2][-]{subsection.7.1}{Management}{section.7}% 37
-\BOOKMARK [2][-]{subsection.7.2}{Contributions and Reflections}{section.7}% 38
-\BOOKMARK [1][-]{section.8}{Appendix}{}% 39
-\BOOKMARK [2][-]{subsection.8.1}{Old Gantt Chart}{section.8}% 40
-\BOOKMARK [2][-]{subsection.8.2}{New Gantt Chart}{section.8}% 41
-\BOOKMARK [2][-]{subsection.8.3}{Abstract System Design}{section.8}% 42
-\BOOKMARK [2][-]{subsection.8.4}{Straight method}{section.8}% 43
-\BOOKMARK [2][-]{subsection.8.5}{TPokerThread run method}{section.8}% 44
-\BOOKMARK [2][-]{subsection.8.6}{TPokerClient main method}{section.8}% 45
-\BOOKMARK [2][-]{subsection.8.7}{Server-client sequence diagram}{section.8}% 46
-\BOOKMARK [2][-]{subsection.8.8}{Poker Evaluation Algorithm}{section.8}% 47
-\BOOKMARK [1][-]{section.9}{Bibliography}{}% 48
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Evaluating Hand Strength}{subsection.4.5}% 16
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 17
+\BOOKMARK [2][-]{subsection.5.1}{Project Requirements}{section.5}% 18
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Backend}{subsection.5.1}% 19
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Server}{subsection.5.1}% 20
+\BOOKMARK [3][-]{subsubsection.5.1.3}{Application}{subsection.5.1}% 21
+\BOOKMARK [2][-]{subsection.5.2}{Client}{section.5}% 22
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Development}{subsection.5.2}% 23
+\BOOKMARK [2][-]{subsection.5.3}{Server}{section.5}% 24
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Overview}{subsection.5.3}% 25
+\BOOKMARK [3][-]{subsubsection.5.3.2}{Development}{subsection.5.3}% 26
+\BOOKMARK [2][-]{subsection.5.4}{Data Classes}{section.5}% 27
+\BOOKMARK [3][-]{subsubsection.5.4.1}{Overview}{subsection.5.4}% 28
+\BOOKMARK [3][-]{subsubsection.5.4.2}{Face / Suit}{subsection.5.4}% 29
+\BOOKMARK [2][-]{subsection.5.5}{Build System}{section.5}% 30
+\BOOKMARK [1][-]{section.6}{Evaluation}{}% 31
+\BOOKMARK [2][-]{subsection.6.1}{Unit Testing}{section.6}% 32
+\BOOKMARK [2][-]{subsection.6.2}{Testing network code !!}{section.6}% 33
+\BOOKMARK [1][-]{section.7}{Summary and Reflections}{}% 34
+\BOOKMARK [2][-]{subsection.7.1}{Management}{section.7}% 35
+\BOOKMARK [2][-]{subsection.7.2}{Contributions and Reflections}{section.7}% 36
+\BOOKMARK [3][-]{subsubsection.7.2.1}{Data classes}{subsection.7.2}% 37
+\BOOKMARK [1][-]{section.8}{Appendix}{}% 38
+\BOOKMARK [2][-]{subsection.8.1}{Gantt Chart}{section.8}% 39
+\BOOKMARK [2][-]{subsection.8.2}{Abstract System Design}{section.8}% 40
+\BOOKMARK [2][-]{subsection.8.3}{Straight method}{section.8}% 41
+\BOOKMARK [2][-]{subsection.8.4}{TPokerThread run method}{section.8}% 42
+\BOOKMARK [2][-]{subsection.8.5}{TPokerClient main method}{section.8}% 43
+\BOOKMARK [2][-]{subsection.8.6}{Server-client sequence diagram}{section.8}% 44
+\BOOKMARK [2][-]{subsection.8.7}{Poker Evaluation Algorithm}{section.8}% 45
+\BOOKMARK [1][-]{section.9}{Bibliography}{}% 46

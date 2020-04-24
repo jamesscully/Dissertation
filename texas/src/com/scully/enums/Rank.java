@@ -1,5 +1,8 @@
 package com.scully.enums;
 
+/**
+ * Represents a hand's rank. Example: Three Of a Kind
+ */
 public enum Rank {
         HIGH_CARD(1),
         PAIR(2),

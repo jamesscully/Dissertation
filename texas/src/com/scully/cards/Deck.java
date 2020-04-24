@@ -27,8 +27,6 @@ public class Deck {
     /**
      * Populate {@link Deck#deck} with all needed com.scully.cards.
      */
-
-
     public static void resetDeck() {
         for(Suit s : Suit.values()) {
             for(Face v : Face.values()) {

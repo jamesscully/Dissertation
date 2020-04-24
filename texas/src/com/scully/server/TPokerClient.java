@@ -16,21 +16,42 @@ public class TPokerClient {
     // 5 second timeout; in case max is full
     public static final int SOCKET_TIMEOUT = 5 * 1000;
 
+    /**
+     * The object input stream of client
+     */
     public static ObjectInputStream  in  = null;
+    /**
+     * Object output stream of client
+     */
     public static ObjectOutputStream out = null;
 
+    /**
+     * Scanner to read in from the console
+     */
     public static Scanner stdIn = null;
 
     // we'll convert this to an array later; this is for 'sketching' purposes.
     static Card first, second, third, fourth, fifth, sixth, seventh;
 
+    /**
+     * Holds the current round we are in
+     */
     static public Round round = Round.PREFLOP;
 
+    /**
+     * Holds miscellaneous data about the players statistics
+     */
     static PlayerInfo info = null;
 
+    /**
+     * Whether this client has folded
+     */
     private static boolean folded = false;
 
-    private static boolean QUIT = false;
+    /**
+     * Whether this client has opted to quit
+     */
+    private static boolean hasQuit = false;
 
 
     public static void main(String[] args) {
@@ -71,19 +92,24 @@ public class TPokerClient {
             i.printStackTrace();
         }
 
-        while(!QUIT) {
+        while(!hasQuit) {
             reset();
             mainLoop();
         }
     }
 
-    // we'll want to scrub our info
+    /**
+     * Reset this client to normal
+     */
     private static void reset() {
         first = null; second = null; third = null; fourth = null; fifth = null; sixth = null; seventh = null;
-        folded = false; QUIT = false; info = null;
+        folded = false; hasQuit = false; info = null;
         round = Round.PREFLOP;
     }
 
+    /**
+     * Main loop we use when playing the game
+     */
     private static void mainLoop() {
         readCards();
 
@@ -95,6 +121,9 @@ public class TPokerClient {
         }
     }
 
+    /**
+     * Wait for the server to ask us for our action, and send it
+     */
     private static void queryAction() {
         // while we don't have a 'stay' command from com.scully.server, keep asking for input
         do
@@ -114,6 +143,9 @@ public class TPokerClient {
         readCards();
     }
 
+    /**
+     * Reads cards into our hand depending on the round
+     */
     private static void readCards() {
         System.out.printf("TPokerClient: Waiting for %s card(s)\n", round);
 
@@ -146,6 +178,10 @@ public class TPokerClient {
         printCurrentHand();
     }
 
+    /**
+     * Retrieve a String from the ObjectInputStream
+     * @return String containing a message from the server
+     */
     private static String getMessage() {
         String msg = "";
         try {
@@ -158,6 +194,10 @@ public class TPokerClient {
         return msg;
     }
 
+    /**
+     * Retrieve an Object from the ObjectInputStream
+     * @return Object from the server
+     */
     private static Object getObject() {
         Object o = null;
         try {
@@ -170,6 +210,9 @@ public class TPokerClient {
         return o;
     }
 
+    /**
+     * Waits for a PING message from server, then asks for input
+     */
     private static void waitForInput() {
         String ping;
         ping = getMessage();
@@ -183,6 +226,9 @@ public class TPokerClient {
         }
     }
 
+    /**
+     * Asks the user to input their action, and checks if their intended action is valid
+     */
     public static void inputResponse() {
         boolean valid = false;
         String line = "";
@@ -213,6 +259,9 @@ public class TPokerClient {
         }
     }
 
+    /**
+     * Prints the current hands we have, and the current hands on the table.
+     */
     public static void printCurrentHand() {
         Card[] arr = {first, second, third, fourth, fifth, sixth, seventh};
         System.out.printf("Current cards in play:\n\t[%s %s] ", first.toShortString(), second.toShortString());
