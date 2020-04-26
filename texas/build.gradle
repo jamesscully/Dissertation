@@ -53,10 +53,14 @@ task clientJar(type: Jar) {
     with jar
 }
 
+ssh.settings {
+    knownHosts = allowAnyHosts
+}
+
 remotes {
     withGroovyBuilder {
         "create"("webServer") {
-            setProperty("host", "ec2-35-178-207-104.eu-west-2.compute.amazonaws.com")
+            setProperty("host", "ec2-52-56-157-181.eu-west-2.compute.amazonaws.com")
             setProperty("user", "ubuntu")
             setProperty("identity", file('rekop.pem'))
         }
@@ -100,4 +104,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
     implementation 'junit:junit:4.12'
 }
+
+build.dependsOn servJar
+build.dependsOn clientJar
+build.dependsOn moveToEnv
+build.dependsOn deploy
+
 

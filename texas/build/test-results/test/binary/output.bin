@@ -1,0 +1,30 @@
+‰Using com.scully.cards: [ACE of Diamonds, ACE of Diamonds, ACE of Diamonds, JACK of Clubs, TEN of Spades, FIVE of Spades, TWO of Spades]
+ŒUsing com.scully.cards: [ACE of Diamonds, KING of Spades, QUEEN of Hearts, JACK of Spades, JACK of Clubs, TEN of Diamonds, THREE of Spades]
+,Returning true, high card: Acerank:Straight
+ŒUsing com.scully.cards: [ACE of Diamonds, KING of Spades, EIGHT of Hearts, SEVEN of Spades, SIX of Diamonds, FIVE of Clubs, FOUR of Spades]
+.Returning true, high card: Eightrank:Straight
+ŒUsing com.scully.cards: [ACE of Diamonds, KING of Spades, QUEEN of Hearts, JACK of Spades, JACK of Clubs, TEN of Diamonds, THREE of Spades]
+,Returning true, high card: Acerank:Straight
+‡Using com.scully.cards: [ACE of Spades, ACE of Diamonds, ACE of Hearts, JACK of Clubs, FIVE of Spades, THREE of Spades, TWO of Spades]
+“Using com.scully.cards: [KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Clubs, TEN of Diamonds, NINE of Diamonds, THREE of Spades]
+3Returning true, high card: Kingrank:Straight Flsuh
+‹Using com.scully.cards: [ACE of Hearts, KING of Hearts, JACK of Clubs, EIGHT of Diamonds, FIVE of Diamonds, THREE of Clubs, TWO of Hearts]
+ŒUsing com.scully.cards: [KING of Hearts, JACK of Clubs, EIGHT of Diamonds, FIVE of Diamonds, FOUR of Hearts, THREE of Clubs, TWO of Hearts]
+ŠUsing com.scully.cards: [TEN of Hearts, NINE of Clubs, EIGHT of Diamonds, SIX of Hearts, FIVE of Diamonds, THREE of Clubs, TWO of Hearts]
+‹Using com.scully.cards: [JACK of Clubs, TEN of Diamonds, EIGHT of Diamonds, FIVE of Clubs, FOUR of Hearts, THREE of Hearts, TWO of Hearts]
+”Using com.scully.cards: [ACE of Diamonds, KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TWO of Diamonds]
+2Returning true, high card: Acerank:Straight Flsuh
+•Using com.scully.cards: [ACE of Diamonds, KING of Hearts, QUEEN of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds]
+,Returning true, high card: Acerank:Straight
+•Using com.scully.cards: [TEN of Diamonds, TEN of Diamonds, NINE of Diamonds, EIGHT of Diamonds, SEVEN of Diamonds, SIX of Diamonds, TWO of Diamonds]
+2Returning true, high card: Tenrank:Straight Flsuh
+—Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, SIX of Diamonds, FIVE of Diamonds, FOUR of Diamonds, THREE of Diamonds, TWO of Diamonds]
+,Returning true, high card: Sixrank:Straight
+”Using com.scully.cards: [ACE of Diamonds, KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TWO of Diamonds]
+2Returning true, high card: Acerank:Straight Flsuh
+—Using com.scully.cards: [KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds, NINE of Diamonds]
+3Returning true, high card: Kingrank:Straight Flsuh
+“Using com.scully.cards: [ACE of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TEN of Diamonds, TEN of Diamonds]
+–Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds, NINE of Diamonds, FIVE of Diamonds, TWO of Diamonds]
+–Using com.scully.cards: [KING of Diamonds, TEN of Diamonds, EIGHT of Diamonds, SEVEN of Diamonds, SIX of Diamonds, FOUR of Diamonds, TWO of Diamonds]
+™Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, NINE of Diamonds, FOUR of Diamonds, THREE of Diamonds, THREE of Diamonds, TWO of Diamonds]

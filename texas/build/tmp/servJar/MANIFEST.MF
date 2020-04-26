@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: TPoker Server
-Main-Class: com.scully.server.ServerLauncher
-

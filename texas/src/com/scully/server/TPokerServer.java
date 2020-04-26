@@ -243,18 +243,20 @@ public class TPokerServer implements Runnable {
             table.pullFlop();
 
             for(Card c : table.getFlop()) {
-                System.out.println("TPokerServer: Dealing flop card: " + c);
+                System.out.println("TPokerServer: Dealing FLOP card: " + c);
                 dealGlobalCard(c);
             }
         }
 
         if(round == Round.RIVER) {
             table.pullRiver();
+            System.out.println("TPokerServer: Dealing RIVER cards");
             dealGlobalCard(table.getRiver());
         }
 
         if(round == Round.TURN) {
             table.pullTurn();
+            System.out.println("TPokerServer: Dealing TURN cards");
             dealGlobalCard(table.getTurn());
         }
     }
@@ -324,7 +326,7 @@ public class TPokerServer implements Runnable {
                 out.writeUTF("PING");
                 out.flush();
             } catch (SocketException e) {
-                System.err.println("TPokerServer: Socket Broken");
+                System.err.println("TPokerServer: Socket Broken; player has likely unexpectedly dropped");
                 handleUnexpectedDisconnection(p);
             } catch (IOException e) {
                 e.printStackTrace();
