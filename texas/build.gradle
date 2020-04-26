@@ -17,14 +17,15 @@ test {
 }
 
 sourceSets {
-    test {
-        java {
-            srcDir('tests')
-        }
-    }
     main {
         java {
             srcDir('src')
+        }
+    }
+
+    test {
+        java {
+            srcDir('tests')
         }
     }
 }
@@ -89,9 +90,6 @@ task moveToEnv {
 }
 
 // build/libs/texas-server-1.2.1.jar
-
-
-
 dependencies {
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'

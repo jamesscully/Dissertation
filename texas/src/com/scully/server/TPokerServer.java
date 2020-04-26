@@ -263,7 +263,7 @@ public class TPokerServer implements Runnable {
         try {
             for(Player p : players) {
 
-                if(p.disconnected)
+                if(p.disconnected || p.error)
                     continue;
 
                 System.out.println("TPokerServer: Sending global message - " + message);

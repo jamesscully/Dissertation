@@ -1,46 +1,46 @@
 \contentsline {section}{\numberline {1}Introduction}{4}{section.1}% 
-\contentsline {section}{\numberline {2}Motivation}{4}{section.2}% 
-\contentsline {section}{\numberline {3}Methodology}{5}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Test-Driven Development}{5}{subsection.3.1}% 
-\contentsline {subsection}{\numberline {3.2}Agile}{6}{subsection.3.2}% 
-\contentsline {section}{\numberline {4}Design}{7}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Overview}{7}{subsection.4.1}% 
-\contentsline {subsection}{\numberline {4.2}Backend}{7}{subsection.4.2}% 
-\contentsline {subsection}{\numberline {4.3}Networking}{8}{subsection.4.3}% 
-\contentsline {subsubsection}{\numberline {4.3.1}Introduction}{8}{subsubsection.4.3.1}% 
-\contentsline {subsubsection}{\numberline {4.3.2}Server}{8}{subsubsection.4.3.2}% 
-\contentsline {subsubsection}{\numberline {4.3.3}Client}{9}{subsubsection.4.3.3}% 
-\contentsline {subsubsection}{\numberline {4.3.4}Communication / Diagram}{9}{subsubsection.4.3.4}% 
-\contentsline {subsection}{\numberline {4.4}User Interface}{10}{subsection.4.4}% 
-\contentsline {subsection}{\numberline {4.5}Algorithms}{11}{subsection.4.5}% 
-\contentsline {subsubsection}{\numberline {4.5.1}Evaluating Hand Strength}{11}{subsubsection.4.5.1}% 
-\contentsline {section}{\numberline {5}Implementation}{12}{section.5}% 
-\contentsline {subsection}{\numberline {5.1}Project Requirements}{12}{subsection.5.1}% 
-\contentsline {subsubsection}{\numberline {5.1.1}Backend}{12}{subsubsection.5.1.1}% 
-\contentsline {subsubsection}{\numberline {5.1.2}Server}{12}{subsubsection.5.1.2}% 
-\contentsline {subsubsection}{\numberline {5.1.3}Application}{12}{subsubsection.5.1.3}% 
-\contentsline {subsection}{\numberline {5.2}Client}{13}{subsection.5.2}% 
-\contentsline {subsubsection}{\numberline {5.2.1}Development}{13}{subsubsection.5.2.1}% 
-\contentsline {subsection}{\numberline {5.3}Server}{14}{subsection.5.3}% 
-\contentsline {subsubsection}{\numberline {5.3.1}Overview}{14}{subsubsection.5.3.1}% 
-\contentsline {subsubsection}{\numberline {5.3.2}Development}{14}{subsubsection.5.3.2}% 
-\contentsline {subsection}{\numberline {5.4}Data Classes}{17}{subsection.5.4}% 
-\contentsline {subsubsection}{\numberline {5.4.1}Overview}{17}{subsubsection.5.4.1}% 
-\contentsline {subsubsection}{\numberline {5.4.2}Face / Suit}{17}{subsubsection.5.4.2}% 
-\contentsline {subsection}{\numberline {5.5}Build System}{18}{subsection.5.5}% 
-\contentsline {section}{\numberline {6}Evaluation}{20}{section.6}% 
-\contentsline {subsection}{\numberline {6.1}Unit Testing}{20}{subsection.6.1}% 
-\contentsline {subsection}{\numberline {6.2}Testing network code !!}{20}{subsection.6.2}% 
-\contentsline {section}{\numberline {7}Summary and Reflections}{21}{section.7}% 
-\contentsline {subsection}{\numberline {7.1}Management}{21}{subsection.7.1}% 
-\contentsline {subsection}{\numberline {7.2}Contributions and Reflections}{21}{subsection.7.2}% 
-\contentsline {subsubsection}{\numberline {7.2.1}Data classes}{21}{subsubsection.7.2.1}% 
-\contentsline {section}{\numberline {8}Appendix}{23}{section.8}% 
-\contentsline {subsection}{\numberline {8.1}Gantt Chart}{23}{subsection.8.1}% 
-\contentsline {subsection}{\numberline {8.2}Abstract System Design}{24}{subsection.8.2}% 
-\contentsline {subsection}{\numberline {8.3}Straight method}{25}{subsection.8.3}% 
-\contentsline {subsection}{\numberline {8.4}TPokerThread run method}{26}{subsection.8.4}% 
-\contentsline {subsection}{\numberline {8.5}TPokerClient main method}{27}{subsection.8.5}% 
-\contentsline {subsection}{\numberline {8.6}Server-client sequence diagram}{29}{subsection.8.6}% 
-\contentsline {subsection}{\numberline {8.7}Poker Evaluation Algorithm}{30}{subsection.8.7}% 
-\contentsline {section}{\numberline {9}Bibliography}{31}{section.9}% 
+\contentsline {section}{\numberline {2}Motivation}{6}{section.2}% 
+\contentsline {section}{\numberline {3}Methodology}{6}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Test-Driven Development}{6}{subsection.3.1}% 
+\contentsline {subsection}{\numberline {3.2}Agile}{7}{subsection.3.2}% 
+\contentsline {section}{\numberline {4}Design}{8}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Overview}{8}{subsection.4.1}% 
+\contentsline {subsection}{\numberline {4.2}Backend}{9}{subsection.4.2}% 
+\contentsline {subsection}{\numberline {4.3}Networking}{9}{subsection.4.3}% 
+\contentsline {subsubsection}{\numberline {4.3.1}Introduction}{9}{subsubsection.4.3.1}% 
+\contentsline {subsubsection}{\numberline {4.3.2}Server}{10}{subsubsection.4.3.2}% 
+\contentsline {subsubsection}{\numberline {4.3.3}Client}{11}{subsubsection.4.3.3}% 
+\contentsline {subsubsection}{\numberline {4.3.4}Communication / Diagram}{11}{subsubsection.4.3.4}% 
+\contentsline {subsection}{\numberline {4.4}User Interface}{13}{subsection.4.4}% 
+\contentsline {subsection}{\numberline {4.5}Algorithms}{14}{subsection.4.5}% 
+\contentsline {subsubsection}{\numberline {4.5.1}Evaluating Hand Strength}{14}{subsubsection.4.5.1}% 
+\contentsline {section}{\numberline {5}Implementation}{15}{section.5}% 
+\contentsline {subsection}{\numberline {5.1}Project Requirements}{15}{subsection.5.1}% 
+\contentsline {subsubsection}{\numberline {5.1.1}Backend}{15}{subsubsection.5.1.1}% 
+\contentsline {subsubsection}{\numberline {5.1.2}Server}{15}{subsubsection.5.1.2}% 
+\contentsline {subsubsection}{\numberline {5.1.3}Application}{15}{subsubsection.5.1.3}% 
+\contentsline {subsection}{\numberline {5.2}Client}{16}{subsection.5.2}% 
+\contentsline {subsubsection}{\numberline {5.2.1}Development}{16}{subsubsection.5.2.1}% 
+\contentsline {subsection}{\numberline {5.3}Server}{17}{subsection.5.3}% 
+\contentsline {subsubsection}{\numberline {5.3.1}Overview}{17}{subsubsection.5.3.1}% 
+\contentsline {subsubsection}{\numberline {5.3.2}Development}{17}{subsubsection.5.3.2}% 
+\contentsline {subsection}{\numberline {5.4}Data Classes}{19}{subsection.5.4}% 
+\contentsline {subsubsection}{\numberline {5.4.1}Overview}{19}{subsubsection.5.4.1}% 
+\contentsline {subsubsection}{\numberline {5.4.2}Face / Suit}{19}{subsubsection.5.4.2}% 
+\contentsline {subsection}{\numberline {5.5}Build System}{20}{subsection.5.5}% 
+\contentsline {section}{\numberline {6}Evaluation}{22}{section.6}% 
+\contentsline {subsection}{\numberline {6.1}Unit Testing}{22}{subsection.6.1}% 
+\contentsline {subsection}{\numberline {6.2}Testing network code !!}{22}{subsection.6.2}% 
+\contentsline {section}{\numberline {7}Summary and Reflections}{23}{section.7}% 
+\contentsline {subsection}{\numberline {7.1}Management}{23}{subsection.7.1}% 
+\contentsline {subsection}{\numberline {7.2}Contributions and Reflections}{23}{subsection.7.2}% 
+\contentsline {subsubsection}{\numberline {7.2.1}Data classes}{23}{subsubsection.7.2.1}% 
+\contentsline {section}{\numberline {8}Appendix}{25}{section.8}% 
+\contentsline {subsection}{\numberline {8.1}Gantt Chart}{25}{subsection.8.1}% 
+\contentsline {subsection}{\numberline {8.2}Abstract System Design}{26}{subsection.8.2}% 
+\contentsline {subsection}{\numberline {8.3}Straight method}{27}{subsection.8.3}% 
+\contentsline {subsection}{\numberline {8.4}TPokerThread run method}{28}{subsection.8.4}% 
+\contentsline {subsection}{\numberline {8.5}TPokerClient main method}{29}{subsection.8.5}% 
+\contentsline {subsection}{\numberline {8.6}Server-client sequence diagram}{31}{subsection.8.6}% 
+\contentsline {subsection}{\numberline {8.7}Poker Evaluation Algorithm}{32}{subsection.8.7}% 
+\contentsline {section}{\numberline {9}Bibliography}{33}{section.9}% 
