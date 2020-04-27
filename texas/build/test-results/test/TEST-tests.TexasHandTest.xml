@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tests.TexasHandTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-04-27T03:20:35" hostname="yames" time="0.018">
+<testsuite name="tests.TexasHandTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-04-27T14:49:15" hostname="yames" time="0.023">
   <properties/>
-  <testcase name="evaluate()" classname="tests.TexasHandTest" time="0.01"/>
-  <testcase name="getHighestCard()" classname="tests.TexasHandTest" time="0.001"/>
+  <testcase name="evaluate()" classname="tests.TexasHandTest" time="0.011"/>
+  <testcase name="getHighestCard()" classname="tests.TexasHandTest" time="0.004"/>
   <testcase name="isStraight()" classname="tests.TexasHandTest" time="0.002"/>
   <testcase name="getKinds()" classname="tests.TexasHandTest" time="0.001"/>
   <testcase name="isRoyalFlush()" classname="tests.TexasHandTest" time="0.001"/>

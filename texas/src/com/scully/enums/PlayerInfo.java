@@ -9,9 +9,14 @@ public class PlayerInfo implements Serializable {
     public int chips = 0;
 
     public Card[] visibleCards;
+    public Round round;
 
-    public PlayerInfo(int id, int chips) {
+    public boolean folded = false;
+
+    public PlayerInfo(int id, int chips, Card[] cards, Round round) {
         this.id = id;
         this.chips = chips;
+        this.round = round;
+        this.visibleCards = cards;
     }
 }

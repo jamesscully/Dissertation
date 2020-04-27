@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TPokerClient {
@@ -31,7 +32,9 @@ public class TPokerClient {
     public static Scanner stdIn = null;
 
     // we'll convert this to an array later; this is for 'sketching' purposes.
-    static Card first, second, third, fourth, fifth, sixth, seventh;
+
+
+    static Card[] cards = new Card[7];
 
     /**
      * Holds the current round we are in
@@ -83,8 +86,11 @@ public class TPokerClient {
             if(status.equals("REJECT")) {
                 System.err.println("TPokerClient: Server rejected this connection");
                 System.exit(1);
-            } else {
+            } else if (status.equals("ACCEPT")) {
                 System.out.println("TPokerClient: Server accepted our connection");
+            } else if (status.equals("RECONNECT")) {
+                System.out.println("TPokerClient: Reconnected to server, waiting for the game state");
+                reconnecting = true;
             }
 
         } catch (IOException i) {
@@ -102,16 +108,28 @@ public class TPokerClient {
      * Reset this client to normal
      */
     private static void reset() {
-        first = null; second = null; third = null; fourth = null; fifth = null; sixth = null; seventh = null;
+        cards[0] = null; cards[1] = null; cards[2] = null; cards[3] = null; cards[4] = null; cards[5] = null; cards[6] = null;
         folded = false; hasQuit = false; info = null;
         round = Round.PREFLOP;
     }
 
+    private static void getStateInfo() {
+        info = (PlayerInfo) getObject();
+        System.arraycopy(info.visibleCards, 0, cards, 0, 7);
+        round = info.round;
+        printCurrentHand();
+    }
+
+    static boolean reconnecting = false;
     /**
      * Main loop we use when playing the game
      */
     private static void mainLoop() {
-        readCards();
+        if(!reconnecting) {
+            readCards();
+        } else {
+            getStateInfo();
+        }
 
         System.out.println("TPokerClient: Waiting for server to ask us for response.");
 
@@ -135,6 +153,8 @@ public class TPokerClient {
         System.out.println("TPokerClient: Read player info");
         System.out.println("\tID   : " + info.id);
         System.out.println("\tChips: " + info.chips);
+        System.out.println("\tCards: " + Arrays.toString(info.visibleCards));
+        System.out.println("\tRound: " + info.round);
 
         // if we've got the message to move, we do so and get our new .cards
         round = Round.nextRound(round);
@@ -155,26 +175,42 @@ public class TPokerClient {
 
         switch (round) {
             case PREFLOP:
-                first = (Card) getObject();
-                second = (Card) getObject();
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", first, second);
+//                first = (Card) getObject();
+//                second = (Card) getObject();
+
+                cards[0] = (Card) getObject();
+                cards[1] = (Card) getObject();
+
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", cards[0], cards[1]);
                 break;
 
             case FLOP:
-                third  = (Card) getObject();
-                fourth = (Card) getObject();
-                fifth  = (Card) getObject();
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n\t%s\n", third, fourth, fifth);
+//                third  = (Card) getObject();
+//                fourth = (Card) getObject();
+//                fifth  = (Card) getObject();
+
+                cards[2] = (Card) getObject();
+                cards[3] = (Card) getObject();
+                cards[4] = (Card) getObject();
+
+
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n\t%s\n", cards[2], cards[3], cards[4]);
                 break;
 
             case TURN:
-                sixth = (Card) getObject();
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n", sixth);
+//                sixth = (Card) getObject();
+
+                cards[5] = (Card) getObject();
+
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[5]);
                 break;
 
             case RIVER:
-                seventh = (Card) getObject();
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n", seventh);
+//                seventh = (Card) getObject();
+
+                cards[6] = (Card) getObject();
+
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[6]);
                 break;
         }
 
@@ -243,7 +279,6 @@ public class TPokerClient {
                 System.out.printf("TPokerClient: You currently have %d chips", info.chips);
             }
 
-
             TAction action = TAction.parseTAction(line);
 
             // if the line isn't valid, then we'll repeat
@@ -271,13 +306,14 @@ public class TPokerClient {
      * Prints the current hands we have, and the current hands on the table.
      */
     public static void printCurrentHand() {
-        Card[] arr = {first, second, third, fourth, fifth, sixth, seventh};
-        System.out.printf("Current cards in play:\n\t[%s %s] ", first.toShortString(), second.toShortString());
-        for(int i = 2; i < arr.length; i++) {
-            if(arr[i] == null)
+
+        System.out.printf("Current cards in play:\n\t[%s %s] ", cards[0].toShortString(), cards[1].toShortString());
+
+        for(int i = 2; i < cards.length; i++) {
+            if(cards[i] == null)
                 continue;
 
-            System.out.print(arr[i].toShortString() + " ");
+            System.out.print(cards[i].toShortString() + " ");
         }
         System.out.print("\n");
     }

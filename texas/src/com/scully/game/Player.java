@@ -1,6 +1,8 @@
 package com.scully.game;
 
+import com.scully.cards.Card;
 import com.scully.enums.PlayerInfo;
+import com.scully.enums.Round;
 import com.scully.server.TIdentityFile;
 import com.scully.server.TPokerThread;
 
@@ -75,6 +77,9 @@ public class Player {
      * How many chips the player currently has
      */
     public int chips = 1000;
+
+    public Card[] cards = new Card[7];
+    public Round round = Round.PREFLOP;
 
     public Player(Socket s) {
         id = _id++;
@@ -153,25 +158,75 @@ public class Player {
         return ret;
     }
 
+    public void sendState() {
+
+    }
+
     /**
      * @return Closes this players network I/O
      */
     public void close() {
+        System.out.println("Player: Closing socket and streams");
         try {
             objIn.close();
             objOut.close();
+            socket.close();
         } catch (IOException e) {
             System.err.println("Player: Error closing in/out sockets");
             e.printStackTrace();
             System.exit(1);
         }
 
+        System.out.println("Player: Closed socket and streams");
+
+    }
+
+    public void revitalizePlayer(Socket socket) {
+        // close our current sockets
+        // close();
+
+        System.out.println("Player: Revitalizing player");
+        this.socket = socket;
+        try {
+            objOut = new ObjectOutputStream(socket.getOutputStream());
+            objIn  = new ObjectInputStream (socket.getInputStream());
+
+            thread = new TPokerThread(socket, Integer.toString(id));
+
+            // assign the threads in/out here; we can keep track of it.
+            thread.in   = objIn;
+            thread.out  = objOut;
+
+            TIdentityFile temp = (TIdentityFile) objIn.readObject();
+
+
+            // we only want the person that previously disconnected
+            System.out.println("Player: \tValidating the same player is reconnecting");
+
+            if(!identityFile.token.equals(temp.token))
+                throw new RuntimeException("Player: \tReconnecting player was not the same");
+
+            System.out.println("Player: \tPlayer validated, accepting");
+
+            // let the client program know we're reconnecting them
+            sendMessage("RECONNECT");
+
+            // send them the data we have on the player
+            sendObject(getPlayerInfo());
+
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Player: Error revitalizing objIn/Out streams\n");
+            e.printStackTrace();
+            System.exit(1);
+        }
+        System.out.println("Player: Revitalized player");
     }
 
     /**
      * @return Returns the players miscellaneous info
      */
     public PlayerInfo getPlayerInfo() {
-        return new PlayerInfo(id, chips);
+        return new PlayerInfo(id, chips, cards, round);
     }
 }

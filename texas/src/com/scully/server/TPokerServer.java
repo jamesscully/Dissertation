@@ -14,9 +14,13 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -36,6 +40,7 @@ public class TPokerServer implements Runnable {
 
     public static final int PORT = 1337;
     public static final int MAX_PLAYERS = 2;
+    public static final int RECONNECT_TIMEOUT = 15 * 1000;
 
     public static final String MSG_NEXT = "NEXT";
     public static final String MSG_STAY = "STAY";
@@ -63,6 +68,7 @@ public class TPokerServer implements Runnable {
         // attempt to open our com.scully.server socket
         try {
             serverSocket = new ServerSocket(PORT);
+
             isJoinStage = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -70,6 +76,7 @@ public class TPokerServer implements Runnable {
 
         while(!SHUTDOWN) {
             waitForConnections();
+
             round = Round.PREFLOP;
             playStage();
         }
@@ -93,6 +100,7 @@ public class TPokerServer implements Runnable {
                     isJoinStage = false;
                     continue;
                 }
+
                 client = this.serverSocket.accept();
 
                 System.out.println("TPokerServer: Connection accepted, id = " + clientID++);
@@ -234,6 +242,9 @@ public class TPokerServer implements Runnable {
 
                 System.out.println("Dealing cards + " + c1 + " " + c2);
 
+                p.cards[0] = c1;
+                p.cards[1] = c2;
+
                 dealCard(p, c1);
                 dealCard(p, c2);
             }
@@ -242,22 +253,45 @@ public class TPokerServer implements Runnable {
         if(round == Round.FLOP) {
             table.pullFlop();
 
-            for(Card c : table.getFlop()) {
-                System.out.println("TPokerServer: Dealing FLOP card: " + c);
-                dealGlobalCard(c);
+            Card[] flop = table.getFlop();
+
+            for(Player p : players) {
+                for(int i = 0; i < 3; i++) {
+                    Card c = flop[i];
+                    System.out.println("TPokerServer: Dealing FLOP card: " + c);
+
+                    p.cards[3 + i] = c;
+                    dealCard(p, c);
+                }
             }
         }
 
         if(round == Round.RIVER) {
             table.pullRiver();
             System.out.println("TPokerServer: Dealing RIVER cards");
-            dealGlobalCard(table.getRiver());
+
+            Card c = table.getRiver();
+
+            for(Player p : players) {
+                p.cards[5] = c;
+                dealCard(p, c);
+            }
         }
 
         if(round == Round.TURN) {
             table.pullTurn();
             System.out.println("TPokerServer: Dealing TURN cards");
-            dealGlobalCard(table.getTurn());
+
+            Card c = table.getTurn();
+
+            for(Player p : players) {
+                p.cards[6] = c;
+                dealCard(p, c);
+            }
+        }
+
+        for(Player p : players) {
+            p.round = round;
         }
     }
 
@@ -306,7 +340,9 @@ public class TPokerServer implements Runnable {
      */
     public void getTableActions() {
         printPoolStats();
-        for(Player p : players) {
+//        for(Player p : players) {
+        for(int i = 0; i < players.size(); i++) {
+            Player p = players.get(i);
 
             // do nothing if they have folded
             if(p.folded || p.disconnected)
@@ -328,6 +364,8 @@ public class TPokerServer implements Runnable {
             } catch (SocketException e) {
                 System.err.println("TPokerServer: Socket Broken; player has likely unexpectedly dropped");
                 handleUnexpectedDisconnection(p);
+                i -= 1;
+                continue;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -348,6 +386,8 @@ public class TPokerServer implements Runnable {
                 } catch (EOFException e) {
                         System.err.println("TPokerServer: Unexpected EOF; likely the player has disconnected unexpectedly");
                         handleUnexpectedDisconnection(p);
+                        i -= 1;
+                        continue;
                 } catch (IOException e) {
                         System.err.println("TPokerServer: PlayStage receive message error");
                         e.printStackTrace();
@@ -386,26 +426,60 @@ public class TPokerServer implements Runnable {
     }
 
     public void handleUnexpectedDisconnection(Player p) {
-        // we want to ignore this player from now on
-        p.disconnected = true;
-        p.folded = true;
+        try {
+            System.out.printf("TPokerServer: Player %d has unexpectedly disconnected\n", p.id);
 
-        System.out.println("TPokerServer: Before disconnect");
-        printPoolStats();
+            // set our timeout to wait for player
+            serverSocket.setSoTimeout(RECONNECT_TIMEOUT);
 
-        // remove their thread from the pool; this frees up space for reconnection
-        p.thread.KEEP_ALIVE = false;
-        p.future.cancel(true);
-        pool.remove(p.thread);
+            System.out.printf("TPokerServer: Waiting %d seconds for the player to disconnect\n", RECONNECT_TIMEOUT / 1000);
+            // see if they rejoin
+            Socket socket = serverSocket.accept();
 
-        printPoolStats();
+            System.out.println("TPokerServer: Player has rejoined");
+            // we'll want to replace the in/out streams
+
+            p.thread.KEEP_ALIVE = false;
+            p.future.cancel(true);
+            pool.remove(p.thread);
+
+            p.revitalizePlayer(socket);
+
+            p.future = pool.submit(p.thread);
+
+        } catch (SocketTimeoutException e) {
+            System.out.println("TPokerServer: Player did not reconnect in time, continuing with game");
+
+            // we want to ignore this player from now on
+            p.disconnected = true;
+            p.folded = true;
+
+            System.out.println("TPokerServer: Before disconnect");
+            printPoolStats();
+
+            // remove their thread from the pool; this frees up space for reconnection
+            p.thread.KEEP_ALIVE = false;
+            p.future.cancel(true);
+            pool.remove(p.thread);
+
+            printPoolStats();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
 
     public void printPoolStats() {
         int    active = pool.getActiveCount();
         long complete = pool.getCompletedTaskCount();
         long    count = pool.getTaskCount();
         int      size = pool.getPoolSize();
+
+
+
 
         System.out.printf(
             "TPokerServer Pool Stats: Active: %d Complete: %d Count: %d Size: %d\n", active, complete, count, size

@@ -112,6 +112,6 @@ moveToEnv.dependsOn clientJar
 build.dependsOn moveToEnv
 
 deploy.dependsOn servJar
-build.dependsOn deploy
+// build.dependsOn deploy
 
 
