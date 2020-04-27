@@ -1,0 +1,14 @@
+ROOT_DIR=$HOME/Dissertation/texas/env
+TERM_SWITCHES="-e"
+JAVA_EXEC="java -jar"
+CLIENT_JAR_NAME="texas-client-1.2.1.jar"
+#SERVER_HOST="ec2-35-178-207-104.eu-west-2.compute.amazonaws.com"
+#SERVER_HOST="localhost"
+
+# for p1-p8 in ROOT_DIR
+for PLAYER_DIR in $(ls $ROOT_DIR)
+do
+	# example cmd: alacritty -e java -jar env/p0/texas-client-1.2.1.jar 192.168.0.1
+	$TERMINAL $TERM_SWITCHES $JAVA_EXEC $ROOT_DIR/$PLAYER_DIR/$CLIENT_JAR_NAME $SERVER_HOST &
+done
+

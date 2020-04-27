@@ -164,14 +164,17 @@ public class TPokerClient {
                 third  = (Card) getObject();
                 fourth = (Card) getObject();
                 fifth  = (Card) getObject();
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n\t%s\n", third, fourth, fifth);
                 break;
 
             case TURN:
                 sixth = (Card) getObject();
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n", sixth);
                 break;
 
             case RIVER:
                 seventh = (Card) getObject();
+                System.out.printf("TPokerClient: Retrieved \n\t%s\n", seventh);
                 break;
         }
 
@@ -235,6 +238,11 @@ public class TPokerClient {
 
         while(!valid) {
             line = stdIn.nextLine();
+
+            if(line.equals("CHIPS")) {
+                System.out.printf("TPokerClient: You currently have %d chips", info.chips);
+            }
+
 
             TAction action = TAction.parseTAction(line);
 

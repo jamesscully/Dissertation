@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tests.TexasHandTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-04-27T03:20:35" hostname="yames" time="0.018">
+  <properties/>
+  <testcase name="evaluate()" classname="tests.TexasHandTest" time="0.01"/>
+  <testcase name="getHighestCard()" classname="tests.TexasHandTest" time="0.001"/>
+  <testcase name="isStraight()" classname="tests.TexasHandTest" time="0.002"/>
+  <testcase name="getKinds()" classname="tests.TexasHandTest" time="0.001"/>
+  <testcase name="isRoyalFlush()" classname="tests.TexasHandTest" time="0.001"/>
+  <testcase name="isFlush()" classname="tests.TexasHandTest" time="0.001"/>
+  <system-out><![CDATA[Using com.scully.cards: [ACE of Diamonds, ACE of Diamonds, ACE of Diamonds, JACK of Clubs, TEN of Spades, FIVE of Spades, TWO of Spades]
+Using com.scully.cards: [ACE of Diamonds, KING of Spades, QUEEN of Hearts, JACK of Spades, JACK of Clubs, TEN of Diamonds, THREE of Spades]
+Returning true, high card: Acerank:Straight
+Using com.scully.cards: [ACE of Diamonds, KING of Spades, EIGHT of Hearts, SEVEN of Spades, SIX of Diamonds, FIVE of Clubs, FOUR of Spades]
+Returning true, high card: Eightrank:Straight
+Using com.scully.cards: [ACE of Diamonds, KING of Spades, QUEEN of Hearts, JACK of Spades, JACK of Clubs, TEN of Diamonds, THREE of Spades]
+Returning true, high card: Acerank:Straight
+Using com.scully.cards: [ACE of Spades, ACE of Diamonds, ACE of Hearts, JACK of Clubs, FIVE of Spades, THREE of Spades, TWO of Spades]
+Using com.scully.cards: [KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Clubs, TEN of Diamonds, NINE of Diamonds, THREE of Spades]
+Returning true, high card: Kingrank:Straight Flsuh
+Using com.scully.cards: [ACE of Hearts, KING of Hearts, JACK of Clubs, EIGHT of Diamonds, FIVE of Diamonds, THREE of Clubs, TWO of Hearts]
+Using com.scully.cards: [KING of Hearts, JACK of Clubs, EIGHT of Diamonds, FIVE of Diamonds, FOUR of Hearts, THREE of Clubs, TWO of Hearts]
+Using com.scully.cards: [TEN of Hearts, NINE of Clubs, EIGHT of Diamonds, SIX of Hearts, FIVE of Diamonds, THREE of Clubs, TWO of Hearts]
+Using com.scully.cards: [JACK of Clubs, TEN of Diamonds, EIGHT of Diamonds, FIVE of Clubs, FOUR of Hearts, THREE of Hearts, TWO of Hearts]
+Using com.scully.cards: [ACE of Diamonds, KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TWO of Diamonds]
+Returning true, high card: Acerank:Straight Flsuh
+Using com.scully.cards: [ACE of Diamonds, KING of Hearts, QUEEN of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds]
+Returning true, high card: Acerank:Straight
+Using com.scully.cards: [TEN of Diamonds, TEN of Diamonds, NINE of Diamonds, EIGHT of Diamonds, SEVEN of Diamonds, SIX of Diamonds, TWO of Diamonds]
+Returning true, high card: Tenrank:Straight Flsuh
+Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, SIX of Diamonds, FIVE of Diamonds, FOUR of Diamonds, THREE of Diamonds, TWO of Diamonds]
+Returning true, high card: Sixrank:Straight
+Using com.scully.cards: [ACE of Diamonds, KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TWO of Diamonds]
+Returning true, high card: Acerank:Straight Flsuh
+Using com.scully.cards: [KING of Diamonds, QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds, NINE of Diamonds]
+Returning true, high card: Kingrank:Straight Flsuh
+Using com.scully.cards: [ACE of Diamonds, QUEEN of Diamonds, JACK of Diamonds, TEN of Diamonds, TEN of Diamonds, TEN of Diamonds, TEN of Diamonds]
+Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, JACK of Diamonds, TEN of Diamonds, NINE of Diamonds, FIVE of Diamonds, TWO of Diamonds]
+Using com.scully.cards: [KING of Diamonds, TEN of Diamonds, EIGHT of Diamonds, SEVEN of Diamonds, SIX of Diamonds, FOUR of Diamonds, TWO of Diamonds]
+Using com.scully.cards: [QUEEN of Diamonds, JACK of Diamonds, NINE of Diamonds, FOUR of Diamonds, THREE of Diamonds, THREE of Diamonds, TWO of Diamonds]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -107,7 +107,11 @@ dependencies {
 
 build.dependsOn servJar
 build.dependsOn clientJar
+
+moveToEnv.dependsOn clientJar
 build.dependsOn moveToEnv
+
+deploy.dependsOn servJar
 build.dependsOn deploy
 
 

@@ -263,16 +263,15 @@ public class TPokerServer implements Runnable {
 
     public void sendGlobalMessage(String message) {
         try {
+            System.out.println("TPokerServer: Sending global message - " + message);
             for(Player p : players) {
 
                 if(p.disconnected || p.error)
                     continue;
 
-                System.out.println("TPokerServer: Sending global message - " + message);
                 p.objOut.writeUTF(message);
 
                 if(message.equals(MSG_NEXT)) {
-                    System.out.println("TPokerServer: Sending global NEXT message - " + message);
                     p.objOut.writeObject(p.getPlayerInfo());
                 }
             }
@@ -322,7 +321,8 @@ public class TPokerServer implements Runnable {
             try {
                 // the PING is just a name to tell the client we need their input.
                 // this prevents race conditions where client B would be ignored if A was chosen b4
-                System.out.println("TPokerServer: Writing PING request");
+//                System.out.println("TPokerServer: Writing PING request - player should know to reply");
+                System.out.printf("TPokerServeR: Writing PING request - player %d should know to reply\n", p.id);
                 out.writeUTF("PING");
                 out.flush();
             } catch (SocketException e) {
@@ -357,6 +357,8 @@ public class TPokerServer implements Runnable {
                 if (action == null) {
                     continue;
                 }
+
+                System.out.printf("TPokerServer: Player %d has taken action: %s\n", p.id, action);
 
                 // put the action + player into a hashmap,
                 playerActions.put(p, action);
@@ -406,7 +408,7 @@ public class TPokerServer implements Runnable {
         int      size = pool.getPoolSize();
 
         System.out.printf(
-            "TPokerServer Pool Stats: Active: %d Complete: %d Count: %d Size: %d", active, complete, count, size
+            "TPokerServer Pool Stats: Active: %d Complete: %d Count: %d Size: %d\n", active, complete, count, size
         );
     }
 
