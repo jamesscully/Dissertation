@@ -135,7 +135,7 @@ public class TPokerClient {
 
         while(round != Round.RESULT) {
             queryAction();
-            System.err.println("TPokerClient: Current round = " + round);
+//            System.err.println("TPokerClient: Current round = " + round);
         }
     }
 
@@ -150,17 +150,18 @@ public class TPokerClient {
 
         info = (PlayerInfo) getObject();
 
-        System.out.println("TPokerClient: Read player info");
-        System.out.println("\tID   : " + info.id);
-        System.out.println("\tChips: " + info.chips);
-        System.out.println("\tCards: " + Arrays.toString(info.visibleCards));
-        System.out.println("\tRound: " + info.round);
+//        System.out.println("TPokerClient: Read player info");
+//        System.out.println("\tID   : " + info.id);
+//        System.out.println("\tChips: " + info.chips);
+//        System.out.println("\tCards: " + Arrays.toString(info.visibleCards));
+//        System.out.println("\tRound: " + info.round);
 
         // if we've got the message to move, we do so and get our new .cards
         round = Round.nextRound(round);
 
         // read our com.scully.cards for this new round
         readCards();
+
     }
 
     /**
@@ -175,45 +176,31 @@ public class TPokerClient {
 
         switch (round) {
             case PREFLOP:
-//                first = (Card) getObject();
-//                second = (Card) getObject();
-
                 cards[0] = (Card) getObject();
                 cards[1] = (Card) getObject();
 
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", cards[0], cards[1]);
+//                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n", cards[0], cards[1]);
                 break;
 
             case FLOP:
-//                third  = (Card) getObject();
-//                fourth = (Card) getObject();
-//                fifth  = (Card) getObject();
-
                 cards[2] = (Card) getObject();
                 cards[3] = (Card) getObject();
                 cards[4] = (Card) getObject();
 
 
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n\t%s\n", cards[2], cards[3], cards[4]);
+//                System.out.printf("TPokerClient: Retrieved \n\t%s\n\t%s\n\t%s\n", cards[2], cards[3], cards[4]);
                 break;
 
             case TURN:
-//                sixth = (Card) getObject();
-
                 cards[5] = (Card) getObject();
-
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[5]);
+//                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[5]);
                 break;
 
             case RIVER:
-//                seventh = (Card) getObject();
-
                 cards[6] = (Card) getObject();
-
-                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[6]);
+//                System.out.printf("TPokerClient: Retrieved \n\t%s\n", cards[6]);
                 break;
         }
-
         printCurrentHand();
     }
 
@@ -257,7 +244,7 @@ public class TPokerClient {
         ping = getMessage();
 
         if (ping.equals("PING")) {
-            System.out.println("\nWhat would you like to do? CALL | RAISE X | FOLD");
+            System.out.printf("\nWhat would you like to do? Options: CALL | RAISE (AMT) | FOLD | CHIPS\nChoice: ");
             inputResponse();
         } else {
             System.err.println("TPokerClient: Signal for response was not correct. Exiting...");
@@ -275,8 +262,8 @@ public class TPokerClient {
         while(!valid) {
             line = stdIn.nextLine();
 
-            if(line.equals("CHIPS")) {
-                System.out.printf("TPokerClient: You currently have %d chips", info.chips);
+            if(line.toUpperCase().equals("CHIPS")) {
+                System.out.printf("TPokerClient: You currently have %d chips\n", info.chips);
             }
 
             TAction action = TAction.parseTAction(line);
@@ -297,7 +284,7 @@ public class TPokerClient {
             if(action == TAction.FOLD)
                 folded = true;
 
-            System.out.println("TPokerClient: TPokerClient: Wrote data: " + line);
+            // System.out.println("TPokerClient: Sending action " + line + " to server.");
             valid = true;
         }
     }
@@ -306,6 +293,18 @@ public class TPokerClient {
      * Prints the current hands we have, and the current hands on the table.
      */
     public static void printCurrentHand() {
+
+        try {
+            Runtime.getRuntime().exec("clear");
+        } catch (IOException ignored) { }
+
+        System.out.println();
+        System.out.println("==================================");
+        System.out.println("New round has begun: " + round);
+        if(info != null)
+            System.out.println("You currently have " + info.chips + " chips");
+        System.out.println("==================================");
+        System.out.println();
 
         System.out.printf("Current cards in play:\n\t[%s %s] ", cards[0].toShortString(), cards[1].toShortString());
 

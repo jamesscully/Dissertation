@@ -21,6 +21,7 @@
 \usepackage{listings}
 \usepackage[export]{adjustbox}
 \usepackage{wrapfig}
+\usepackage[ruled,vlined]{algorithm2e}
 
 \setlist{nosep}
 
@@ -185,7 +186,7 @@ Poker is a type of card game that is played and watched in tournaments by many a
 
 A common problem encountered with most networks is that the client or user of a service can have a weak or 'spotty' internet connection, whereby they may lose connectivity occasionally or in certain bursts. This is especially prevalent with mobile connections, where rural or otherwise distanced areas can have trouble holding a steady connection. In these cases, it is vital that both the client is able to use the network or join as normal and that the server does not grind to a halt waiting on this person or break due to it, known as a \textit{delay-tolerant network} (DTN). \\
 
-Delay-tolerant networks have been especially important in the modern world since the advent of mobile devices and their surge in popularity. This is due to the fact that they do not have a regular stable internet connection like most desktop computers do and have the problem of losing signal due to physical movement or placement of the device. If a network cannot handle delay or dropouts from a mobile client gracefully this can have devastating impacts on data integrity or the overall function of the service. \\
+Delay-tolerant networks have been especially important in the modern world since the advent of mobile phones and their surge in popularity, such as the potential to use them to route packets for DTNS \cite{manet}. This is due to the fact that they do not have a regular stable internet connection like most desktop computers do and have the problem of losing signal due to physical movement or placement of the device. If a network cannot handle delay or dropouts from a mobile client gracefully this can have devastating impacts on data integrity or the overall function of the service. \\
 
 Figure 1 shows how the rotation of play in poker occurs. If the player with an unstable connection is unable to respond and the server is not able to proceed, then the match cannot occur as normal. Other players will not be able to take their turns, and the lost player upon reconnection may not be able to see choices taken or their chips.
 
@@ -265,7 +266,7 @@ For example, the isStraight function at one point had a small case where a strai
 
 Had we not taken a test-heavy approach, given that a straight itself is quite uncommon \cite{str_uncommon}, at around 0.392465\% this could have been undetected for quite some time. \\
 
-However, a benefit of this that was only realised afterwards was that writing unit-testable code made the actual code-base much more modular. This has lead to the actual evaluator in turn becoming much higher quality code, as there is much less overlap between each function when determining the outcome of a hand.  Appendix 8.8 shows this, as we can see that we only have functions to call rather than intertwining them. 
+However, a benefit of this that was only realised afterwards was that writing unit-testable code made the actual code-base much more modular. This has lead to the actual evaluator in turn becoming much higher quality code, as there is much less overlap between each function when determining the outcome of a hand.  \hyperlink{app_eval}{Appendix 8.2} shows this, as we can see that we only have functions to call rather than intertwining them. 
 
 % Kent Beck, an early proponent of TDD methodology and creator of JUnit, clarifies this by 
 
@@ -312,7 +313,7 @@ This can be seen in Figure 2, where the user is asked for their intention when i
 
 The backend - that is, the Texas Hold'em evaluator and other objects - is written solely in Java as the language itself is platform agnostic, which allows for the server to run on Linux, Windows and Mac, as per the requirements defined in the initial vision and scope document. This makes the client and server portable as the running platform needs only a Java 8 compatible virtual machine.  \\
 
-We considered other languages such as C/C++, which would be magnitudes faster in performance however they are not platform agnostic by design, which is part of our project requirements - for example compilation issues can arise from using different compilers. Similarly, using a web-based language and framework such as JavaScript or PHP with libraries such as React/Angular would not fit into the system design; we need to host a server, and link the backend into it. \\
+We considered other languages such as C/C++, which would be magnitudes faster in performance however they are not easily portable to multiple platforms, which is part of our project requirements. For example, compilation issues can arise from using different compilers. Similarly, using a web-based language and framework such as JavaScript or PHP with libraries such as React/Angular would not fit into the system design; we need to host a server, and link the backend into it. \\
 %(?) magnitudes faster
 
 
@@ -323,8 +324,7 @@ It has been broken down in such a way that it is modular, by having the basics c
 \caption{Class diagram of the base card objects}
 	\end{figure} 
 
-
-The backend was the most tedious to design, as it was very difficult to use traditional methods such as pseudocode for evaluation algorithms. However as we will discuss later on, unit testing drove the development through trial and error via set tests. 
+These objects can be re-used for other gamemodes as part of our vision for the project. If a developer in the future wishes to add another gamemode, such as Ohama Hold'em or Five Card Draw, they would need to create an evaluator for that gamemode and alter the \textit{processRound()} and \textit{dealRound()} functions in the server.
 
 
 \newpage
@@ -345,7 +345,7 @@ This means that a single-threaded approach is not feasible because if a connecti
 
 In regard to the multi-process approach, it would become cumbersome to create a new process for each connection that comes in. This is because synchronizing processes is a much more difficult task than synchronizing between threads. Whilst inter-process communication offers shared memory \citep{shared_memory} to combat the synchronization problem, it would be cumbersome to have to communicate with all processes from the server process.\\
 \newpage
-Figure 5 illustrates the approaches we tried in greater detail. Fig 5(a) was notoriously complex to implement, as this involved having to create a socket not just for the client and process, but also from the process to the server to retrieve data. \\
+Figure 6 illustrates the approaches we tried in greater detail. Fig 5(a) was notoriously complex to implement, as this involved having to create a socket not just for the client and process, but also from the process to the server to retrieve data. \\
 
 \newcommand{\fh}{18em}
 \begin{figure}[h]
@@ -376,11 +376,11 @@ Figure 5 illustrates the approaches we tried in greater detail. Fig 5(a) was not
 
 
 
-Figure 5(c) shows the rotation of sockets between the threads, but this approach was flimsy and often if the player was to disconnect or an error occurred, the program experienced undefined behaviour and would throw a range of exceptions such as Thread.ConcurrentModificationExceptions, a simple SocketException or simply react in an unpredictable manner. \\
+Figure 6(c) shows the rotation of sockets between the threads, but this approach was flimsy and often if the player was to disconnect or an error occurred, the program experienced undefined behaviour and would throw a range of exceptions such as Thread.ConcurrentModificationExceptions, a simple SocketException or simply react in an unpredictable manner. \\
 
 Whilst these are expected when working with networking and threads, the variation of exceptions thrown meant we could not rely on a single exception which we know is the cause of an unexpected or sudden disconnection. For example, in our final implementation we only rely on a SocketException - that typically is a broken pipe - in the network I/O functions. \\
 
-We found that Figure 5(b), a thread pool, was the best design for implementing delay tolerance. This is primarily because we are able to give each player their own thread for connectivity rather than have to add in layers of complexity to communicate between processes, or the volatile nature of single-threaded, multiple-clients approach. If a player is to lose connection, their thread in the pool will finish execution, marked as 'inactive' and can simply be skipped over, as the figure shows. 
+We found that Figure 6(b), a thread pool, was the best design for implementing delay tolerance. This is primarily because we are able to give each player their own thread for connectivity rather than have to add in layers of complexity to communicate between processes, or the volatile nature of single-threaded, multiple-clients approach. If a player is to lose connection, their thread in the pool will finish execution, marked as 'inactive' and can simply be skipped over, as the figure shows. 
 
 
 \newpage
@@ -471,16 +471,79 @@ This means that our cards are already sorted from most powerful to lowest in ter
 \includegraphics[scale=0.6]{treemaps} \\
 \caption{Diagram showing the ordering of key-values in TreeMaps}
 \end{center}
-
 \end{figure}
 
 
 
 
 
+\newpage
 
+
+\subsubsection{Reconnecting a player}
+
+When a player's connection is disrupted, the network socket will break and cause attempts to send data or retrieve data from the player to throw a SocketException. This is how we detect if a client has experienced a disruption, as intentional disconnection from the match is done via a DISCONNECT message. \\
+
+As previously discussed, the player object holds data separate from the connection. Therefore, when a player disconnects the server will perform the following: \\
+
+\hypertarget{algorithm_identity}{}
+\SetKwInOut{Parameter}{Parameters}
+\SetKwData{KwDat}{\textbf{Variable}}
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{Player is reconnected or match continues without}
+ \Parameter{Player object} 
+  \texttt{\\}
+ 
+ \KwDat{ServerSocket}: The host socket responsible for receiving connections \\
+ \KwDat{ReconnectionTimeout}: 15000 (15 seconds) \\
+ \KwDat{Thread}: Players connection thread \\
+ \KwDat{ThreadPool}: Pool hosting worker threads \\
+ 
+ \texttt{\\}
+ ServerSocket.\textit{Timeout} = ReconnectionTimeout\;
+ Thread.\textit{KEEP\_ALIVE} = false\;
+ \texttt{\\}
+ 
+ \eIf{ThreadPool.remove(Thread) is True}{
+ 	 /* Wait until we have received a new connection or timeout */ \\
+	 \KwDat{NewSocket} = ServerSocket.accept()\;
+	 \If{NewSocket is not set}{
+     	/* Player has not reconnected in time; remove from match */ \\
+	    Player.\textit{disconnected} = true\;
+	    Player.\textit{folded} = true\;
+	 }
+  }{
+  	/* There was an error removing the thread */ \\
+  	Handle error appropriately; the pool itself may be non-functional
+  }
+  
+  /* Here, we now revitalize or renew the player contents */
+
+  Player.\textit{socket} = NewSocket\;
+  Player.\textit{objectOut} = ObjectOutputStream(NewSocket)\;
+  Player.\textit{objectIn} = ObjectInputStream(NewSocket)\;
+  Player.\textit{thread} = Thread(NewSocket)\;
+  
+  \texttt{\\}
+  
+  \KwDat{ConnIdentity}: The connecting client's identity \\
+  \eIf{ConnIdentity is the same as disconnected Players}{
+  	Send game state to this new player \\
+  	Add player's new thread to pool\\
+  	Continue with match
+  } {
+  	Reject this player and restart algorithm, waiting for new connection
+  }
+  
+ \caption{Reconnecting a player}
+ 
+\end{algorithm}
 
 \newpage
+
+
+
 %\subsubsection{Evaluating Win Condition}
 %Win evaluation can be done by sorting each players hand by result, i.e. Royal Flush, Four of Kind, Straight. If each player has a unique result, then we can simply take the top result, in this case Royal Flush. If two players contest the highest result, e.g. a Straight, then we'll look at the highest card in the TResult object, which determines each players result (i.e. Three of a Kind) and the highest card. \\
 %
@@ -562,11 +625,11 @@ During development, we had to make multiple changes to the initial design of the
 
 Because we made this choice, the ability to instantly get a client/server connection running on the development machine was trivial, as a modern computer is able to do this very quickly compared to having to compile an Android application and run it either on an emulator or even slower on a physical device, let alone having to develop a build system to compile both the server and an Android application. \\
 
-Furthermore, we realised that the client would need some form of identification, because we didn't want players whom hadn't been in the game to join back; this would annoy users of the system if they were to experience a drop out and could not join. Therefore, we opted to make a file that exists locally to identify the user and is created upon first launching the program. \\
+Furthermore, we realised that the client would need some form of identification, because we didn't want players whom hadn't been in the game to join back; this would annoy users of the system if they were to experience a drop out and could not reconnect, as seen in \hyperlink{algorithm_identity}{Algorithm 1}. Therefore, we opted to make a file that exists locally to identify the user and is created upon first launching the program. \\
 
 We arrived at this choice because the other approaches were not the most reliable or optimal. For example, we could have used the IP address of the user to identify them but using an IP address is extremely unreliable as they are very susceptible to change - especially after a drop out from the clients internet provider. We could have also used a media-access control (MAC) address to identify them - which is tied to the devices network interface card (NIC) - but this is quite difficult to retrieve from a Java perspective, some devices may or may not return one reliably. \\
 
-Therefore, we decided that the most reliable option would be to use an approach that can be used on any device - be it a web browser, a mobile device or a desktop, and that would be using a file to identify the user. While many devices may not support some network functions, it is almost guaranteed that a file can be created and read anywhere Java is used. 
+Therefore, we decided that the most reliable option would be to use an approach that can be used on any device - be it a web browser, a mobile device or a desktop, and that would be using a file to identify the user. While many devices may not support some network functions, it is guaranteed that a file can be created and read anywhere Java is used. 
 
 \newpage
 \subsection{Server}
@@ -837,7 +900,7 @@ Figure 10 shows the server and client logs side by side. For example, when we ar
 	\end{subfigure}	
 	
 	\begin{subfigure}[h]{0.6\textwidth}
-		\includegraphics[width=\textwidth]{client_log}
+ 		\includegraphics[width=\textwidth]{client_log}
 		\caption{Client (Player 0)}
 	\end{subfigure}	
 	}
@@ -853,7 +916,7 @@ To help me manage what needs to be done in the project and primarily drive devel
 
 In the initial design stages, I focused on the vision and scope whereby outlining the ideal product but also the bare essentials for the project. Working under agile principles, I focused on getting a usable algorithm for evaluating poker hands as this gives us early ideas from where to go next or problems that would arise; once we had this to a good state, research for how the server will handle sending these objects or communicating became easier.  \\
 
-Appendix 7.1 and 7.2 show the old and the new Gantt charts. Upon developing the back-end, I realised that no databases and thus database classes were needed in this part. Later on during the end stages of the servers development, databases will be used for online play, and can be removed at this stage. Therefore, server tasks as well as implementing them into the Android application have been brought forward, as these are critical.  \\
+\hyperlink{app_gantt}{Appendix 8.1} shows the Gantt chart followed throughout the project. There were some issues which took much longer than anticipated, namely issues with networking as we couldn't easily "test" our way through bugs, though the poker evaluation algorithm took much less time due to it. I think that time could have been managed a bit better in regards to the server work if the network interface was planned ahead of time.
 
 \subsection{Contributions and Reflections}
 
@@ -872,7 +935,7 @@ Overall, I'm quite satisfied with the personal gains made from this project, as 
 
 I think some areas could have been improved, namely implementing a suitable and fun user interface or front-end so that it could be presented to actual players but the framework to do so is somewhat there itself and could be picked up by anyone in the future. Moreover I think time management could have gone a lot better on this project, but the demands of other project-based modules on the course limited my undivided attention on this; there was a lot of context switching involved when transferring from one module back to this project.  \\
 
-I also think that more work could have been done on the network side to make it more robust, potentially adding in a 'lander' thread, where we continuously are looking for incoming connections, or configuration options, so that we could set timeouts for disconnections, and a method of reliably detecting that the user has disconnected rather than using a certain Java exception type to detect what has happened; which is quite flimsy. 
+I also think that more work could have been done on the network side to make it more robust, potentially adding in a 'lander' thread, where we continuously are looking for incoming connections, or configuration options and a method of reliably detecting that the user has disconnected rather than using a certain Java exception type to detect what has happened; which is quite flimsy. 
 
 
 
@@ -929,9 +992,11 @@ I also think that more work could have been done on the network side to make it 
 %\includegraphics[width=\textwidth]{gantt_chart}
 
 %\newpage
+
 \subsection{Gantt Chart}
 
-Color chart:
+\hypertarget{app_gantt}{}
+Color Key:
 
 Purple = completed \\
 Green  = to be completed\\
@@ -940,177 +1005,9 @@ Red = deleted\\
 
 \includegraphics[width=\textwidth]{modified_gantt}
 
-
-\newpage
-\subsection{Abstract System Design}
-
-\includegraphics[width=\textwidth]{wholesystem}
-
-
-\newpage 
-
-\subsection{Straight method}
-
-All cards are sorted before this and other methods in the evaluator are called.
-
-\begin{lstlisting}
-public TResult isStraight() {
-	int valStreak = 0;
-	int suitStreak = 0;
-	int origin = 0;
-
-	// our previous value going in should be the first in the sorted array
-	// note: cards is a class member containing all cards in the evaluator, 
-	// sorted high to low.
-	int previousVal = cards.get(0).getValue();
-	Suit previousSuit   = cards.get(0).getSuit();
-
-	for(int i = 1; i < 7; i++)  {
-		// these are the attributes of card i
-		Card card   = cards.get(i);
-		Suit suit   = card.getSuit();
-		int  value  = card.getValue();
-
-		// if we have a previous card of same value, just skip over.
-		if(previousVal == value)
-			continue;
-
-		// if the previous card was higher than the current, then add to streak
-		// else, reset counter to 0.
-		if(previousVal == value + 1) {
-			valStreak++;
-
-			if(suit == previousSuit)
-				suitStreak++;
-			else
-				suitStreak = 0;
-
-		} else {
-			valStreak = 0;
-			origin = i;
-		}
-
-		// if we've already managed a straight, then return true.
-		// note that this should return the highest STRAIGHT, as we're descending down.
-		if(valStreak == 4) {
-			// this removes the need for ANOTHER function for Strt. Flushes.
-			if(suitStreak == 4)
-				StraightFlushFlag = true;
-
-			Face high = cards.get(origin).face;
-			Rank result = StraightFlushFlag ? Rank.STRAIGHT_FLUSH : Rank.STRAIGHT;
-
-			return new TResult(high, result);
-		}
-
-		previousVal = value;
-		previousSuit = suit;
-	}
-	return null;
-}
-\end{lstlisting}
-\newpage
-
-\subsection{TPokerThread run method}
-\begin{lstlisting}[breaklines=true]
-@Override
-public void run() {
-	try {
-
-		DataInputStream in  = new DataInputStream(new BufferedInputStream(client.getInputStream()));
-		ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-
-// concatenate data (in this case ID), face and suit as a string
-		String sendData = data + " " + face + " " + suit;
-		System.out.println("Sending data: " + sendData);
-
-// write the full data string to our client's input stream.
-		out.writeUTF(sendData);
-		out.flush();
-		
-		String line = "";
-
-// read input from the user. If we receive DISCONNECT, then we close the connection.
-// else we simply print their instruction. These requests can be forwarded to other components in the future.
-		while(!line.equals("DISCONNECT")) {
-			try {
-				line = in.readUTF();
-
-				if(line.equals("CALL")) {
-					System.out.printf("ClientID: %s has called for next round\n", data);
-				} else if (line.equals("FOLD")) {
-					System.out.printf("ClientID: %s has folded\n", data);
-				} else if (line.split("\\s+")[0].equals("RAISE")) {
-					System.out.printf("ClientID: %s has raised by: %s\n", data, line.split("\\s+")[1]);
-				} else {
-					System.out.printf("ClientID: %s, Message: %s\n", data, line);
-				}
-			} catch (IOException e) {
-				System.out.println(e);
-			}
-		}
-
-		// close all IO connections
-		client.close(); out.close(); in.close();
-
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-}
-\end{lstlisting}
-\newpage
-\subsection{TPokerClient main method}
-\begin{lstlisting}[breaklines=true]
-    public static void main(String[] args) {
-
-        try {
-            Socket sock = null;
-            // by default, use localhost
-            String HOST = "127.0.0.1";
-            
-            // if we've started with an argument, use it as the host
-            if(args.length > 0) {
-                HOST = args[0];
-            }
-
-            TIdentityFile identityFile = new TIdentityFile();
-
-            System.out.println("TPokerClient: Connecting...");
-            sock = new Socket(HOST, TPokerServer.PORT);
-
-            // in is our input stream, in this case command-line
-            // out is the servers
-            out = new ObjectOutputStream(sock.getOutputStream());
-            in = new ObjectInputStream (sock.getInputStream());
-            stdIn = new Scanner(System.in);
-
-            out.writeObject(identityFile);
-
-            String status = "REJECT";
-
-            status = getMessage();
-
-            if(status.equals("REJECT")) {
-                System.err.println("TPokerClient: Server rejected this connection");
-                System.exit(1);
-            } else {
-                System.out.println("TPokerClient: Server accepted our connection");
-            }
-
-        } catch (IOException i) {
-            System.out.println("TPokerClient: Exception Caught");
-            i.printStackTrace();
-        }
-
-        while(!QUIT) {
-            reset();
-            mainLoop();
-        }
-    }
-\end{lstlisting}
 \newpage
 \subsection{Poker Evaluation Algorithm}
-
+\hypertarget{app_eval}{}
 \begin{lstlisting}*[language=java,numbers=none]
     public TResult evaluate() {
         // these conditions must be done in sequence, for order of rankings
@@ -1318,8 +1215,12 @@ public void run() {
 	Retrieved from \url{https://tools.ietf.org/html/rfc793}
 \end{flushleft}
 
-
-
+\bibitem{manet}
+\begin{flushleft}
+	Christian Raffelsberger, Hermann Hellwagner \\
+	\textit{Combined Mobile Ad-hoc and Delay/Disruption-tolerant Routing} \\
+	Retrieved from \url{http://www-itec.uni-klu.ac.at/bib/files/cr-adhocnow-authorver.pdf}
+\end{flushleft}	
 
 
 

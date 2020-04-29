@@ -32,7 +32,6 @@ public class Player {
      */
     public Socket socket;
 
-
     /**
      * ObjectInputStream for the player
      */
@@ -190,15 +189,12 @@ public class Player {
         try {
             objOut = new ObjectOutputStream(socket.getOutputStream());
             objIn  = new ObjectInputStream (socket.getInputStream());
-
             thread = new TPokerThread(socket, Integer.toString(id));
 
-            // assign the threads in/out here; we can keep track of it.
             thread.in   = objIn;
             thread.out  = objOut;
 
             TIdentityFile temp = (TIdentityFile) objIn.readObject();
-
 
             // we only want the person that previously disconnected
             System.out.println("Player: \tValidating the same player is reconnecting");
