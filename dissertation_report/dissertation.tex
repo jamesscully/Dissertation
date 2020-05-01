@@ -390,8 +390,6 @@ The client is written in Java for compatibility with the server counterpart, as 
 
 The clients on their first launch create an identity file that is unique to them, through the generation of a random number. This identity file is used when connecting to the server as a way of determining if the player has joined before and gives the opportunity to block or prevent certain players from joining. However, it primarily is used to allow players whom have had a dropout and may have disconnected from the game to join back. In any case, certain identification of a connecting client can be used in many ways; verification, management of users, etc. 
 
-
-
 \subsubsection{Communication} %(?)
 %In order to achieve a delay-tolerant network, the architecture of communication is a major factor in it being successful. What is meant by communication is that the order of sending and receiving messages from players is structured in such a way that if one was to disconnect, the server/network would not stop the game indefinitely if a player disconnected either purposefully or accidentally and the server would not unexpectedly crash when a network socket is broken. \\
 
@@ -402,9 +400,9 @@ In order to achieve a delay-tolerant network, the architecture of communication 
 % tcp https://tools.ietf.org/html/rfc793#page-4
 
 Communication between the client and server should utilize the Transmission Control Protocol (TCP). 
-TCP is a protocol that sits atop of the network layer of the internet utilizing the Internet Protocol (IP)\cite{ip}.
+TCP is a protocol that sits atop of the network layer of the internet. 
 
-TCP uses the Internet Protocol to route data packets, but it describes the \textit{format} of the datagrams. Furthermore, this architecture includes the use of the packets sequence number and a checksum to valid the data has not been corrupted. This is to ensure reliability \cite{tcp}, whereby the recipient must respond with an acknowledgement (ACK) packet to let the sender know they have received it. If no acknowledgement is received, the missed packet is resent.\\
+TCP uses the Internet Protocol (IP)\cite{ip} to route data packets, but it describes the \textit{format} of the datagrams. Furthermore, this architecture includes the use of the packets sequence number and a checksum to valid the data has not been corrupted. This is to ensure reliability \cite{tcp}, whereby the recipient must respond with an acknowledgement (ACK) packet to let the sender know they have received it. If no acknowledgement is received, the missed packet is resent.\\
 
 In the case that our player is experiencing an unstable connection, there is the possibility packet loss will occur. TCP negates the affects of packet loss, namely by ensuring data integrity is kept.
 
@@ -413,12 +411,12 @@ In order to communicate with each client effectively, we needed to abstract the 
 
 This became evident during development when we kept object I/O streams within the TPokerThread class. Accessing these streams generated undefined behaviour when the player had lost connection. Whilst we have a thread pool to keep connections alive, we needed a method of flagging that a user has folded but not disconnected or vice versa, and a way to communicate certain procedures to them. In this case, an aptly-named class \textit{Player} was created. \\
 
-The Player class is handled and only used by the server, as it is the counter-part to the TPokerClient, which runs on a separate computer or device. It provides the server with necessary information such as where to write objects to or read them from, the ID of the player in order of creation and the players identity file, which acts as an authorization key, and the TPokerThread that it represents in the thread-pool. \\
+The Player class is handled and only used by the server, as it is the counter-part to the TPokerClient, which runs on a separate computer or device. It provides the server with necessary information such as where to write objects to or read them from, the ID of the player in order of creation and the players identity file, which acts as an authorization key, and the TPokerThread that it represents in the thread-pool. 
+
+\newpage
 
 %can talk about synchronizing creation of both client and server obj steams
 
-
-\newpage
 \subsection{User Interface}
 
 The user interface is a simple command-line interface, whereby the player is able to view their cards and the total cards in play on the table, as well as the round. They are able to input their actions such as call, raise, fold or view their own chips. \\
