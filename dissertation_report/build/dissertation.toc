@@ -37,7 +37,8 @@
 \contentsline {subsection}{\numberline {7.2}Contributions and Reflections}{26}{subsection.7.2}% 
 \contentsline {subsubsection}{\numberline {7.2.1}Build system}{26}{subsubsection.7.2.1}% 
 \contentsline {subsubsection}{\numberline {7.2.2}Data classes}{26}{subsubsection.7.2.2}% 
-\contentsline {subsection}{\numberline {7.3}Conclusion}{27}{subsection.7.3}% 
+\contentsline {subsection}{\numberline {7.3}COVID-19 Impact}{27}{subsection.7.3}% 
+\contentsline {subsection}{\numberline {7.4}Conclusion}{27}{subsection.7.4}% 
 \contentsline {section}{\numberline {8}Appendix}{28}{section.8}% 
 \contentsline {subsection}{\numberline {8.1}Gantt Chart}{28}{subsection.8.1}% 
 \contentsline {subsection}{\numberline {8.2}Poker Evaluation Algorithm}{29}{subsection.8.2}% 
