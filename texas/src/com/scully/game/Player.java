@@ -181,9 +181,6 @@ public class Player {
     }
 
     public void revitalizePlayer(Socket socket) {
-        // close our current sockets
-        // close();
-
         System.out.println("Player: Revitalizing player");
         this.socket = socket;
         try {

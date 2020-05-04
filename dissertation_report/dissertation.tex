@@ -345,7 +345,7 @@ This means that a single-threaded approach is not feasible because if a connecti
 
 In regard to the multi-process approach, it would become cumbersome to create a new process for each connection that comes in. This is because synchronizing processes is a much more difficult task than synchronizing between threads. Whilst inter-process communication offers shared memory \citep{shared_memory} to combat the synchronization problem, it would be cumbersome to have to communicate with all processes from the server process.\\
 \newpage
-Figure 6 illustrates the approaches we tried in greater detail. Fig 5(a) was notoriously complex to implement, as this involved having to create a socket not just for the client and process, but also from the process to the server to retrieve data. \\
+Figure 6 illustrates the approaches we tried in greater detail. Fig 6(a) was notoriously complex to implement, as this involved having to create a socket not just for the client and process, but also from the process to the server to retrieve data. \\
 
 \newcommand{\fh}{18em}
 \begin{figure}[h]
@@ -929,7 +929,7 @@ An area that could have been improved would have been the data classes. Whilst t
 \newpage
 
 \subsection{COVID-19 Impact}
-
+COVID-19 has not particularly disrupted development, however it has made it difficult to test the project in reality. For example, to test delay we could have used a laptop with a mobile phone connection to connect to the AWS server which would be much easier than using a stable, wired connection. Alas, due to social-distancing and lockdown guidelines we were unable to test in this environment.
 
 
 \subsection{Conclusion}
