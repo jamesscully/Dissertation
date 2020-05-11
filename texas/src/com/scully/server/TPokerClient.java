@@ -12,6 +12,9 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Client program for Texas Hold'em
+ */
 public class TPokerClient {
 
     // 5 second timeout; in case max is full

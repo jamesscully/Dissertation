@@ -12,6 +12,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.Future;
 
+/**
+ * Data class that represents a connected player
+ */
 public class Player {
 
     public String username;
@@ -25,7 +28,6 @@ public class Player {
      * Players ID / Index
      */
     public int id = 0;
-
 
     /**
      * Network socket for the player
@@ -106,8 +108,8 @@ public class Player {
         }
     }
 
-    /**
-     * @return Sends a String to the player over network
+    /** Sends a String to the player over network
+     * @param message Message to send to client
      */
     public void sendMessage(String message) {
         try {
@@ -132,7 +134,8 @@ public class Player {
         return ret;
     }
     /**
-     * @return Sends an Object to the player over network
+     * Sends an Object to the player over network
+     * @param o Object to send to player
      */
     public void sendObject(Object o) {
         try {
@@ -162,7 +165,7 @@ public class Player {
     }
 
     /**
-     * @return Closes this players network I/O
+     * Closes this players network I/O
      */
     public void close() {
         System.out.println("Player: Closing socket and streams");
@@ -180,6 +183,10 @@ public class Player {
 
     }
 
+    /**
+     * Regenerates the players network I/O
+     * @param socket Socket to create I/O and new thread from
+     */
     public void revitalizePlayer(Socket socket) {
         System.out.println("Player: Revitalizing player");
         this.socket = socket;

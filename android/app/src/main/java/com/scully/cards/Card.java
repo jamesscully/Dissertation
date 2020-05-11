@@ -7,19 +7,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * Data class that represents a Card
- */
 public class Card implements Comparable<Card>, Serializable {
 
-    /**
-     *  Suit of this card, i.e. Diamonds
-     */
     private final Suit suit;
-
-    /**
-     * Face of this card, i.e. Ace
-     */
     public final Face face;
 
     public Card(Suit s, Face v) {
@@ -41,30 +31,18 @@ public class Card implements Comparable<Card>, Serializable {
         return Objects.hash(suit, face);
     }
 
-    /**
-     * @return Face of this card
-     */
     public Face getFace() {
         return face;
     }
 
-    /**
-     * @return Integer value of the Face
-     */
     public int getValue() {
         return face.getValue();
     }
 
-    /**
-     * @return Integer value of the Face
-     */
     public Integer getValueInteger() {
         return face.getValue();
     }
 
-    /**
-     * @return Suit of this card
-     */
     public Suit getSuit() {
         return suit;
     }
@@ -74,12 +52,13 @@ public class Card implements Comparable<Card>, Serializable {
         return "" + face.name() + " of " + suit.name;
     }
 
-    /**
-     * @return Short string of this card, i.e. 5 of Diamonds: "5D"
-     */
     public String toShortString() {
+
         String val = Integer.toString(face.getValue());
+
         String f = (face.getValue() <= 10) ? val : face.name().substring(0, 1);
+
+
         return f + suit.name().substring(0,1);
     }
 
@@ -101,12 +80,8 @@ public class Card implements Comparable<Card>, Serializable {
         return getValueInteger().compareTo(card.getValueInteger());
     }
 
-    /**
-     * Factory method, parses cards from (0-9) or (J-A) + suit.
-     * @param s String to parse
-     * @return New instance of a card
-     */
     public static Card strToCard(String s) {
+
         s = s.toUpperCase();
 
         Face face = null;

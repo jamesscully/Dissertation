@@ -4,20 +4,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/**
- * Represents a Thread for keeping a player's connection alive
- */
 public class TPokerThread implements Runnable {
 
-    /** Socket player is connected to */
     Socket client;
 
-    /** Player's Username */
     String clientID;
 
-    /** Player's Object Input */
     public ObjectInputStream  in;
-    /** Player's Object Output */
     public ObjectOutputStream out;
 
     public TPokerThread(Socket client, String id) {
@@ -25,10 +18,14 @@ public class TPokerThread implements Runnable {
         this.clientID = id;
     }
 
-    /**
-     * Should we keep the connection alive?
-     */
+    boolean PRE_FLOP_DONE = false;
+    boolean FLOP_DONE     = false;
+    boolean TURN_DONE     =  false;
+    boolean RIVER_DONE    = false;
+
     public boolean KEEP_ALIVE = true;
+
+    boolean CONNECTED = true;
 
     @Override
     public void run() {

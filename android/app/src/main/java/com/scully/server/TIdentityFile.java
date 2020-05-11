@@ -1,53 +1,35 @@
 package com.scully.server;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.os.Environment;
+
+import com.scullyapps.RekopApplication;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.Random;
 
-/**
- * Class representing a players identity
- */
 public class TIdentityFile implements Serializable {
-
-    /**
-     * The identity of the player in a string
-     */
     public String token = "NULL";
 
-    /**
-     * Directory where the identity file is stored
-     */
     File rootDir;
-
-    /**
-     * File of the identity
-     */
     File idenFile;
 
-    /**
-     * Filename in the directory
-     */
     public static final String IDEN_FILE_NAME = "iden";
 
-    public TIdentityFile() {
-        try {
-            rootDir  = new File(TPokerClient.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
-            idenFile = new File(rootDir, IDEN_FILE_NAME);
+    public TIdentityFile(File root) {
+        rootDir  = root;
+        idenFile = new File(rootDir, IDEN_FILE_NAME);
 
-            if(!idenFile.exists()) {
-                createIdenFile();
-            }
-            readIdenFile();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            System.err.println("TIdentityFile: Error getting parent folder");
+        if(!idenFile.exists()) {
+            createIdenFile();
         }
+
+        readIdenFile();
     }
 
-    /**
-     * Read the identity file - if it exists
-     */
     public void readIdenFile() {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(idenFile));
@@ -58,9 +40,6 @@ public class TIdentityFile implements Serializable {
         }
     }
 
-    /**
-     * Creates the identity file
-     */
     public void createIdenFile() {
 
         Random random = new Random();

@@ -23,6 +23,9 @@
 \usepackage{wrapfig}
 \usepackage[ruled,vlined]{algorithm2e}
 
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{2pt}
+
 \setlist{nosep}
 
 \lstset{language=Java, 
@@ -186,7 +189,7 @@ Poker is a type of card game that is played and watched in tournaments by many a
 
 A common problem encountered with most networks is that the client or user of a service can have a weak or 'spotty' internet connection, whereby they may lose connectivity occasionally or in certain bursts. This is especially prevalent with mobile connections, where rural or otherwise distanced areas can have trouble holding a steady connection. In these cases, it is vital that both the client is able to use the network or join as normal and that the server does not grind to a halt waiting on this person or break due to it, known as a \textit{delay-tolerant network} (DTN). \\
 
-Delay-tolerant networks have been especially important in the modern world since the advent of mobile phones and their surge in popularity, such as the potential to use them to route packets for DTNS \cite{manet}. This is due to the fact that they do not have a regular stable internet connection like most desktop computers do and have the problem of losing signal due to physical movement or placement of the device. If a network cannot handle delay or dropouts from a mobile client gracefully this can have devastating impacts on data integrity or the overall function of the service. \\
+Delay-tolerant networks have been especially important in the modern world since the advent of mobile phones and their surge in popularity, such as the potential to use them to route packets for DTNs \cite{manet}. This is due to the fact that they do not have a regular stable internet connection like most desktop computers do and have the problem of losing signal due to physical movement or placement of the device. If a network cannot handle delay or dropouts from a mobile client gracefully this can have devastating impacts on data integrity or the overall function of the service. \\
 
 Figure 1 shows how the rotation of play in poker occurs. If the player with an unstable connection is unable to respond and the server is not able to proceed, then the match cannot occur as normal. Other players will not be able to take their turns, and the lost player upon reconnection may not be able to see choices taken or their chips.
 
@@ -233,11 +236,7 @@ This data 'overwrites' the clients data: we send packets to them that describe t
 
 %To remedy these issues, Rekop poker will be developed to handle disconnections or unstable connections by reserving their place in the lobby and the ability to join back when the player is available to. It will also not feature micro-transactions and provide the ability for players to host their own servers, with their own settings.
 \newpage
-\section{Motivation}
-
-%!
-
-%!
+\subsection{Motivation}
 
 Rekop poker aims to provide an open-sourced framework for the popular variant of poker, Texas Hold'em. Many existing games of poker often include micro transactions and no ability to customize the gamemode, host their own servers or modify the source code to implement other gamemodes or wanted features. Moreover, the game of poker can be used as a great vessel - especially considering mobile networks - to learn more about delay-tolerant networks, as this is becoming the most important feature of any given service on the internet as mobile devices rise in popularity. 
 
@@ -673,7 +672,7 @@ Furthermore, we wrap these threads in a Player class, which not only keeps a ref
 	\end{subfigure}	
 	}
 	
-	\caption{Synchronization of player data and threads: initial vs final design}
+	\caption{Synchronization of player data and threads: initial versus final design}
 \end{figure}
 
 The flaw within Figure 9(a) is that we looked to store data in a database and initially kept some of this data within the threads themselves. However, upon disconnection during the round or before the ability to save to the database, the thread will finish execution and be destroyed; losing all of the players data. \\
@@ -871,14 +870,14 @@ Unit testing was crucial in the development of the back end, as writing and desi
 
 \begin{figure}[h]
 \begin{center}
-	\includegraphics[width=\textwidth]{tests}
+	\includegraphics[width=0.75\textwidth]{tests}
 		\caption{Unit test results}
 \end{center}
 \end{figure}
 
-It also showed how testing can not just be used to verify that a program is working properly, but to drive its development forward. This constant feedback of cases that needed to be tested helped spot bugs and allowed each part of the evaluator to work together flawlessly. Because most edge cases had been ironed out in isFlush and isStraight functions, implementing whether or not a hand was a straight flush was a somewhat simple procedure. 
+It also showed how testing can not just be used to verify that a program is working properly, but to drive its development forward. This constant feedback of cases that needed to be tested helped spot bugs and allowed each part of the evaluator to work together flawlessly. Because most edge cases had been ironed out in isFlush and isStraight functions, implementing whether or not a hand was a straight flush was a somewhat simple procedure. \\
 
-Furthermore tests that would have been somewhat cumbersome to perform were suddenly much easier to; the Deck that we use to pull cards contains, as normal, 52 cards in an array. We needed to test that no two cards came out the same, and that pulling 52 cards resulted in an error being thrown. 
+Furthermore tests that would have been somewhat cumbersome to perform were suddenly much easier to; the Deck that we use to pull cards contains, as normal, 52 cards in an array. We needed to test that no two cards came out the same, and that pulling 52 cards resulted in an error being thrown. \\
 
 \newpage
 \subsection{Testing network code}
@@ -929,7 +928,9 @@ An area that could have been improved would have been the data classes. Whilst t
 \newpage
 
 \subsection{COVID-19 Impact}
-COVID-19 has not particularly disrupted development, however it has made it difficult to test the project in reality. For example, to test delay we could have used a laptop with a mobile phone connection to connect to the AWS server which would be much easier than using a stable, wired connection. Alas, due to social-distancing and lockdown guidelines we were unable to test in this environment.
+COVID-19 has not particularly disrupted development, however it has made it difficult to test the project in reality. For example, to test delay we could have used a laptop with a mobile phone connection to connect to the AWS server which would be much easier than using a stable, wired connection. Alas, due to social-distancing and lockdown guidelines we were unable to test in this environment. \\
+
+Furthermore the ability to visit the campus to attend lectures and labs would have helped, as it would be easier to visit the supervisor for guidance on the project especially in person. This would have helped a lot more as in person demonstrations are typically much more interactive; discussions are much easier to hold with the ability to show the project in person.
 
 
 \subsection{Conclusion}
@@ -1003,7 +1004,7 @@ Color Key: \\
 Green - Completed \\
 Red - Cancelled \\
 
-\includegraphics[width=\textwidth1]{final_gantt}
+\includegraphics[width=\textwidth]{final_gantt}
 
 \newpage
 \subsection{Poker Evaluation Algorithm}
